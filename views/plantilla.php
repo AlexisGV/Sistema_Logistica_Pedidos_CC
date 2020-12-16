@@ -26,6 +26,8 @@
 </head>
 
 
+
+
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
 
   <div class="wrapper">
@@ -36,7 +38,8 @@
 
     if ( isset($_GET["pagina"]) ){
 
-      if ( $_GET["pagina"] == "mainUsuarios" ){
+      if ( $_GET["pagina"] == "mainUsuarios" ||
+           $_GET["pagina"] == "mainRoles" ){
 
         include "pages/" . $_GET["pagina"] . ".php";
 

@@ -67,7 +67,7 @@ CONTENEDOR
     /*=============================================
     INSTANCIA PARA ELIMINAR USUARIO
     =============================================*/
-    // $borrarUsuario = new ControladorUsuarios();
-    // $borrarUsuario->ctrEliminarUsuario();
+    $borrarUsuario = new ControladorUsuarios();
+    $borrarUsuario->ctrEliminarUsuario();
 
 ?>
