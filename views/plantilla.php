@@ -84,6 +84,10 @@
   <script src="views/dist/js/adminlte.js"></script>
   <!-- Plantilla -->
   <script src="views/js/plantilla.js"></script>
+  <!-- Usuarios / Roles -->
+  <script src="views/js/usuarios.js"></script>
+  <script src="views/js/roles.js"></script>
+  <script src="views/js/validacionUsers.js"></script>
 
 </body>
 
