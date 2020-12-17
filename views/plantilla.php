@@ -108,6 +108,7 @@
   <script src="views/js/usuarios.js"></script>
   <script src="views/js/roles.js"></script>
   <script src="views/js/validaciones/validacionUsers.js"></script>
+  <script src="views/js/validaciones/validacionPedidos.js"></script>
 
   </body>
 

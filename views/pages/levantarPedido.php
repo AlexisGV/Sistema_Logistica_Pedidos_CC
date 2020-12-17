@@ -36,7 +36,7 @@ CONTENEDOR
                             <h3 class="card-title">Orden de pedido</h3>
                         </div>
 
-                        <form>
+                        <form method="POST" id="formAddPedido">
                             <div class="card-body">
                                 <?php include "views/modules/Pedidos/addPedido.php"; ?>
 
@@ -207,7 +207,7 @@ CONTENEDOR
                                     <!-- PAGADO -->
                                     <div class="col-5 col-lg-2 py-2">
                                         <div class="icheck-warning d-inline">
-                                            <input type="checkbox" id="PagoCompleto">
+                                            <input type="checkbox" name="PagoCompleto" id="PagoCompleto">
                                             <label for="PagoCompleto">
                                                 Pago completo
                                             </label>
