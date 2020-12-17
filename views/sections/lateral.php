@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-lightblue elevation-4">
     <!-- LOGO DE LA ASOCIACION -->
     <a href="mainInventario" class="brand-link">
-        <img src="views/dist/img/Logo-CC-Corto.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="views/dist/img/Logo-CC-Corto.png" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-normal">Cerrando el Ciclo A.C</span>
     </a>
 
@@ -11,10 +11,26 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="views/img/Usuarios/defaultUser.png" class="img-circle elevation-2" alt="User Image">
+                <img src="
+                <?php
+                if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok") {
+                    if ($_SESSION["imagenUsuario"] != "") :
+                        echo $_SESSION["imagenUsuario"];
+                    else :
+                        echo "views/img/Usuarios/defaultUser.png";
+                    endif;
+                }
+                ?>
+                " class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <span href="#" class="d-block text-truncate text-white">Francisco Alexis García Villanueva</span>
+                <span href="#" class="d-block text-truncate text-white">
+                    <?php
+                    if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok") {
+                        echo $_SESSION["nombreUsuario"];
+                    }
+                    ?>
+                </span>
             </div>
         </div>
 
