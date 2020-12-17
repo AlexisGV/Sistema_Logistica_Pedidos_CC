@@ -28,8 +28,8 @@
 
                 <?php
 
-                // $ingreso =  new FormularioIngreso();
-                // $ingreso->ctlIngreso();
+                $ingreso =  new FormularioIngreso();
+                $ingreso->ctlIngreso();
 
                 ?>
 

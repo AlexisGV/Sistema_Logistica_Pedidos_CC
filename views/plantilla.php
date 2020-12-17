@@ -17,6 +17,8 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="views/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="views/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="views/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="views/dist/css/adminlte.css">
   <!-- Google Font: Source Sans Pro -->
@@ -26,36 +28,54 @@
 </head>
 
 
+<?php if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok") : ?>
 
+  <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
 
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+      <?php
 
-  <div class="wrapper">
-    <?php
+      include "sections/cabezote.php";
+      include "sections/lateral.php";
 
-    include "sections/cabezote.php";
-    include "sections/lateral.php";
+      if (isset($_GET["pagina"])) {
 
-    if ( isset($_GET["pagina"]) ){
+        if (
+          $_GET["pagina"] == "mainUsuarios" ||
+          $_GET["pagina"] == "mainRoles" ||
+          $_GET["pagina"] == "levantarPedido" ||
+          $_GET["pagina"] == "salir"
+        ) {
 
-      if ( $_GET["pagina"] == "mainUsuarios" ||
-           $_GET["pagina"] == "mainRoles" ){
-
-        include "pages/" . $_GET["pagina"] . ".php";
-
-      } else{
-        include "pages/error404.php";
+          include "pages/" . $_GET["pagina"] . ".php";
+        } else {
+          include "pages/error404.php";
+        }
+      } else {
+        include "pages/mainUsuarios.php";
       }
 
-    } else{
-      include "pages/mainUsuarios.php";
-    }
+      include "sections/pie.php";
 
-    include "sections/pie.php";
+      ?>
+    </div>
 
-    ?>
-  </div>
+  <?php
+    else :
 
+      if (isset($_GET["pagina"])) {
+
+        if ($_GET["pagina"] == "ingreso") {
+          include "pages/" . $_GET["pagina"] . ".php";
+        } else {
+          include "pages/error404.php";
+        }
+      } else {
+        include "pages/ingreso.php";
+      }
+
+    endif
+  ?>
 
   <!--=============================================
   LIBRERIAS DE JAVASCRIPT
@@ -87,8 +107,8 @@
   <!-- Usuarios / Roles -->
   <script src="views/js/usuarios.js"></script>
   <script src="views/js/roles.js"></script>
-  <script src="views/js/validacionUsers.js"></script>
+  <script src="views/js/validaciones/validacionUsers.js"></script>
 
-</body>
+  </body>
 
 </html>
