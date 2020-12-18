@@ -66,7 +66,7 @@ CONTENEDOR
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button></div>
                                                         </div>
-                                                        <textarea class="form-control" name="ingProductoNuevo" rows="1" placeholder="Descripción del producto" autocomplete="off"></textarea>
+                                                        <textarea class="form-control ingresoProductoNuevo" name="ingProductoNuevo" placeholder="Descripción del producto" autocomplete="off" style="height: auto;"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,75 +146,7 @@ CONTENEDOR
                                     </div>
                                 </div>
 
-                                <!--=============================================
-                                TITULO TOTALES DEL PEDIDO
-                                =============================================-->
-                                <h5 class="card-subtitle mt-3 mb-3 text-left text-lg-right">Totales</h5>
-
-                                <div class="row d-flex flex-wrap flex-row justify-content-end">
-                                    <!-- SUBTOTAL -->
-                                    <div class="col-12 col-lg-2">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Subtotal<i class="fas fa-dollar-sign ml-2"></i></div>
-                                                </div>
-                                                <input type="text" class="form-control" name="ingSubtotalPedido" placeholder="0.00" autocomplete="off" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- IVA -->
-                                    <div class="col-5 col-lg-2">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">IVA<i class="fas fa-percentage ml-2 d-none d-sm-block"></i></div>
-                                                </div>
-                                                <input type="number" min="0" value="0" class="form-control" name="ingIVAPedido" placeholder="0" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- TOTAL -->
-                                    <div class="col-7 col-lg-2">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Total<i class="fas fa-dollar-sign ml-2"></i></div>
-                                                </div>
-                                                <input type="text" class="form-control" name="ingTotalPedido" placeholder="0.00" autocomplete="off" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row d-flex flex-wrap flex-row justify-content-end">
-
-                                    <!-- ANTICIPO -->
-                                    <div class="col-7 col-lg-2">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Anticipo<i class="fas fa-dollar-sign ml-2"></i></div>
-                                                </div>
-                                                <input type="text" class="form-control" name="ingAnticipoPedido" placeholder="0.00" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- PAGADO -->
-                                    <div class="col-5 col-lg-2 py-2">
-                                        <div class="icheck-warning d-inline">
-                                            <input type="checkbox" name="PagoCompleto" id="PagoCompleto">
-                                            <label for="PagoCompleto">
-                                                Pago completo
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                <?php include "views/modules/Pedidos/addTotalesPedido.php"; ?>
 
                             </div>
 
