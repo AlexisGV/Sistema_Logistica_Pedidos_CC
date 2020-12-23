@@ -37,7 +37,7 @@ class FormularioIngreso
                             window.history.replaceState(null, null, window.location.href);
                         }
                     
-                        window.location = "mainUsuarios";
+                        window.location = "levantarPedido";
                     </script>';
                 } else {
 

@@ -11,7 +11,8 @@ class ModeloUsuarios
     static public function mdlObtenerTiposUsuario($tabla)
     {
 
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY tipo_user ASC");
+        # Consulta para traer todos los tipos de usuarios a excepcion del usuario eliminado
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE Tipo_User != 'Usuario eliminado' ORDER BY Tipo_User ASC");
         $stmt->execute();
 
         return $stmt->fetchAll();
@@ -26,9 +27,11 @@ class ModeloUsuarios
     static public function mdlTraerUsuarios()
     {
 
+        # Consulta para traer toda la lista de usuarios a excepcion del usuario eliminado
         $stmt = Conexion::conectar()->prepare(
             "SELECT * FROM usuario 
              INNER JOIN tipo_usuario ON Id_Tipo_User=Id_Tipo_User1
+             WHERE Tipo_User != 'Usuario eliminado'
              ORDER BY Nombre_Usuario ASC");
         $stmt->execute();
 

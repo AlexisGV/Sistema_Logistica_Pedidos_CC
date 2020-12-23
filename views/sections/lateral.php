@@ -13,6 +13,7 @@
             <div class="image">
                 <img src="
                 <?php
+                # Colocar la imagen desde la base de datos
                 if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok") {
                     if ($_SESSION["imagenUsuario"] != "") :
                         echo $_SESSION["imagenUsuario"];
@@ -26,6 +27,7 @@
             <div class="info">
                 <span href="#" class="d-block text-truncate text-white">
                     <?php
+                    # Colocar el nombre de usuario desde la Base de Datos
                     if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok") {
                         echo $_SESSION["nombreUsuario"];
                     }
@@ -43,7 +45,7 @@
                     <!-- PEDIDOS -->
                     <li class="nav-item has-treeview">
 
-                        <?php if ($_GET["pagina"] == "levantarPedido" || $_GET["pagina"] == "administrarPedidos") : ?>
+                        <?php if ($_GET["pagina"] == "levantarPedido" || $_GET["pagina"] == "administrarPedidos" || $_GET["pagina"] == "recibirPedidos" || $_GET["pagina"] == "entregarPedidos") : ?>
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-folder-open"></i>
                                 <p>
@@ -94,13 +96,43 @@
                                 <?php endif ?>
 
                             </li>
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "recibirPedidos") : ?>
+                                    <a href="recibirPedidos" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Recepción de pedidos</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="recibirPedidos" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Recepción de pedidos</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "entregarPedidos") : ?>
+                                    <a href="entregarPedidos" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Entrega final</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="entregarPedidos" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Entrega final</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
                         </ul>
                     </li>
 
                     <!-- LOGISTICA DE PEDIDOS -->
                     <li class="nav-item has-treeview">
 
-                        <?php if ($_GET["pagina"] == "cambiarEstatus" || $_GET["pagina"] == "consultarPedidos") : ?>
+                        <?php if ($_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos") : ?>
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-shipping-fast"></i>
                                 <p>
@@ -123,30 +155,60 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
 
-                                <?php if ($_GET["pagina"] == "cambiarEstatus") : ?>
-                                    <a href="cambiarEstatus" class="nav-link active">
+                                <?php if ($_GET["pagina"] == "recolectarPedidos") : ?>
+                                    <a href="recolectarPedidos" class="nav-link active">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Cambiar estados</p>
+                                        <p>Recolección de pedidos</p>
                                     </a>
                                 <?php else : ?>
-                                    <a href="cambiarEstatus" class="nav-link">
+                                    <a href="recolectarPedidos" class="nav-link">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Cambiar estados</p>
+                                        <p>Recolección de pedidos</p>
                                     </a>
                                 <?php endif ?>
 
                             </li>
                             <li class="nav-item">
 
-                                <?php if ($_GET["pagina"] == "consultarPedidos") : ?>
-                                    <a href="consultarPedidos" class="nav-link active">
+                                <?php if ($_GET["pagina"] == "asignarPedidos") : ?>
+                                    <a href="asignarPedidos" class="nav-link active">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Consultar pedidos</p>
+                                        <p>Asignación de pedidos</p>
                                     </a>
                                 <?php else : ?>
-                                    <a href="consultarPedidos" class="nav-link">
+                                    <a href="asignarPedidos" class="nav-link">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Consultar pedidos</p>
+                                        <p>Asignación de pedidos</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "produccionPedidos") : ?>
+                                    <a href="produccionPedidos" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Producción de pedidos</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="produccionPedidos" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Producción de pedidos</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "transportarPedidos") : ?>
+                                    <a href="transportarPedidos" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Entrega de pedidos</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="transportarPedidos" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Entrega de pedidos</p>
                                     </a>
                                 <?php endif ?>
 
@@ -211,6 +273,93 @@
                         </ul>
                     </li>
 
+                    <!-- DETALLES DEL PRODUCTO -->
+                    <li class="nav-item has-treeview">
+
+                        <?php if ($_GET["pagina"] == "mainAcabado" || $_GET["pagina"] == "mainCorte"  || $_GET["pagina"] == "mainForma" || $_GET["pagina"] == "mainMarca") : ?>
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    Detalles del producto
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+
+                        <?php else : ?>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    Detalles del producto
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+
+                        <?php endif ?>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "mainAcabado") : ?>
+                                    <a href="mainAcabado" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Abacados</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="mainAcabado" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Abacados</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "mainCorte") : ?>
+                                    <a href="mainCorte" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Cortes</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="mainCorte" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Cortes</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "mainForma") : ?>
+                                    <a href="mainForma" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Formas</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="mainForma" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Formas</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "mainMarca") : ?>
+                                    <a href="mainMarca" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Marcas</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="mainMarca" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Marcas</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                        </ul>
+                    </li>
+
                 <?php else :  ?>
 
                     <li class="nav-item has-treeview">
@@ -231,6 +380,14 @@
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Administrar pedidos</p>
                                 </a>
+                                <a href="recibirPedidos" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Recepción de pedidos</p>
+                                </a>
+                                <a href="entregarPedidos" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Entrega final</p>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -245,13 +402,21 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="cambiarEstatus" class="nav-link">
+                                <a href="recolectarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
-                                    <p>Cambiar estados</p>
+                                    <p>Recolección de pedidos</p>
                                 </a>
-                                <a href="consultarPedidos" class="nav-link">
+                                <a href="asignarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
-                                    <p>Consultar pedidos</p>
+                                    <p>Asignación de pedidos</p>
+                                </a>
+                                <a href="produccionPedidos" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Producción de pedidos</p>
+                                </a>
+                                <a href="transportarPedidos" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Entrega de pedidos</p>
                                 </a>
                             </li>
                         </ul>
@@ -274,6 +439,36 @@
                                 <a href="mainRoles" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Roles de Usuario</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                Detalles del producto
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="mainAcabado" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Acabados</p>
+                                </a>
+                                <a href="mainCorte" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Cortes</p>
+                                </a>
+                                <a href="mainForma" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Formas</p>
+                                </a>
+                                <a href="mainMarca" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Marcas</p>
                                 </a>
                             </li>
                         </ul>
