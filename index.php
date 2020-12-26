@@ -13,6 +13,9 @@
     #Acabados
     require_once "controllers/acabados.controlador.php";
     require_once "models/acabados.modelo.php";
+    #Cortes
+    require_once "controllers/cortes.controlador.php";
+    require_once "models/cortes.modelo.php";
 
     $plantilla = new ControladorPlantilla();
     $plantilla->TraerPlantilla();

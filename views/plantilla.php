@@ -45,6 +45,7 @@
           $_GET["pagina"] == "mainRoles" ||
           $_GET["pagina"] == "levantarPedido" ||
           $_GET["pagina"] == "mainAcabado" ||
+          $_GET["pagina"] == "mainCorte" ||
           $_GET["pagina"] == "salir"
         ) {
 
@@ -108,10 +109,15 @@
   <!-- Usuarios / Roles -->
   <script src="views/js/usuarios.js"></script>
   <script src="views/js/roles.js"></script>
-  <script src="views/js/acabados.js"></script>
   <script src="views/js/validaciones/validacionUsers.js"></script>
-  <script src="views/js/validaciones/validacionPedidos.js"></script>
+  <!-- Acabados -->
+  <script src="views/js/acabados.js"></script>
   <script src="views/js/validaciones/validacionAcabados.js"></script>
+  <!-- Cortes -->
+  <script src="views/js/cortes.js"></script>
+  <script src="views/js/validaciones/validacionCortes.js"></script>
+  <!-- Pedidos -->
+  <script src="views/js/validaciones/validacionPedidos.js"></script>
 
   </body>
 
