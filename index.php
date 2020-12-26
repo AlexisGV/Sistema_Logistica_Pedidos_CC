@@ -10,6 +10,9 @@
     #Roles
     require_once "controllers/roles.controlador.php";
     require_once "models/roles.modelo.php";
+    #Acabados
+    require_once "controllers/acabados.controlador.php";
+    require_once "models/acabados.modelo.php";
 
     $plantilla = new ControladorPlantilla();
     $plantilla->TraerPlantilla();
