@@ -278,7 +278,7 @@
 
                         <?php if ($_GET["pagina"] == "mainAcabado" || $_GET["pagina"] == "mainCorte"  || $_GET["pagina"] == "mainForma" || $_GET["pagina"] == "mainMarca") : ?>
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-user"></i>
+                                <i class="nav-icon fas fa-wine-bottle"></i>
                                 <p>
                                     Detalles del producto
                                     <i class="right fas fa-angle-left"></i>
@@ -446,7 +446,7 @@
 
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-user"></i>
+                            <i class="nav-icon fas fa-wine-bottle"></i>
                             <p>
                                 Detalles del producto
                                 <i class="right fas fa-angle-left"></i>
