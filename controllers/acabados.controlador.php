@@ -29,7 +29,7 @@ class ControladorAcabado
             );
             $ruta = "";
 
-            $verificarDuplicado = ModeloAcabado::mdlVerificarAcabado($tabla, $datos);
+            $verificarDuplicado = ModeloAcabado::mdlVerificarAcabado($tabla, $datos, true);
 
             if ($verificarDuplicado) {
                 return "duplicado";
@@ -93,11 +93,12 @@ class ControladorAcabado
 
             $tabla = "acabado";
             $datos = array(
+                "idAcabado" => $_POST["editIdAcabado"],
                 "nombre" => $_POST["editNomAcabado"],
                 "abreviacion" => $_POST["editAbvAcabado"]
             );
 
-            $verificarDuplicado = ModeloAcabado::mdlVerificarAcabado($tabla, $datos);
+            $verificarDuplicado = ModeloAcabado::mdlVerificarAcabado($tabla, $datos, false);
 
             if ($verificarDuplicado) {
                 return "duplicado";
@@ -177,9 +178,8 @@ class ControladorAcabado
                     rename($directorioActual, $directorioNuevo);
                 }
     
-                $datos = ["idAcabado" => $_POST["editIdAcabado"]];
-                $datos = ["foto" => $ruta];
-                $datos = ["precio" => $_POST["editPrecioAcabado"]];
+                $datos += ["foto" => $ruta];
+                $datos += ["precio" => $_POST["editPrecioAcabado"]];
     
                 $actualizar = ModeloAcabado::mdlActualizarAcabado($tabla, $datos);
     

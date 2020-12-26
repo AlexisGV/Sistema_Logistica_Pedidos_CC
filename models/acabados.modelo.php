@@ -35,15 +35,28 @@ class ModeloAcabado
     /*=============================================
     VERIFICAR LA EXISTENCIA DE UN ACABADO
     =============================================*/
-    static public function mdlVerificarAcabado($tabla, $datos)
+    static public function mdlVerificarAcabado($tabla, $datos, $bandera)
     {
 
-        $stmt = Conexion::conectar()->prepare(
-            "SELECT * FROM $tabla
-                 WHERE REPLACE(REPLACE(REPLACE(Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') OR REPLACE(REPLACE(REPLACE(Abreviacion_Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:abreviacion,' ',''),'-',''),'_','')"
-        );
-        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
+        if ( $bandera ){
+            #Verificar existencia al ingresar
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT * FROM $tabla
+                WHERE REPLACE(REPLACE(REPLACE(Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') OR REPLACE(REPLACE(REPLACE(Abreviacion_Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:abreviacion,' ',''),'-',''),'_','')"
+            );
+            $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+            $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
+        } else {
+            #Verificar existencia al actualizar
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT * FROM $tabla
+                WHERE (REPLACE(REPLACE(REPLACE(Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') OR REPLACE(REPLACE(REPLACE(Abreviacion_Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:abreviacion,' ',''),'-',''),'_','')) AND Id_Acabado!=:idAcabado"
+            );
+            $stmt->bindParam(":idAcabado", $datos["idAcabado"], PDO::PARAM_INT);
+            $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+            $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
+        }
+        
 
         # Ejecutar la consulta
         $stmt->execute();
