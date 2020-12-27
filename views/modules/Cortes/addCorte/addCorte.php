@@ -16,7 +16,7 @@
 </div>
 
 <div class="row">
-    <div class="col-10">
+    <div class="col-9 col-sm-10">
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="col-2">
+    <div class="col-3 col-sm-2">
         <div class="icheck-warning d-inline">
             <input type="checkbox" name="ingAbreviacionEspecialCorte" id="ingAbreviacionEspecialCorte">
             <label for="ingAbreviacionEspecialCorte">

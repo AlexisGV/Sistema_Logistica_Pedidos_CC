@@ -21,7 +21,7 @@
 
 <div class="row">
 
-    <div class="col-10">
+    <div class="col-9 col-sm-10">
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -33,13 +33,13 @@
                 <ul>
                     <li>La abreviación debe contener solo letras mayúsculas.</li>
                     <li>La abreviación no puede contener números ni caracteres especiales.</li>
-                    <li>La abreviación nombre no puede contener mas de una palabra.</li>
+                    <li>La abreviación no puede contener mas de una palabra.</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <div class="col-2">
+    <div class="col-3 col-sm-2">
         <div class="icheck-warning d-inline">
             <input type="checkbox" name="editAbreviacionEspecial" id="editAbreviacionEspecial">
             <label for="editAbreviacionEspecial">

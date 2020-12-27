@@ -287,7 +287,7 @@
 
                         <?php else : ?>
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
+                                <i class="nav-icon fas fa-wine-bottle"></i>
                                 <p>
                                     Detalles del producto
                                     <i class="right fas fa-angle-left"></i>
