@@ -16,6 +16,9 @@
     #Cortes
     require_once "controllers/cortes.controlador.php";
     require_once "models/cortes.modelo.php";
+    #Formas
+    require_once "controllers/formas.controlador.php";
+    require_once "models/formas.modelo.php";
 
     $plantilla = new ControladorPlantilla();
     $plantilla->TraerPlantilla();

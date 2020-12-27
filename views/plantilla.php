@@ -46,6 +46,7 @@
           $_GET["pagina"] == "levantarPedido" ||
           $_GET["pagina"] == "mainAcabado" ||
           $_GET["pagina"] == "mainCorte" ||
+          $_GET["pagina"] == "mainForma" ||
           $_GET["pagina"] == "salir"
         ) {
 
@@ -116,6 +117,9 @@
   <!-- Cortes -->
   <script src="views/js/cortes.js"></script>
   <script src="views/js/validaciones/validacionCortes.js"></script>
+  <!-- Formas -->
+  <script src="views/js/formas.js"></script>
+  <script src="views/js/validaciones/validacionFormas.js"></script>
   <!-- Pedidos -->
   <script src="views/js/validaciones/validacionPedidos.js"></script>
 

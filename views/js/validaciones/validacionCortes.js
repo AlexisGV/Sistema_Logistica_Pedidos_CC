@@ -15,7 +15,7 @@ function validarExpresion(campo, expresion){
 }
 
 /*=============================================
-VALIDACIONES PARA INGRESAR ACABADOS (FORM)
+VALIDACIONES PARA INGRESAR CORTES (FORM)
 =============================================*/
 $(document).on("change", "#ingAbreviacionEspecialCorte", function () {
     if ($(this).is(":checked")) {
@@ -32,7 +32,7 @@ $(document).on("keyup", "#ingNomCorte", function () {
 
     if ( validarExpresion($(this), expresion) ) {
         $("#errorIngNomCorte").hide();
-        let abreviacion = "A"+$(this).val().substr(0,1);
+        let abreviacion = "C"+$(this).val().substr(0,1);
         $("#ingAbvCorte").val(abreviacion.toUpperCase());
         validarExpresion($("#ingAbvCorte"), expresion2);
     } else {
@@ -60,8 +60,8 @@ $(document).on("change", "#ingPrecioCorte", function () {
 });
 
 $(document).on("submit", "#formAgregarCorte", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/,
-        expresion2 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+        expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 
     if ( !validarExpresion($("#ingNomCorte"), expresion1) && $("#ingNomCorte").val() != "" ){ 
@@ -70,6 +70,7 @@ $(document).on("submit", "#formAgregarCorte", function (e) {
     }
 
     if ( !validarExpresion($("#ingAbvCorte"), expresion2) && $("#ingAbvCorte").val() != "" ) { 
+        e.preventDefault();
         $("#errorIngAbvCorte").show();
     }
 
@@ -79,7 +80,7 @@ $(document).on("submit", "#formAgregarCorte", function (e) {
 });
 
 /*=============================================
-VALIDACIONES PARA EDITAR ACABADOS (FORM)
+VALIDACIONES PARA EDITAR CORTES (FORM)
 =============================================*/
 $(document).on("change", "#editAbreviacionEspecialCorte", function () {
     if ($(this).is(":checked")) {
@@ -96,7 +97,7 @@ $(document).on("keyup", "#editNomCorte", function () {
 
     if ( validarExpresion($(this), expresion) ) {
         $("#errorEditNomCorte").hide();
-        let abreviacion = "A"+$(this).val().substr(0,1);
+        let abreviacion = "C"+$(this).val().substr(0,1);
         $("#editAbvCorte").val(abreviacion.toUpperCase());
         validarExpresion($("#editAbvCorte"), expresion2);
     } else {
@@ -124,8 +125,8 @@ $(document).on("change", "#editPrecioCorte", function () {
 });
 
 $(document).on("submit", "#formEditarCorte", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/,
-        expresion2 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+        expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 
     if ( !validarExpresion($("#editNomCorte"), expresion1) && $("#editNomCorte").val() != "" ){ 
@@ -134,6 +135,7 @@ $(document).on("submit", "#formEditarCorte", function (e) {
     }
     
     if ( !validarExpresion($("#editAbvCorte"), expresion2) && $("#editAbvCorte").val() != "" ) { 
+        e.preventDefault();
         $("#errorEditAbvCorte").show();
     }
 

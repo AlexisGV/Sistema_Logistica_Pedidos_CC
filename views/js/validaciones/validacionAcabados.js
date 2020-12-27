@@ -60,8 +60,8 @@ $(document).on("change", "#ingPrecioAcabado", function () {
 });
 
 $(document).on("submit", "#formAgregarAcabado", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/,
-        expresion2 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+        expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 
     if ( !validarExpresion($("#ingNomAcabado"), expresion1) && $("#ingNomAcabado").val() != "" ){ 
@@ -70,6 +70,7 @@ $(document).on("submit", "#formAgregarAcabado", function (e) {
     }
 
     if ( !validarExpresion($("#ingAbvAcabado"), expresion2) && $("#ingAbvAcabado").val() != "" ) { 
+        e.preventDefault();
         $("#errorIngAbvAcabado").show();
     }
 
@@ -124,8 +125,8 @@ $(document).on("change", "#editPrecioAcabado", function () {
 });
 
 $(document).on("submit", "#formEditarAcabado", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/,
-        expresion2 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+        expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 
     if ( !validarExpresion($("#editNomAcabado"), expresion1) && $("#editNomAcabado").val() != "" ){ 
@@ -134,6 +135,7 @@ $(document).on("submit", "#formEditarAcabado", function (e) {
     }
     
     if ( !validarExpresion($("#editAbvAcabado"), expresion2) && $("#editAbvAcabado").val() != "" ) { 
+        e.preventDefault();
         $("#errorEditAbvAcabado").show();
     }
 
