@@ -12,7 +12,7 @@ class ModeloUsuarios
     {
 
         # Consulta para traer todos los tipos de usuarios a excepcion del usuario eliminado
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE Tipo_User != 'Usuario eliminado' ORDER BY Tipo_User ASC");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE Tipo_User != 'Usuario eliminado' AND Tipo_User != 'Usuario no asignado' ORDER BY Tipo_User ASC");
         $stmt->execute();
 
         return $stmt->fetchAll();
@@ -29,9 +29,9 @@ class ModeloUsuarios
 
         # Consulta para traer toda la lista de usuarios a excepcion del usuario eliminado
         $stmt = Conexion::conectar()->prepare(
-            "SELECT * FROM usuario 
+            "SELECT * FROM usuario
              INNER JOIN tipo_usuario ON Id_Tipo_User=Id_Tipo_User1
-             WHERE Tipo_User != 'Usuario eliminado'
+             WHERE Tipo_User != 'Usuario eliminado' AND Tipo_User != 'Usuario no asignado'
              ORDER BY Nombre_Usuario ASC");
         $stmt->execute();
 

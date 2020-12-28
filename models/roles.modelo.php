@@ -14,7 +14,7 @@ class ModeloRoles
         #Mostrar consulta general
         if ($valor == null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY $item ASC");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE Tipo_User != 'Usuario eliminado' AND Tipo_User != 'Usuario no asignado' ORDER BY $item ASC");
             $stmt->execute();
 
             return $stmt->fetchAll();
