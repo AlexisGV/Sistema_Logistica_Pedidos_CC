@@ -19,6 +19,9 @@
     #Formas
     require_once "controllers/formas.controlador.php";
     require_once "models/formas.modelo.php";
+    #Marcas
+    require_once "controllers/marcas.controlador.php";
+    require_once "models/marcas.modelo.php";
 
     $plantilla = new ControladorPlantilla();
     $plantilla->TraerPlantilla();
