@@ -60,7 +60,7 @@ $(document).on("change", "#ingPrecioCorte", function () {
 });
 
 $(document).on("submit", "#formAgregarCorte", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 
@@ -125,7 +125,7 @@ $(document).on("change", "#editPrecioCorte", function () {
 });
 
 $(document).on("submit", "#formEditarCorte", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 

@@ -60,7 +60,7 @@ $(document).on("change", "#ingPrecioAcabado", function () {
 });
 
 $(document).on("submit", "#formAgregarAcabado", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 
@@ -125,7 +125,7 @@ $(document).on("change", "#editPrecioAcabado", function () {
 });
 
 $(document).on("submit", "#formEditarAcabado", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 

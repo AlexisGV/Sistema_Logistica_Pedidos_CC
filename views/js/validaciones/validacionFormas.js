@@ -15,7 +15,7 @@ function validarExpresion(campo, expresion){
 }
 
 /*=============================================
-VALIDACIONES PARA INGRESAR CORTES (FORM)
+VALIDACIONES PARA INGRESAR FORMAS (FORM)
 =============================================*/
 $(document).on("change", "#ingAbreviacionEspecialForma", function () {
     if ($(this).is(":checked")) {
@@ -54,9 +54,8 @@ $(document).on("keyup", "#ingAbvForma", function () {
 });
 
 $(document).on("submit", "#formAgregarForma", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
-        expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
-        expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+        expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/;
 
     if ( !validarExpresion($("#ingNomForma"), expresion1) && $("#ingNomForma").val() != "" ){ 
         e.preventDefault();
@@ -70,11 +69,10 @@ $(document).on("submit", "#formAgregarForma", function (e) {
 
     if ( !validarExpresion($("#ingNomForma"), expresion1)){ e.preventDefault(); }
     if ( !validarExpresion($("#ingAbvForma"), expresion2) ){ e.preventDefault(); }
-    if ( !validarExpresion($("#ingPrecioForma"), expresion3) ){ e.preventDefault(); }
 });
 
 /*=============================================
-VALIDACIONES PARA EDITAR CORTES (FORM)
+VALIDACIONES PARA EDITAR FORMAS (FORM)
 =============================================*/
 $(document).on("change", "#editAbreviacionEspecialForma", function () {
     if ($(this).is(":checked")) {
@@ -113,9 +111,8 @@ $(document).on("keyup", "#editAbvForma", function () {
 });
 
 $(document).on("submit", "#formEditarForma", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ]+$/,
-        expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
-        expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+        expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/;
 
     if ( !validarExpresion($("#editNomForma"), expresion1) && $("#editNomForma").val() != "" ){ 
         e.preventDefault();
@@ -129,5 +126,4 @@ $(document).on("submit", "#formEditarForma", function (e) {
 
     if ( !validarExpresion($("#editNomForma"), expresion1) ){ e.preventDefault(); }
     if ( !validarExpresion($("#editAbvForma"), expresion2) ){ e.preventDefault(); }
-    if ( !validarExpresion($("#editPrecioForma"), expresion3) ){ e.preventDefault(); }
 });
