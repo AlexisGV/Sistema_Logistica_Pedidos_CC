@@ -45,7 +45,7 @@
                     <!-- PEDIDOS -->
                     <li class="nav-item has-treeview">
 
-                        <?php if ($_GET["pagina"] == "levantarPedido" || $_GET["pagina"] == "administrarPedidos" || $_GET["pagina"] == "recibirPedidos" || $_GET["pagina"] == "entregarPedidos") : ?>
+                        <?php if ($_GET["pagina"] == "levantarPedido" || $_GET["pagina"] == "administrarPedidos" || $_GET["pagina"] == "entregarPedidos") : ?>
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-folder-open"></i>
                                 <p>
@@ -98,21 +98,6 @@
                             </li>
                             <li class="nav-item">
 
-                                <?php if ($_GET["pagina"] == "recibirPedidos") : ?>
-                                    <a href="recibirPedidos" class="nav-link active">
-                                        <i class="nav-icon far fa-circle"></i>
-                                        <p>Recepción de pedidos</p>
-                                    </a>
-                                <?php else : ?>
-                                    <a href="recibirPedidos" class="nav-link">
-                                        <i class="nav-icon far fa-circle"></i>
-                                        <p>Recepción de pedidos</p>
-                                    </a>
-                                <?php endif ?>
-
-                            </li>
-                            <li class="nav-item">
-
                                 <?php if ($_GET["pagina"] == "entregarPedidos") : ?>
                                     <a href="entregarPedidos" class="nav-link active">
                                         <i class="nav-icon far fa-circle"></i>
@@ -132,7 +117,7 @@
                     <!-- LOGISTICA DE PEDIDOS -->
                     <li class="nav-item has-treeview">
 
-                        <?php if ($_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos" || $_GET["pagina"] == "descargarPedidos") : ?>
+                        <?php if ($_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "descargaTaller" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos" || $_GET["pagina"] == "descargaTienda") : ?>
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-shipping-fast"></i>
                                 <p>
@@ -170,15 +155,15 @@
                             </li>
                             <li class="nav-item">
 
-                                <?php if ($_GET["pagina"] == "descargarPedidos") : ?>
-                                    <a href="descargarPedidos" class="nav-link active">
+                                <?php if ($_GET["pagina"] == "descargaTaller") : ?>
+                                    <a href="descargaTaller" class="nav-link active">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Descarga de pedidos</p>
+                                        <p>Descarga en taller</p>
                                     </a>
                                 <?php else : ?>
-                                    <a href="descargarPedidos" class="nav-link">
+                                    <a href="descargaTaller" class="nav-link">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Descarga de pedidos</p>
+                                        <p>Descarga en taller</p>
                                     </a>
                                 <?php endif ?>
 
@@ -224,6 +209,21 @@
                                     <a href="transportarPedidos" class="nav-link">
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Entrega de pedidos</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "descargaTienda") : ?>
+                                    <a href="descargaTienda" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Descarga en tienda</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="descargaTienda" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Descarga en tienda</p>
                                     </a>
                                 <?php endif ?>
 
@@ -395,10 +395,6 @@
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Administrar pedidos</p>
                                 </a>
-                                <a href="recibirPedidos" class="nav-link">
-                                    <i class="nav-icon far fa-circle"></i>
-                                    <p>Recepción de pedidos</p>
-                                </a>
                                 <a href="entregarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Entrega final</p>
@@ -421,9 +417,9 @@
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Recolección de pedidos</p>
                                 </a>
-                                <a href="descargarPedidos" class="nav-link">
+                                <a href="descargaTaller" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
-                                    <p>Descarga de pedidos</p>
+                                    <p>Descarga en taller</p>
                                 </a>
                                 <a href="asignarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
@@ -436,6 +432,10 @@
                                 <a href="transportarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Entrega de pedidos</p>
+                                </a>
+                                <a href="descargaTienda" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Descarga en tienda</p>
                                 </a>
                             </li>
                         </ul>
