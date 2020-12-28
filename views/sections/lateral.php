@@ -132,7 +132,7 @@
                     <!-- LOGISTICA DE PEDIDOS -->
                     <li class="nav-item has-treeview">
 
-                        <?php if ($_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos") : ?>
+                        <?php if ($_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos" || $_GET["pagina"] == "descargarPedidos") : ?>
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-shipping-fast"></i>
                                 <p>
@@ -164,6 +164,21 @@
                                     <a href="recolectarPedidos" class="nav-link">
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Recolección de pedidos</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "descargarPedidos") : ?>
+                                    <a href="descargarPedidos" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Descarga de pedidos</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="descargarPedidos" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Descarga de pedidos</p>
                                     </a>
                                 <?php endif ?>
 
@@ -405,6 +420,10 @@
                                 <a href="recolectarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Recolección de pedidos</p>
+                                </a>
+                                <a href="descargarPedidos" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Descarga de pedidos</p>
                                 </a>
                                 <a href="asignarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
