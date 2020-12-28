@@ -48,6 +48,13 @@
           $_GET["pagina"] == "mainCorte" ||
           $_GET["pagina"] == "mainForma" ||
           $_GET["pagina"] == "mainMarca" ||
+          $_GET["pagina"] == "recolectarPedidos" ||
+          $_GET["pagina"] == "descargaTaller" ||
+          $_GET["pagina"] == "asignarPedidos" ||
+          $_GET["pagina"] == "produccionPedidos" ||
+          $_GET["pagina"] == "transportarPedidos" ||
+          $_GET["pagina"] == "descargaTienda" ||
+          $_GET["pagina"] == "entregarPedidos" ||
           $_GET["pagina"] == "salir"
         ) {
 
