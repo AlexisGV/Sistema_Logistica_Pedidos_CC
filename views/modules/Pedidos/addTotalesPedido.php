@@ -52,6 +52,9 @@ TITULO TOTALES DEL PEDIDO
                     <div class="input-group-text">Anticipo<i class="fas fa-dollar-sign ml-2"></i></div>
                 </div>
                 <input type="text" class="form-control" name="ingAnticipoPedido" id="ingAnticipoPedido" placeholder="0.00" autocomplete="off">
+                <div class="invalid-feedback" id="erroringAnticipoPedido">
+                    El valor debe tener 2 decimales.
+                </div>
             </div>
         </div>
     </div>
