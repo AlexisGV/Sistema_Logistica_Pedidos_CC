@@ -66,7 +66,7 @@ CONTENEDOR
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button></div>
                                                         </div>
-                                                        <textarea class="form-control" name="ingProductoNuevo" rows="1" placeholder="Descripción del producto" autocomplete="off" readonly></textarea>
+                                                        <textarea class="form-control" name="ingProductoNuevo" rows="1" placeholder="Descripción del producto" autocomplete="off" readonly required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -74,7 +74,7 @@ CONTENEDOR
                                             <!-- CANTIDAD DEL PRODUCTO -->
                                             <div class="col-5 col-lg-1">
                                                 <div class="form-group">
-                                                    <input class="form-control" type="number" min="1" name="ingCantidadProductoNuevo" placeholder="Cantidad" autocomplete="off" value="1">
+                                                    <input class="form-control" type="number" min="1" name="ingCantidadProductoNuevo" placeholder="Cantidad" autocomplete="off" value="1" required>
                                                 </div>
                                             </div>
 
@@ -85,7 +85,7 @@ CONTENEDOR
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
                                                         </div>
-                                                        <input type="text" class="form-control" name="ingPrecioProductoNuevo" placeholder="0.00" autocomplete="off" readonly>
+                                                        <input type="text" class="form-control" name="ingPrecioProductoNuevo" placeholder="0.00" autocomplete="off" readonly required>
                                                     </div>
                                                 </div>
                                             </div>
