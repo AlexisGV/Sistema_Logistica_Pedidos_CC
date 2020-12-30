@@ -66,7 +66,7 @@ CONTENEDOR
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button></div>
                                                         </div>
-                                                        <textarea class="form-control ingresoProductoNuevo" name="ingProductoNuevo" placeholder="Descripción del producto" autocomplete="off" style="height: auto;"></textarea>
+                                                        <textarea class="form-control" name="ingProductoNuevo" rows="1" placeholder="Descripción del producto" autocomplete="off" readonly></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -85,7 +85,7 @@ CONTENEDOR
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
                                                         </div>
-                                                        <input type="text" class="form-control" name="ingPrecioProductoNuevo" placeholder="0.00" autocomplete="off">
+                                                        <input type="text" class="form-control" name="ingPrecioProductoNuevo" placeholder="0.00" autocomplete="off" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -96,48 +96,7 @@ CONTENEDOR
                                             <!--============  FIN DE PRODUCTO NUEVO  =============-->
                                         </div>
 
-                                        <div class="row nuevoProducto">
-                                            <!--=============================================
-                                            NUEVO PRODUCTO
-                                            =============================================-->
-
-                                            <!-- DESCRIPCION DEL PRODUCTO -->
-                                            <div class="col-12 col-lg-9">
-                                                <div class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button></div>
-                                                        </div>
-                                                        <textarea class="form-control" name="ingProductoNuevo" rows="1" placeholder="Descripción del producto" autocomplete="off"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- CANTIDAD DEL PRODUCTO -->
-                                            <div class="col-5 col-lg-1">
-                                                <div class="form-group">
-                                                    <input class="form-control" type="number" min="1" name="ingCantidadProductoNuevo" placeholder="Cantidad" autocomplete="off" value="1">
-                                                </div>
-                                            </div>
-
-                                            <!-- PRECIO -->
-                                            <div class="col-7 col-lg-2">
-                                                <div class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
-                                                        </div>
-                                                        <input type="text" class="form-control" name="ingPrecioProductoNuevo" placeholder="0.00" autocomplete="off">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- SEPARADOR PARA DISPOSITIVOS MOVILES -->
-                                            <hr class="d-block d-lg-none">
-
-                                            <!--============  FIN DE PRODUCTO NUEVO  =============-->
-                                        </div>
-
+                                    <!--============  FIN DE CONTENEDOR DE PRODUCTOS QUE CONFORMAN EL PEDIDO  =============-->
                                     </div>
 
                                     <!-- BOTON PARA AGREGAR NUEVOS PRODUCTOS -->

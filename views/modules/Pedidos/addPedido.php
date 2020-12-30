@@ -1,4 +1,8 @@
-<?php $fechaActual = date('d-m-Y'); ?>
+<?php
+setlocale(LC_ALL,"spanish.utf8");
+$fechaActual = date('d-m-Y');
+$fechaFutura = date('d-m-Y', strtotime($fechaActual . "+ 3 week"));
+?>
 
 <!--=============================================
 INFORMACION DEL PEDIDO
@@ -6,7 +10,6 @@ INFORMACION DEL PEDIDO
 <div class="row d-flex flex-row flex-wrap justify-content-between">
 
     <div class="col-12 col-lg-3">
-
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -15,16 +18,26 @@ INFORMACION DEL PEDIDO
                 <input type="text" class="form-control" name="ingFolioPedido" id="ingFolioPedido" placeholder="Número de pedido" autocomplete="off" readonly value="0000001">
             </div>
         </div>
-
     </div>
 
-    <div class="col-12 col-lg-3">
+    <div class="col-12 col-lg-4">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Fecha est.</div>
+                </div>
+                <input type="text" class="form-control text-center" name="ingFechaEstimada" id="ingFechaEstimada" placeholder="Fecha entrega estimada" autocomplete="off" readonly value="<?php echo strftime("%A, %d de %B del %Y", strtotime($fechaFutura)); ?>">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text">Fecha inc.</div>
                 </div>
-                <input type="text" class="form-control" name="ingFechaInicio" id="ingFechaInicio" placeholder="Fecha pedido" autocomplete="off" readonly value="<?php echo $fechaActual; ?>">
+                <input type="text" class="form-control text-center" name="ingFechaInicio" id="ingFechaInicio" placeholder="Fecha pedido" autocomplete="off" readonly value="<?php echo strftime("%A, %d de %B del %Y", strtotime($fechaActual));; ?>">
             </div>
         </div>
     </div>
@@ -36,17 +49,32 @@ DATOS DEL CLIENTE
 =============================================-->
 <div class="row d-flex flex-row flex-wrap justify-content-between">
 
-    <div class="col-12 col-lg-6">
-
+    <div class="col-12 col-lg-5">
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text">Cliente</i></div>
                 </div>
                 <input type="text" class="form-control" name="ingNombreCliente" id="ingNombreCliente" placeholder="Nombre completo del cliente" autocomplete="off">
+                <div class="invalid-feedback" id="erroringNombreCliente">
+                    El nombre no puede contener números o carácteres especiales.
+                </div>
             </div>
         </div>
+    </div>
 
+    <div class="col-12 col-lg-4">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Correo</i></div>
+                </div>
+                <input type="email" class="form-control" name="ingEmailCliente" id="ingEmailCliente" placeholder="Correo del cliente" autocomplete="off">
+                <div class="invalid-feedback" id="erroringEmailCliente">
+                    El formato del correo electrónico no es el adecuado. Ejemplo: usuario@example.com
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="col-12 col-lg-3">
@@ -56,24 +84,12 @@ DATOS DEL CLIENTE
                     <div class="input-group-text">Teléfono</div>
                 </div>
                 <input type="text" class="form-control" name="ingTelfCliente" id="ingTelfCliente" placeholder="Número teléfonico" autocomplete="off">
-                <div class="invalid-feedback" id="errorIngTelfCliente">
-                    <ul>
-                        <li>El teléfono debe tener 10 dígitos</li>
-                        <li>El teléfono debe empezar con 55</li>
-                        <li>Ejemplo (5588193595)</li>
-                    </ul>
+                <div class="invalid-feedback" id="errorIngTelfCliente1">
+                    El teléfono debe empezar con 55
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12 col-lg-3">
-        <div class="form-group">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">Fecha est.</div>
+                <div class="warning-feedback text-info" id="errorIngTelfCliente2">
+                    El teléfono debe tener 10 dígitos. Ejemplo (5588193595)
                 </div>
-                <input type="text" class="form-control" name="ingFechaEstimada" id="ingFechaEstimada" placeholder="Fecha entrega estimada" autocomplete="off" readonly value="<?php echo date('d-m-Y', strtotime($fechaActual . "+ 3 week")); ?>">
             </div>
         </div>
     </div>
