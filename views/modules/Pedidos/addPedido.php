@@ -1,5 +1,7 @@
 <?php
 setlocale(LC_ALL,"spanish.utf8");
+date_default_timezone_set('UTC');
+date_default_timezone_set("America/Mexico_City");
 $fechaActual = date('d-m-Y');
 $fechaFutura = date('d-m-Y', strtotime($fechaActual . "+ 3 week"));
 ?>
