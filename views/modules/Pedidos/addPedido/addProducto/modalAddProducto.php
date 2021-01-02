@@ -21,7 +21,7 @@ MODAL - AGREGAR PRODUCTO
             -------------------------------------------------- -->
             <div class="modal-body" style="border-top: #28a745 1px solid;">
                 <?php
-                // include "addMarca.php";
+                include "addProducto.php";
                 // // Llamar metodo para ingresar categoria a la BD
                 // $respuesta = ControladorMarca::ctrCrearMarca();
 
