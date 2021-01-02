@@ -38,7 +38,7 @@ CONTENEDOR
 
                         <form method="POST" id="formAddPedido">
                             <div class="card-body">
-                                <?php include "views/modules/Pedidos/addPedido.php"; ?>
+                                <?php include "views/modules/Pedidos/addPedido/addPedido.php"; ?>
 
                                 <!--=============================================
                                 TITULO DETALLES DEL PEDIDO
@@ -101,11 +101,11 @@ CONTENEDOR
 
                                     <!-- BOTON PARA AGREGAR NUEVOS PRODUCTOS -->
                                     <div class="col-12 text-center mb-3">
-                                        <button type="button" class="btn btn-outline-success btnAgregarProducto"><i class="fas fa-plus-circle mr-1"></i> Agregar producto</button>
+                                        <button type="button" class="btn btn-outline-success btnAgregarProducto" data-toggle="modal" data-target="#modalAddProducto"><i class="fas fa-plus-circle mr-1"></i> Agregar producto</button>
                                     </div>
                                 </div>
 
-                                <?php include "views/modules/Pedidos/addTotalesPedido.php"; ?>
+                                <?php include "views/modules/Pedidos/addPedido/addTotalesPedido.php"; ?>
 
                             </div>
 
@@ -123,6 +123,11 @@ CONTENEDOR
     </section>
     <!-- FIN DE CONTENEDOR PRINCIPAL
     -------------------------------------------------- -->
+
+    <!--=============================================
+    LLAMAMIENTO DEL MODAL PARA AGREGAR PRODUCTO
+    =============================================-->
+    <?php include "views/modules/Pedidos/addPedido/addProducto/modalAddProducto.php"; ?>
 
 </div>
 <!--============  FIN DE CONTENEDOR  =============-->
