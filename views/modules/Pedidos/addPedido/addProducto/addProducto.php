@@ -65,8 +65,16 @@ CARACTERISTICAS DEL PRODUCTO
         <label for="ingMarcaProducto" class="text-primary">Marca ( <i class="fas fa-wine-bottle"></i> )</label>
         <select class="form-control select2" name="ingMarcaProducto" id="ingMarcaProducto" data-placeholder="Seleccione una marca">
             <option></option>
-            <option value="Jhony Walker">Jhony Walker</option>
-            <option value="Bacardi">Bacardi</option>
+            <?php
+            $tabla = "marca";
+            $item = "Marca";
+            $excepcion = "Otra marca";
+
+            $marcas = ControladorPedidos::ctrTraerRegistros($tabla, $item, $excepcion);
+            foreach ($marcas as $key => $value) :
+            ?>
+                <option value="<?php echo $value["Marca"]; ?>"><?php echo $value["Marca"]; ?></option>
+            <?php endforeach; ?>
         </select>
 
         <!-- MARCA ESCRITA POR EL USUARIO -->
@@ -84,8 +92,16 @@ CARACTERISTICAS DEL PRODUCTO
         <label for="ingFormaProducto" class="text-success">Forma ( <i class="fas fa-cubes"></i> )</label>
         <select class="form-control select2" name="ingFormaProducto" id="ingFormaProducto" data-placeholder="Seleccione una forma">
             <option></option>
-            <option value="Cilindrica">Cilindrica</option>
-            <option value="Cuadrada">Cuadrada</option>
+            <?php
+            $tabla = "forma";
+            $item = "Forma";
+            $excepcion = "Otra forma";
+
+            $marcas = ControladorPedidos::ctrTraerRegistros($tabla, $item, $excepcion);
+            foreach ($marcas as $key => $value) :
+            ?>
+                <option value="<?php echo $value["Forma"]; ?>"><?php echo $value["Forma"]; ?></option>
+            <?php endforeach; ?>
         </select>
 
         <!-- FORMA ESCRITA POR EL USUARIO -->
@@ -103,8 +119,16 @@ CARACTERISTICAS DEL PRODUCTO
         <label for="ingCorteProducto" class="text-warning">Corte ( <i class="fas fa-cut"></i> )</label>
         <select class="form-control select2" name="ingCorteProducto" id="ingCorteProducto" data-placeholder="Seleccione un corte" multiple="multiple">
             <option></option>
-            <option value="Diagonal">Diagonal</option>
-            <option value="Horizontal">Horizontal</option>
+            <?php
+            $tabla = "corte";
+            $item = "Corte";
+            $excepcion = "Otro corte";
+
+            $marcas = ControladorPedidos::ctrTraerRegistros($tabla, $item, $excepcion);
+            foreach ($marcas as $key => $value) :
+            ?>
+                <option value="<?php echo $value["Corte"]; ?>" precioCorte="<?php echo $value["Precio_Corte"] ?>"><?php echo $value["Corte"]; ?></option>
+            <?php endforeach; ?>
         </select>
 
         <!-- CORTE ESCRITO POR EL USUARIO -->
@@ -122,8 +146,16 @@ CARACTERISTICAS DEL PRODUCTO
         <label for="ingAcabadoProducto" class="text-danger">Acabado ( <i class="fas fa-border-style"></i> )</label>
         <select class="form-control select2" name="ingAcabadoProducto" id="ingAcabadoProducto" data-placeholder="Seleccione un acabado" multiple="multiple">
             <option></option>
-            <option value="Pulido">Pulido</option>
-            <option value="Super pulido">Super pulido</option>
+            <?php
+            $tabla = "acabado";
+            $item = "Acabado";
+            $excepcion = "Otro acabado";
+
+            $marcas = ControladorPedidos::ctrTraerRegistros($tabla, $item, $excepcion);
+            foreach ($marcas as $key => $value) :
+            ?>
+                <option value="<?php echo $value["Acabado"]; ?>" precioAcabado="<?php echo $value["Precio_Acabado"] ?>"><?php echo $value["Acabado"]; ?></option>
+            <?php endforeach; ?>
         </select>
 
         <!-- ACABADO ESCRITA POR EL USUARIO -->
