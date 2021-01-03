@@ -133,6 +133,7 @@
   <script src="views/js/validaciones/validacionMarcas.js"></script>
   <!-- Pedidos -->
   <script src="views/js/validaciones/validacionPedidos.js"></script>
+  <script src="views/js/validaciones/validacionAgregarProductos.js"></script>
 
   </body>
 

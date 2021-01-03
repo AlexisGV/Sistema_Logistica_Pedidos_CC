@@ -84,7 +84,7 @@ CARACTERISTICAS DEL PRODUCTO
                 Ingresar otra marca
             </label>
         </div>
-        <input type="text" class="form-control mt-2" name="ingOtraMarcaProd" id="ingOtraMarcaProd" placeholder="Nombre de la marca">
+        <input type="text" class="form-control mt-2 d-none" name="ingOtraMarcaProd" id="ingOtraMarcaProd" placeholder="Nombre de la marca">
     </div>
 
     <div class="form-group col-12 col-sm-6">
@@ -111,7 +111,7 @@ CARACTERISTICAS DEL PRODUCTO
                 Ingresar otra forma
             </label>
         </div>
-        <input type="text" class="form-control mt-2" name="ingOtraFormaProd" id="ingOtraFormaProd" placeholder="Nombre de la forma">
+        <input type="text" class="form-control mt-2 d-none" name="ingOtraFormaProd" id="ingOtraFormaProd" placeholder="Nombre de la forma">
     </div>
 
     <div class="form-group col-12 col-sm-6">
@@ -138,7 +138,7 @@ CARACTERISTICAS DEL PRODUCTO
                 Ingresar otro corte
             </label>
         </div>
-        <input type="text" class="form-control mt-2" name="ingOtroCorteProd" id="ingOtroCorteProd" placeholder="Nombre del corte">
+        <input type="text" class="form-control mt-2 d-none" name="ingOtroCorteProd" id="ingOtroCorteProd" placeholder="Nombre del corte">
     </div>
 
     <div class="form-group col-12 col-sm-6">
@@ -165,7 +165,7 @@ CARACTERISTICAS DEL PRODUCTO
                 Ingresar otro acabado
             </label>
         </div>
-        <input type="text" class="form-control mt-2" name="ingOtroAcabadoProd" id="ingOtroAcabadoProd" placeholder="Nombre del acabado">
+        <input type="text" class="form-control mt-2 d-none" name="ingOtroAcabadoProd" id="ingOtroAcabadoProd" placeholder="Nombre del acabado">
     </div>
 </div>
 
