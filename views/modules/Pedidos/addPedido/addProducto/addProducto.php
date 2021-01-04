@@ -117,7 +117,7 @@ CARACTERISTICAS DEL PRODUCTO
     <div class="form-group col-12 col-sm-6">
         <!-- CORTE GUARDADA EN LA BASE DE DATOS -->
         <label for="ingCorteProducto" class="text-warning">Corte ( <i class="fas fa-cut"></i> )</label>
-        <select class="form-control select2" name="ingCorteProducto" id="ingCorteProducto" data-placeholder="Seleccione un corte" multiple="multiple">
+        <select class="form-control select2" name="ingCorteProducto[]" id="ingCorteProducto" data-placeholder="Seleccione un corte" multiple="multiple">
             <option></option>
             <?php
             $tabla = "corte";

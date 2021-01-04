@@ -26,6 +26,35 @@ $(document).on("change", "#ingCheckOtraFormaProd", function () {
 /*=============================================
 VALIDAR CHECKS PARA AGREGAR OTRO ACABADO / CORTE
 =============================================*/
-$(document).on("change", "#ingCorteProducto", function () {
-    
+$(document).on("change", "#ingCheckOtroCorteProd", function () {
+    if ($(this).is(":checked")) {
+        $("#ingOtroCorteProd").removeClass("d-none");
+    } else {
+        $("#ingOtroCorteProd").addClass("d-none");
+    }
+});
+
+$(document).on("change", "#ingCheckOtroAcabadoProd", function () {
+    if ($(this).is(":checked")) {
+        $("#ingOtroAcabadoProd").removeClass("d-none");
+    } else {
+        $("#ingOtroAcabadoProd").addClass("d-none");
+    }
+});
+
+/*=============================================
+OBTENER PRECIO DE ACABADOS Y CORTES
+=============================================*/
+$(document).on("change", "#ingCorteProducto", function (e) {
+    let precioCorte = 0;
+
+    if ($(this).find(":selected")) {
+        // precioCorte = $(this).find(":selected").attr("precioCorte");
+        precioCorte = $(this).find(":selected").text();
+    } else if ($(this).find(":unselected")){
+        // precioCorte = $(this).find(":unselected").attr("precioCorte");
+        precioCorte = $(this).find(":unselected").text();
+    }
+
+    console.log(precioCorte);
 });
