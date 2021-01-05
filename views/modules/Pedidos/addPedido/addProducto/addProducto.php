@@ -127,7 +127,7 @@ CARACTERISTICAS DEL PRODUCTO
             $marcas = ControladorPedidos::ctrTraerRegistros($tabla, $item, $excepcion);
             foreach ($marcas as $key => $value) :
             ?>
-                <option value="<?php echo $value["Corte"]; ?>" precioCorte="<?php echo $value["Precio_Corte"] ?>"><?php echo $value["Corte"]; ?></option>
+                <option value="<?php echo $value["Corte"]; ?>"><?php echo $value["Corte"]; ?></option>
             <?php endforeach; ?>
         </select>
 
@@ -144,7 +144,7 @@ CARACTERISTICAS DEL PRODUCTO
     <div class="form-group col-12 col-sm-6">
         <!-- ACABADO GUARDADA EN LA BASE DE DATOS -->
         <label for="ingAcabadoProducto" class="text-danger">Acabado ( <i class="fas fa-border-style"></i> )</label>
-        <select class="form-control select2" name="ingAcabadoProducto" id="ingAcabadoProducto" data-placeholder="Seleccione un acabado" multiple="multiple">
+        <select class="form-control select2" name="ingAcabadoProducto[]" id="ingAcabadoProducto" data-placeholder="Seleccione un acabado" multiple="multiple">
             <option></option>
             <?php
             $tabla = "acabado";
@@ -154,7 +154,7 @@ CARACTERISTICAS DEL PRODUCTO
             $marcas = ControladorPedidos::ctrTraerRegistros($tabla, $item, $excepcion);
             foreach ($marcas as $key => $value) :
             ?>
-                <option value="<?php echo $value["Acabado"]; ?>" precioAcabado="<?php echo $value["Precio_Acabado"] ?>"><?php echo $value["Acabado"]; ?></option>
+                <option value="<?php echo $value["Acabado"]; ?>"><?php echo $value["Acabado"]; ?></option>
             <?php endforeach; ?>
         </select>
 

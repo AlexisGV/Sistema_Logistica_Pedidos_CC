@@ -75,11 +75,10 @@ class ModeloAcabado
     static public function mdlCrearAcabado($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Foto_Acabado, Acabado, Abreviacion_Acabado, Precio_Acabado) VALUES (:foto ,:nombre, :abreviacion, :precio)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Foto_Acabado, Acabado, Abreviacion_Acabado) VALUES (:foto ,:nombre, :abreviacion)");
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
-        $stmt->bindParam(":precio", $datos["precio"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return "ok";
@@ -100,14 +99,12 @@ class ModeloAcabado
             "UPDATE $tabla
             SET Foto_Acabado=:foto,
                 Acabado=:nombre,
-                Abreviacion_Acabado=:abreviacion,
-                Precio_Acabado=:precio
+                Abreviacion_Acabado=:abreviacion
             WHERE Id_Acabado=:idAcabado"
         );
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
-        $stmt->bindParam(":precio", $datos["precio"], PDO::PARAM_STR);
         $stmt->bindParam(":idAcabado", $datos["idAcabado"], PDO::PARAM_INT);
 
         if ( $stmt->execute() ){

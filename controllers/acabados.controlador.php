@@ -75,7 +75,6 @@ class ControladorAcabado
                     }
                 }
 
-                $datos += ["precio" => $_POST["ingPrecioAcabado"]];
                 $datos += ["foto" => $ruta];
 
                 $ingresar = ModeloAcabado::mdlCrearAcabado($tabla, $datos);
@@ -179,7 +178,6 @@ class ControladorAcabado
                 }
     
                 $datos += ["foto" => $ruta];
-                $datos += ["precio" => $_POST["editPrecioAcabado"]];
     
                 $actualizar = ModeloAcabado::mdlActualizarAcabado($tabla, $datos);
     

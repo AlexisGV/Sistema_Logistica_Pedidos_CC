@@ -74,7 +74,6 @@ class ControladorCorte
                     }
                 }
 
-                $datos += ["precio" => $_POST["ingPrecioCorte"]];
                 $datos += ["foto" => $ruta];
 
                 $ingresar = ModeloCorte::mdlCrearCorte($tabla, $datos);
@@ -179,7 +178,6 @@ class ControladorCorte
                 }
 
                 $datos += ["foto" => $ruta];
-                $datos += ["precio" => $_POST["editPrecioCorte"]];
 
                 $actualizar = ModeloCorte::mdlActualizarCorte($tabla, $datos);
 

@@ -5,7 +5,6 @@
             <th scope="col">Imagen</th>
             <th scope="col">Acabado</th>
             <th scope="col">Abreviación</th>
-            <th scope="col">Precio</th>
             <th scope="col">Acciones</th>
         </tr>
     </thead>
@@ -27,7 +26,6 @@
                 </td>
                 <td><?php echo $value["Acabado"]; ?></td>
                 <td><?php echo $value["Abreviacion_Acabado"]; ?></td>
-                <td><?php echo "$ " . number_format($value["Precio_Acabado"],"2",".",","); ?></td>
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-warning btnEditarAcabado" idAcabado="<?php echo $value["Id_Acabado"]; ?>" data-toggle="modal" data-target="#modalEditAcabado"><i class="fas fa-edit text-white"></i></button>
