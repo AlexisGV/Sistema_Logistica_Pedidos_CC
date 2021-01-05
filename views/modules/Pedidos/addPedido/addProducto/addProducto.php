@@ -8,6 +8,9 @@ TITULO O DESCRIPCION DEL PRODUCTO
             <div class="input-group-text"><i class="fas fa-file-signature"></i></div>
         </div>
         <textarea type="text" class="form-control" name="ingNomProducto" id="ingNomProducto" placeholder="Titulo o descripción breve del producto" autocomplete="off" rows="1" required></textarea>
+        <div class="invalid-feedback" id="errorIngNomProducto">
+            Este campo no puede contener números y mucho menos puede quedar vacío.
+        </div>
     </div>
 </div>
 
@@ -22,6 +25,9 @@ VALORES NUMERICOS
                 <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
             </div>
             <input type="text" class="form-control" name="ingPrecioInicial" id="ingPrecioInicial" placeholder="Precio inicial" autocomplete="off" required>
+            <div class="invalid-feedback" id="errorIngPrecioInicial">
+                El valor debe tener 2 decimales.
+            </div>
         </div>
     </div>
 
@@ -31,7 +37,10 @@ VALORES NUMERICOS
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></div>
             </div>
-            <input type="number" min="1" class="form-control" name="ingCantidad" id="ingCantidad" autocomplete="off" placeholder="Cantidad" value="1" required>
+            <input type="number" min="1" step="1" class="form-control" name="ingCantidad" id="ingCantidad" autocomplete="off" placeholder="Cantidad" value="1" required>
+            <div class="invalid-feedback">
+                Este campo no puede tener decimales y mucho menos puede quedar vacío.
+            </div>
         </div>
     </div>
 
@@ -41,7 +50,10 @@ VALORES NUMERICOS
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fas fa-percentage"></i></div>
             </div>
-            <input type="number" min="0" class="form-control" name="ingDescuento" id="ingDescuento" autocomplete="off" placeholder="Descuento" value="0" required>
+            <input type="number" min="0" step="1" class="form-control" name="ingDescuento" id="ingDescuento" autocomplete="off" placeholder="Descuento" value="0" required>
+            <div class="invalid-feedback">
+                Este campo no puede tener decimales y mucho menos puede quedar vacío.
+            </div>
         </div>
     </div>
 
@@ -52,6 +64,7 @@ VALORES NUMERICOS
                 <div class="input-group-text"><i class="fas fa-money-check-alt"></i></div>
             </div>
             <input type="text" class="form-control" name="ingPrecioFinal" id="ingPrecioFinal" autocomplete="off" placeholder="Precio final" required readonly>
+            <div class="invalid-feedback" id="errorIngPrecioFinal"></div>
         </div>
     </div>
 </div>
@@ -63,7 +76,7 @@ CARACTERISTICAS DEL PRODUCTO
     <div class="form-group col-12 col-sm-6">
         <!-- MARCA GUARDADA EN LA BASE DE DATOS -->
         <label for="ingMarcaProducto" class="text-primary">Marca ( <i class="fas fa-wine-bottle"></i> )</label>
-        <select class="form-control select2" name="ingMarcaProducto" id="ingMarcaProducto" data-placeholder="Seleccione una marca">
+        <select class="form-control select2" name="ingMarcaProducto" id="ingMarcaProducto" data-placeholder="Seleccione una marca" required>
             <option></option>
             <?php
             $tabla = "marca";
@@ -85,12 +98,15 @@ CARACTERISTICAS DEL PRODUCTO
             </label>
         </div>
         <input type="text" class="form-control mt-2 d-none" name="ingOtraMarcaProd" id="ingOtraMarcaProd" placeholder="Nombre de la marca">
+        <div class="invalid-feedback">
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones y una vez habilitado no lo puedes dejar vacío.
+        </div>
     </div>
 
     <div class="form-group col-12 col-sm-6">
         <!-- FORMA GUARDADA EN LA BASE DE DATOS -->
         <label for="ingFormaProducto" class="text-success">Forma ( <i class="fas fa-cubes"></i> )</label>
-        <select class="form-control select2" name="ingFormaProducto" id="ingFormaProducto" data-placeholder="Seleccione una forma">
+        <select class="form-control select2" name="ingFormaProducto" id="ingFormaProducto" data-placeholder="Seleccione una forma" required>
             <option></option>
             <?php
             $tabla = "forma";
@@ -112,6 +128,9 @@ CARACTERISTICAS DEL PRODUCTO
             </label>
         </div>
         <input type="text" class="form-control mt-2 d-none" name="ingOtraFormaProd" id="ingOtraFormaProd" placeholder="Nombre de la forma">
+        <div class="invalid-feedback">
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones y una vez habilitado no lo puedes dejar vacío. Además, no acepta valores númericos.
+        </div>
     </div>
 
     <div class="form-group col-12 col-sm-6">
@@ -139,6 +158,9 @@ CARACTERISTICAS DEL PRODUCTO
             </label>
         </div>
         <input type="text" class="form-control mt-2 d-none" name="ingOtroCorteProd" id="ingOtroCorteProd" placeholder="Nombre del corte">
+        <div class="invalid-feedback">
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones y una vez habilitado no lo puedes dejar vacío.
+        </div>
     </div>
 
     <div class="form-group col-12 col-sm-6">
@@ -166,6 +188,9 @@ CARACTERISTICAS DEL PRODUCTO
             </label>
         </div>
         <input type="text" class="form-control mt-2 d-none" name="ingOtroAcabadoProd" id="ingOtroAcabadoProd" placeholder="Nombre del acabado">
+        <div class="invalid-feedback">
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones y una vez habilitado no lo puedes dejar vacío. Además, no acepta valores númericos.
+        </div>
     </div>
 </div>
 
@@ -179,5 +204,8 @@ OBSERVACIONES DEL PRODUCTO
             <div class="input-group-text"><i class="fas fa-info-circle"></i></div>
         </div>
         <textarea type="text" class="form-control" name="ingObvProducto" id="ingObvProducto" placeholder="Observaciones acerca del producto" autocomplete="off" rows="1"></textarea>
+        <div class="invalid-feedback">
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones.
+        </div>
     </div>
 </div>
