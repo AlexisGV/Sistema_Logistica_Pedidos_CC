@@ -66,7 +66,7 @@ CONTENEDOR
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button></div>
                                                         </div>
-                                                        <textarea class="form-control" name="ingProductoNuevo" rows="1" placeholder="Descripción del producto" autocomplete="off" readonly required></textarea>
+                                                        <textarea class="form-control" name="ingProductoNuevo" id="ingProductoNuevo" rows="1" placeholder="Descripción del producto" autocomplete="off" readonly required></textarea>
                                                     </div>
                                                 </div>
                                             </div>

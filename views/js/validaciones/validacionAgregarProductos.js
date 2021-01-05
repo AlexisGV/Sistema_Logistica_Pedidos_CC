@@ -105,7 +105,7 @@ function obtenerPrecioFinal() {
         let expInt = /^[0-9]+$/,
             expDec = /^[0-9]+\.[0-9]{2,2}$/;
 
-        
+
         if ($("#ingPrecioFinal").val().match(expInt)) {
             validarExpresion($("#ingPrecioFinal"), expInt);
         } else {
@@ -318,5 +318,14 @@ $(document).on("submit", "#formAgregarProducto", function (e) {
     // VALIDAD CANTIDAD Y DESCUENTO
     if (!validarExpresion($("#ingCantidad"), expInt)) e.preventDefault();
     if (!validarExpresion($("#ingDescuento"), expInt)) e.preventDefault();
+    
+    $.ajax({
+        url: "pedidos.ajax.php",
+        type: "POST",
+        data: $(this).serialize(),
+        success: function (respuesta) {
+            $("ingProductoNuevo").val(respuesta);
+        }
+    });
 
 });
