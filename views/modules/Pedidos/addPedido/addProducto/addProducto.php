@@ -120,6 +120,7 @@ CARACTERISTICAS DEL PRODUCTO
                 <option value="<?php echo $value["Forma"]; ?>"><?php echo $value["Forma"]; ?></option>
             <?php endforeach; ?>
         </select>
+        <div class="invalid-feedback" id="errorIngFormaProducto">Este campo no puede quedar vacío, seleccione una marca.</div>
 
         <!-- FORMA ESCRITA POR EL USUARIO -->
         <div class="icheck-success mt-2">

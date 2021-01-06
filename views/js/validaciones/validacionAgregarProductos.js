@@ -22,6 +22,7 @@ $(document).on("change", "#ingCheckOtraFormaProd", function () {
         $("#ingOtraFormaProd").removeClass("d-none");
         $("#ingFormaProducto").prop("disabled", true);
         $("#ingFormaProducto").val(null).trigger("change");
+        $("#errorIngFormaProducto").hide();
     } else {
         $("#ingOtraFormaProd").addClass("d-none");
         $("#ingFormaProducto").prop("disabled", false);
@@ -244,45 +245,7 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
         expInt = /^[0-9]+$/,
         expDec = /^[0-9]+\.[0-9]{2,2}$/;
 
-    let bm=0, bf=0;
-
-    if (!validarExpresion($("#ingNomProducto"), expTit)) e.preventDefault();
-
-    /* VALIDACION PARA LA MARCA
-    -------------------------------------------------- */
-    if ($("#ingCheckOtraMarcaProd").is(":checked")) {
-        if (!validarExpresion($("#ingOtraMarcaProd"), expOMOCObv)) bm=0;
-        else bm=1;
-    } else{
-        if( $("#ingMarcaProducto").val() == null || $("#ingMarcaProducto").val() == "" ) {
-            bm=0;   $("#errorIngMarcaProducto").show();
-        } else {
-            bm=1;   $("#errorIngMarcaProducto").hide();
-        }
-    }
-
-    /* VALIDACION PARA LA FORMA
-    -------------------------------------------------- */
-    if ($("#ingCheckOtraFormaProd").is(":checked")) {
-        if (!validarExpresion($("#ingOtraFormaProd"), expOFOA))
-            e.preventDefault();
-    }
-
-    if ($("#ingCheckOtroCorteProd").is(":checked")) {
-        if (!validarExpresion($("#ingOtroCorteProd"), expOMOCObv))
-            e.preventDefault();
-    }
-
-    if ($("#ingCheckOtroAcabadoProd").is(":checked")) {
-        if (!validarExpresion($("#ingOtroAcabadoProd"), expOFOA))
-            e.preventDefault();
-    }
-
-    // VALIDAR OBSERVACION
-    if ($("#ingObvProducto").val() != "") {
-        if (!validarExpresion($("#ingObvProducto"), expOMOCObv))
-            e.preventDefault();
-    }
+    if (!validarExpresion($("#ingNomProducto"), expTit)) return false;
 
     // VALIDAR PRECIO INICIAL
     if ($("#ingPrecioInicial").val().match(expInt)) {
@@ -293,7 +256,7 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
             $("#errorIngPrecioInicial").html("Ingrese un valor númerico");
             validarExpresion($("#ingPrecioInicial"), expDec);
             $("#errorIngPrecioInicial").show();
-            e.preventDefault();
+            return false;
         } else {
             $("#errorIngPrecioInicial").html("El valor debe tener 2 decimales.");
             if (validarExpresion($("#ingPrecioInicial"), expDec)) {
@@ -301,10 +264,14 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
             } else {
                 if ($("#ingPrecioInicial").val() != "") $("#errorIngPrecioInicial").show();
                 else $("#errorIngPrecioInicial").hide();
-                e.preventDefault();
+                return false;
             }
         }
     }
+
+    // VALIDAR CANTIDAD Y DESCUENTO
+    if (!validarExpresion($("#ingCantidad"), expInt)) return false;
+    if (!validarExpresion($("#ingDescuento"), expInt)) return false;
 
     // VALIDAR PRECIO FINAL
     if ($("#ingPrecioFinal").val().match(expInt)) {
@@ -315,7 +282,7 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
             $("#errorIngPrecioFinal").html("Ingrese un valor númerico");
             validarExpresion($("#ingPrecioFinal"), expDec);
             $("#errorIngPrecioFinal").show();
-            e.preventDefault();
+            return false;
         } else {
             $("#errorIngPrecioInicial").html("El valor debe tener 2 decimales.");
             if (validarExpresion($("#ingPrecioFinal"), expDec)) {
@@ -323,20 +290,51 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
             } else {
                 if ($("#ingPrecioFinal").val() != "") $("#errorIngPrecioFinal").show();
                 else $("#errorIngPrecioFinal").hide();
-                e.preventDefault();
+                return false;
             }
         }
     }
 
-    // VALIDAD CANTIDAD Y DESCUENTO
-    if (!validarExpresion($("#ingCantidad"), expInt)) e.preventDefault();
-    if (!validarExpresion($("#ingDescuento"), expInt)) e.preventDefault();
+    /* VALIDACION PARA LA MARCA
+    -------------------------------------------------- */
+    if ($("#ingCheckOtraMarcaProd").is(":checked")) {
+        if (!validarExpresion($("#ingOtraMarcaProd"), expOMOCObv)) return false;
+    } else{
+        if( $("#ingMarcaProducto").val() == null || $("#ingMarcaProducto").val() == "" ) {
+            $("#errorIngMarcaProducto").show();
+            return false;
+        } else {
+            $("#errorIngMarcaProducto").hide();
+        }
+    }
 
-    // Se valido el nombre, la cantidad y el descuento
-    if ( validarExpresion($("#ingNomProducto"), expTit) && validarExpresion($("#ingCantidad"), expInt) && validarExpresion($("#ingDescuento"), expInt) && bm == 1) {
+    /* VALIDACION PARA LA FORMA
+    -------------------------------------------------- */
+    if ($("#ingCheckOtraFormaProd").is(":checked")) {
+        if (!validarExpresion($("#ingOtraFormaProd"), expOFOA)) return false;
+    } else{
+        if( $("#ingFormaProducto").val() == null || $("#ingFormaProducto").val() == "" ) {
+            $("#errorIngFormaProducto").show();
+            return false;   
+        } else {
+            $("#errorIngFormaProducto").hide();
+        }
+    }
 
+    if ($("#ingCheckOtroCorteProd").is(":checked")) {
+        if (!validarExpresion($("#ingOtroCorteProd"), expOMOCObv))
+            return false;
+    }
 
+    if ($("#ingCheckOtroAcabadoProd").is(":checked")) {
+        if (!validarExpresion($("#ingOtroAcabadoProd"), expOFOA))
+            return false;
+    }
 
+    // VALIDAR OBSERVACION
+    if ($("#ingObvProducto").val() != "") {
+        if (!validarExpresion($("#ingObvProducto"), expOMOCObv))
+            return false;
     }
     
     $.ajax({
@@ -347,5 +345,7 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
             $("#ingNombreCliente").val(respuesta);
         }
     });
+
+    return false;
 
 });
