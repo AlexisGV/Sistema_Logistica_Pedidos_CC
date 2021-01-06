@@ -89,6 +89,7 @@ CARACTERISTICAS DEL PRODUCTO
                 <option value="<?php echo $value["Marca"]; ?>"><?php echo $value["Marca"]; ?></option>
             <?php endforeach; ?>
         </select>
+        <div class="invalid-feedback" id="errorIngMarcaProducto">Este campo no puede quedar vacío, seleccione una marca.</div>
 
         <!-- MARCA ESCRITA POR EL USUARIO -->
         <div class="icheck-primary mt-2">

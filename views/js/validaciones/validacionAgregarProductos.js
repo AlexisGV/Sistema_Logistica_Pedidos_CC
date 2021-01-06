@@ -8,6 +8,7 @@ $(document).on("change", "#ingCheckOtraMarcaProd", function () {
         $("#ingOtraMarcaProd").removeClass("d-none");
         $("#ingMarcaProducto").prop("disabled", true);
         $("#ingMarcaProducto").val(null).trigger("change");
+        $("#errorIngMarcaProducto").hide();
     } else {
         $("#ingOtraMarcaProd").addClass("d-none");
         $("#ingMarcaProducto").prop("disabled", false);
@@ -236,20 +237,32 @@ $(document).on("keyup change blur", "#ingOtroAcabadoProd", function () {
 /*=============================================
 VALIDAR ENVIO DE FORMULARIO
 =============================================*/
-$(document).on("submit", "#formAgregarProducto", function (e) {
+$(document).on("click", ".btnAñadirProducto", function (e) {
     let expTit = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s-]+$/,
         expOMOCObv = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s-]+$/,
         expOFOA = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s-]+$/,
         expInt = /^[0-9]+$/,
         expDec = /^[0-9]+\.[0-9]{2,2}$/;
 
+    let bm=0, bf=0;
+
     if (!validarExpresion($("#ingNomProducto"), expTit)) e.preventDefault();
 
+    /* VALIDACION PARA LA MARCA
+    -------------------------------------------------- */
     if ($("#ingCheckOtraMarcaProd").is(":checked")) {
-        if (!validarExpresion($("#ingOtraMarcaProd"), expOMOCObv))
-            e.preventDefault();
+        if (!validarExpresion($("#ingOtraMarcaProd"), expOMOCObv)) bm=0;
+        else bm=1;
+    } else{
+        if( $("#ingMarcaProducto").val() == null || $("#ingMarcaProducto").val() == "" ) {
+            bm=0;   $("#errorIngMarcaProducto").show();
+        } else {
+            bm=1;   $("#errorIngMarcaProducto").hide();
+        }
     }
 
+    /* VALIDACION PARA LA FORMA
+    -------------------------------------------------- */
     if ($("#ingCheckOtraFormaProd").is(":checked")) {
         if (!validarExpresion($("#ingOtraFormaProd"), expOFOA))
             e.preventDefault();
@@ -318,13 +331,20 @@ $(document).on("submit", "#formAgregarProducto", function (e) {
     // VALIDAD CANTIDAD Y DESCUENTO
     if (!validarExpresion($("#ingCantidad"), expInt)) e.preventDefault();
     if (!validarExpresion($("#ingDescuento"), expInt)) e.preventDefault();
+
+    // Se valido el nombre, la cantidad y el descuento
+    if ( validarExpresion($("#ingNomProducto"), expTit) && validarExpresion($("#ingCantidad"), expInt) && validarExpresion($("#ingDescuento"), expInt) && bm == 1) {
+
+
+
+    }
     
     $.ajax({
-        url: "pedidos.ajax.php",
+        url: "ajax/pedidos.ajax.php",
         type: "POST",
-        data: $(this).serialize(),
+        data: $("#formAgregarProducto").serialize(),
         success: function (respuesta) {
-            $("ingProductoNuevo").val(respuesta);
+            $("#ingNombreCliente").val(respuesta);
         }
     });
 

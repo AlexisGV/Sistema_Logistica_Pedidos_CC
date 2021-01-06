@@ -15,11 +15,9 @@
         /*=============================================
         AGREGAR PRODUCTOS AL LEVANTAR PEDIDO
         =============================================*/
-        static public function ctrAgregarProducto(){
+        static public function ctrAgregarProducto($datos){
 
-            if ( isset($_POST["ingNomProducto"]) ){
-                return "HOLA";
-            }
+            return $datos["titulo"];
 
         }
 

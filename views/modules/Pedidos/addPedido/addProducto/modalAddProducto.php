@@ -65,7 +65,7 @@ MODAL - AGREGAR PRODUCTO
             -------------------------------------------------- -->
             <div class="modal-footer" style="border-top: #28a745 1px solid;">
                 <button type="button" class="btn btn-danger closeModalProducto" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-primary btnAñadirProducto">Agregar producto</button>
             </div>
             <!-- FIN PIE DEL MODAL
             -------------------------------------------------- -->
