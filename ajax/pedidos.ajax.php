@@ -10,15 +10,17 @@ class AjaxPedidos
     AGREGAR PRODUCTOS
     =============================================*/
     public $datosSimples = [],
-        $cortes = [],
-        $acabados = [];
+           $cortes = [],
+           $acabados = [];
 
     public function ajaxAgregarProducto()
     {
         $valores = $this->datosSimples;
+        $cortesSelect = $this->cortes; 
+        $acabadosSelect = $this->acabados; 
 
-        $respuesta = ControladorPedidos::ctrAgregarProducto($valores);
-        echo $respuesta;
+        $respuesta = ControladorPedidos::ctrAgregarProducto($valores, $cortesSelect, $acabadosSelect);
+        echo json_encode($respuesta);
     }
 }
 
@@ -37,20 +39,28 @@ if (isset($_POST["ingNomProducto"])) {
     $agregarProducto->datosSimples += ["observacion" => $_POST["ingObvProducto"]];
 
     #Marca
-    $agregarProducto->datosSimples += ["marca" => $_POST["ingMarcaProducto"]];
+    if ( isset($_POST["ingMarcaProducto"]) ){
+        $agregarProducto->datosSimples += ["marca" => $_POST["ingMarcaProducto"]];
+    }else{
+        $agregarProducto->datosSimples += ["marca" => "Otra marca"];
+    }
     if (isset($_POST["ingCheckOtraMarcaProd"])) {
         $agregarProducto->datosSimples += ["checkMarca" => $_POST["ingCheckOtraMarcaProd"]];
     } else {
-        $agregarProducto->datosSimples += ["checkMarca" => 0];
+        $agregarProducto->datosSimples += ["checkMarca" => "off"];
     }
     $agregarProducto->datosSimples += ["otraMarca" => $_POST["ingOtraMarcaProd"]];
 
     #Forma
-    $agregarProducto->datosSimples += ["forma" => $_POST["ingFormaProducto"]];
+    if (isset($_POST["ingFormaProducto"])){
+        $agregarProducto->datosSimples += ["forma" => $_POST["ingFormaProducto"]];
+    }else{
+        $agregarProducto->datosSimples += ["forma" => "Otra forma"];
+    }
     if (isset($_POST["ingCheckOtraFormaProd"])) {
         $agregarProducto->datosSimples += ["checkForma" => $_POST["ingCheckOtraFormaProd"]];
     } else {
-        $agregarProducto->datosSimples += ["checkForma" => 0];
+        $agregarProducto->datosSimples += ["checkForma" => "off"];
     }
     $agregarProducto->datosSimples += ["otraForma" => $_POST["ingOtraFormaProd"]];
 
@@ -61,7 +71,7 @@ if (isset($_POST["ingNomProducto"])) {
     if (isset($_POST["ingCheckOtroCorteProd"])) {
         $agregarProducto->datosSimples += ["checkCorte" => $_POST["ingCheckOtroCorteProd"]];
     } else {
-        $agregarProducto->datosSimples += ["checkCorte" => 0];
+        $agregarProducto->datosSimples += ["checkCorte" => "off"];
     }
     $agregarProducto->datosSimples += ["otroCorte" => $_POST["ingOtroCorteProd"]];
 
@@ -72,7 +82,7 @@ if (isset($_POST["ingNomProducto"])) {
     if (isset($_POST["ingCheckOtroAcabadoProd"])) {
         $agregarProducto->datosSimples += ["checkAcabado" => $_POST["ingCheckOtroAcabadoProd"]];
     } else {
-        $agregarProducto->datosSimples += ["checkAcabado" => 0];
+        $agregarProducto->datosSimples += ["checkAcabado" => "off"];
     }
     $agregarProducto->datosSimples += ["otroAcabado" => $_POST["ingOtroAcabadoProd"]];
 

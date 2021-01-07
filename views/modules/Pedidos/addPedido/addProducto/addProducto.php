@@ -9,7 +9,7 @@ TITULO O DESCRIPCION DEL PRODUCTO
         </div>
         <textarea type="text" class="form-control" name="ingNomProducto" id="ingNomProducto" placeholder="Titulo o descripción breve del producto" autocomplete="off" rows="1" required></textarea>
         <div class="invalid-feedback" id="errorIngNomProducto">
-            Este campo no puede contener números y mucho menos puede quedar vacío.
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas y (.) Puntos. NO lo puedes dejar vacío y además, no acepta valores númericos.
         </div>
     </div>
 </div>
@@ -100,7 +100,7 @@ CARACTERISTICAS DEL PRODUCTO
         </div>
         <input type="text" class="form-control mt-2 d-none" name="ingOtraMarcaProd" id="ingOtraMarcaProd" placeholder="Nombre de la marca">
         <div class="invalid-feedback">
-            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones y una vez habilitado no lo puedes dejar vacío.
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas y (.) Puntos. Y una vez habilitado no lo puedes dejar vacío.
         </div>
     </div>
 
@@ -131,7 +131,7 @@ CARACTERISTICAS DEL PRODUCTO
         </div>
         <input type="text" class="form-control mt-2 d-none" name="ingOtraFormaProd" id="ingOtraFormaProd" placeholder="Nombre de la forma">
         <div class="invalid-feedback">
-            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones y una vez habilitado no lo puedes dejar vacío. Además, no acepta valores númericos.
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas y (.) Puntos. Y una vez habilitado no lo puedes dejar vacío. Además, no acepta valores númericos.
         </div>
     </div>
 
@@ -161,7 +161,7 @@ CARACTERISTICAS DEL PRODUCTO
         </div>
         <input type="text" class="form-control mt-2 d-none" name="ingOtroCorteProd" id="ingOtroCorteProd" placeholder="Nombre del corte">
         <div class="invalid-feedback">
-            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones y una vez habilitado no lo puedes dejar vacío.
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas y (.) Puntos. Y una vez habilitado no lo puedes dejar vacío.
         </div>
     </div>
 
@@ -191,7 +191,7 @@ CARACTERISTICAS DEL PRODUCTO
         </div>
         <input type="text" class="form-control mt-2 d-none" name="ingOtroAcabadoProd" id="ingOtroAcabadoProd" placeholder="Nombre del acabado">
         <div class="invalid-feedback">
-            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones y una vez habilitado no lo puedes dejar vacío. Además, no acepta valores númericos.
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas y (.) Puntos. Y una vez habilitado no lo puedes dejar vacío. Además, no acepta valores númericos.
         </div>
     </div>
 </div>
@@ -207,7 +207,7 @@ OBSERVACIONES DEL PRODUCTO
         </div>
         <textarea type="text" class="form-control" name="ingObvProducto" id="ingObvProducto" placeholder="Observaciones acerca del producto" autocomplete="off" rows="1"></textarea>
         <div class="invalid-feedback">
-            Este campo solo admite los siguientes caracteres especiales: (,) Comas, (.) Puntos y (-) Guiones.
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas y (.) Puntos.
         </div>
     </div>
 </div>

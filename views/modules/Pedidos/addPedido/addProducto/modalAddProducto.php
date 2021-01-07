@@ -60,6 +60,7 @@ MODAL - AGREGAR PRODUCTO
             </div>
             <!-- FIN CUERPO DEL MODAL
             -------------------------------------------------- -->
+            <div id="muestra"></div>
 
             <!-- PIE DEL MODAL
             -------------------------------------------------- -->

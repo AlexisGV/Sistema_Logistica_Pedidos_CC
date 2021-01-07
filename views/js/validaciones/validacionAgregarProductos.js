@@ -1,4 +1,17 @@
 /*=============================================
+VALIDAR SELECTS PARA MARCA / FORMA
+=============================================*/
+$(document).on("change", "#ingMarcaProducto", function () {
+    if( $(this).val() != null && $(this).val() != "")
+    $("#errorIngMarcaProducto").hide();
+});
+
+$(document).on("change", "#ingFormaProducto", function () {
+    if( $(this).val() != null && $(this).val() != "")
+    $("#errorIngFormaProducto").hide();
+});
+
+/*=============================================
 VALIDAR CHECKS PARA AGREGAR OTRA MARCA / FORMA
 =============================================*/
 $(document).on("change", "#ingCheckOtraMarcaProd", function () {
@@ -50,17 +63,6 @@ $(document).on("change", "#ingCheckOtroAcabadoProd", function () {
     } else {
         $("#ingOtroAcabadoProd").addClass("d-none");
     }
-});
-
-/*=============================================
-OBTENER PRECIO DE ACABADOS Y CORTES
-=============================================*/
-$(document).on("change", "#ingCorteProducto", function () {
-    let valores = [];
-
-    valores = $(this).val();
-
-    console.log(valores);
 });
 
 /*=============================================
@@ -136,18 +138,48 @@ function obtenerPrecioFinal() {
 }
 
 /*=============================================
+FUNCION PARA LIMPIAR TODOS LOS CAMPOS
+=============================================*/
+function limpiarCamposAgregarProducto() {
+    $("#ingNomProducto").val(null);
+    $("#ingNomProducto").removeClass("is-valid is-invalid");
+    $("#ingPrecioInicial").val(null);
+    $("#ingPrecioInicial").removeClass("is-valid is-invalid");
+    $("#ingCantidad").val(1);
+    $("#ingCantidad").removeClass("is-valid is-invalid");
+    $("#ingDescuento").val(0);
+    $("#ingDescuento").removeClass("is-valid is-invalid");
+    $("#ingPrecioFinal").val(null);
+    $("#ingPrecioFinal").removeClass("is-valid is-invalid");
+
+    $("#ingMarcaProducto").val(null).trigger("change");
+    $("#errorIngMarcaProducto").hide();
+    $("#ingCheckOtraMarcaProd").prop("checked", false).trigger("change");
+    $("#ingFormaProducto").val(null).trigger("change");
+    $("#errorIngFormaProducto").hide();
+    $("#ingCheckOtraFormaProd").prop("checked", false).trigger("change");
+    $("#ingCorteProducto").val(null).trigger("change");
+    $("#ingCheckOtroCorteProd").prop("checked", false).trigger("change");
+    $("#ingAcabadoProducto").val(null).trigger("change");
+    $("#ingCheckOtroAcabadoProd").prop("checked", false).trigger("change");
+
+    $("#ingObvProducto").val(null);
+    $("#ingObvProducto").removeClass("is-valid is-invalid");
+}
+
+/*=============================================
 VALIDAR TITULO O DESCRIPCION
 =============================================*/
-$(document).on("keyup change", "#ingNomProducto", function () {
-    let expresion = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s-]+$/;
+$(document).on("keyup change blur", "#ingNomProducto", function () {
+    let expresion = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s]+$/;
     validarExpresion($(this), expresion);
 });
 
 /*=============================================
 VALIDAR OBSERVACIONES
 =============================================*/
-$(document).on("keyup change", "#ingObvProducto", function () {
-    let expresion = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s-]+$/;
+$(document).on("keyup change blur", "#ingObvProducto", function () {
+    let expresion = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s]+$/;
 
     if ($(this).val() != "") {
         validarExpresion($(this), expresion);
@@ -207,7 +239,7 @@ $(document).on("keyup change blur", "#ingDescuento", function () {
 VALIDAR OTRA MARCA
 =============================================*/
 $(document).on("keyup change blur", "#ingOtraMarcaProd", function () {
-    let expresion = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s-]+$/;
+    let expresion = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s]+$/;
     validarExpresion($(this), expresion);
 });
 
@@ -215,7 +247,7 @@ $(document).on("keyup change blur", "#ingOtraMarcaProd", function () {
 VALIDAR OTRA FORMA
 =============================================*/
 $(document).on("keyup change blur", "#ingOtraFormaProd", function () {
-    let expresion = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s-]+$/;
+    let expresion = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s]+$/;
     validarExpresion($(this), expresion);
 });
 
@@ -223,7 +255,7 @@ $(document).on("keyup change blur", "#ingOtraFormaProd", function () {
 VALIDAR OTRO CORTE
 =============================================*/
 $(document).on("keyup change blur", "#ingOtroCorteProd", function () {
-    let expresion = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s-]+$/;
+    let expresion = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s]+$/;
     validarExpresion($(this), expresion);
 });
 
@@ -231,17 +263,68 @@ $(document).on("keyup change blur", "#ingOtroCorteProd", function () {
 VALIDAR OTRO ACABADO
 =============================================*/
 $(document).on("keyup change blur", "#ingOtroAcabadoProd", function () {
-    let expresion = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s-]+$/;
+    let expresion = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s]+$/;
     validarExpresion($(this), expresion);
 });
+
+/*=============================================
+FUNCION PARA AGREGAR UN PRODUCTO AL CONTENEDOR
+=============================================*/
+function agregarProducto(contendor, descripcion, cantidad, precioInicial, descuento, precioFinal) {
+    contendor.append(
+        '<div class="row nuevoProducto">'+
+        '    <!--============================================='+
+        '    NUEVO PRODUCTO'+
+        '    =============================================-->'+
+
+        '    <!-- DESCRIPCION DEL PRODUCTO -->'+
+        '    <div class="col-12 col-lg-9">'+
+        '        <div class="form-group">'+
+        '            <div class="input-group">'+
+        '                <div class="input-group-prepend">'+
+        '                    <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button></div>'+
+        '                 </div>'+
+        '                 <textarea class="form-control" name="ingProductoNuevo" id="ingProductoNuevo" rows="2" placeholder="Descripción del producto" autocomplete="off" readonly required>'+descripcion+'</textarea>'+
+        '            </div>'+
+        '        </div>'+
+        '    </div>'+
+
+        '    <!-- CANTIDAD DEL PRODUCTO -->'+
+        '    <div class="col-5 col-lg-1">'+
+        '        <div class="form-group">'+
+        '            <input class="form-control" type="number" min="1" name="ingCantidadProductoNuevo" placeholder="Cantidad" autocomplete="off" value="'+cantidad+'" precioFinal="'+precioFinal+'" required>'+
+        '        </div>'+
+        '    </div>'+
+
+        '    <!-- PRECIO -->'+
+        '    <div class="col-7 col-lg-2">'+
+        '        <div class="form-group">'+
+        '            <div class="input-group">'+
+        '                <div class="input-group-prepend">'+
+        '                    <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>'+
+        '                </div>'+
+        '                <input type="text" class="form-control ingPrecioProducto" name="ingPrecioProductoNuevo" placeholder="0.00" autocomplete="off" readonly required precioInicial="'+precioInicial+'" descuento="'+descuento+'" value="'+precioFinal+'">'+
+        '            </div>'+
+        '        </div>'+
+        '    </div>'+
+
+        '    <!-- SEPARADOR PARA DISPOSITIVOS MOVILES -->'+
+        '    <hr class="d-block d-lg-none">'+
+
+        '    <!--============  FIN DE PRODUCTO NUEVO  =============-->'+
+        '</div>'
+    );
+
+    $(".ingPrecioProducto").number(true, 2);
+}
 
 /*=============================================
 VALIDAR ENVIO DE FORMULARIO
 =============================================*/
 $(document).on("click", ".btnAñadirProducto", function (e) {
-    let expTit = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s-]+$/,
-        expOMOCObv = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s-]+$/,
-        expOFOA = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s-]+$/,
+    let expTit = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s]+$/,
+        expOMOCObv = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s]+$/,
+        expOFOA = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s]+$/,
         expInt = /^[0-9]+$/,
         expDec = /^[0-9]+\.[0-9]{2,2}$/;
 
@@ -341,11 +424,18 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
         url: "ajax/pedidos.ajax.php",
         type: "POST",
         data: $("#formAgregarProducto").serialize(),
+        dataType: "json",
         success: function (respuesta) {
-            $("#ingNombreCliente").val(respuesta);
+            // $("#muestra").html(respuesta);
+            agregarProducto($("#contenedorProductosKit"), respuesta["descripcion"], respuesta["cantidad"], respuesta["precioInicial"], respuesta["descuento"], respuesta["precioFinal"]);
+            $(".closeModalProducto").trigger("click");
         }
     });
 
     return false;
 
+});
+
+$(document).on("click", ".closeModalProducto", function () {
+   limpiarCamposAgregarProducto(); 
 });
