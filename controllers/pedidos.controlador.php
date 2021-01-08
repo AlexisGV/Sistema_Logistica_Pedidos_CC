@@ -45,7 +45,7 @@
                     $corte .= $cortes[$i] . "; ";
                 }
             else :
-                $corte = "No especifica";
+                $corte = "No especifica;";
             endif;
 
             if ( $datos["checkCorte"] == "off" ):
@@ -61,7 +61,7 @@
                     $acabado .= $acabados[$i] . "; ";
                 }
             else :
-                $acabado = "No especifica";
+                $acabado = "No especifica;";
             endif;
 
             if ( $datos["checkAcabado"] == "off" ):
@@ -77,7 +77,7 @@
                 $observacion = "Sin observaciones";
             endif;
 
-            $descripcionProducto = $datos["titulo"] . " | " . $abvMarca . "-" . $marca . " | " . $abvForma . "-" . $forma . " | C[" . $corte ."] OC-" . $otroCorte . " | A[" . $acabado . "] | OA-" . $otroAcabado . " | Observación: " . $observacion;
+            $descripcionProducto = $datos["titulo"] . " | " . $abvMarca . "-" . $marca . " | " . $abvForma . "-" . $forma . " | C[" . $corte ."] | OC-" . $otroCorte . " | A[" . $acabado . "] | OA-" . $otroAcabado . " | Observación: " . $observacion;
 
             $datosProducto += [ "descripcion" => $descripcionProducto ];
             $datosProducto += [ "precioInicial" => $datos["precioFinal"] ];

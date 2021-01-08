@@ -43,12 +43,26 @@ $(document).on("change", "#ingCheckOtraFormaProd", function () {
 });
 
 /*=============================================
+VALIDAR SELECTS PARA ACABADO / CORTE
+=============================================*/
+$(document).on("change", "#ingCorteProducto", function () {
+    if( $(this).val() != null && $(this).val() != "")
+    $("#errorNingunCorte").hide();
+});
+
+$(document).on("change", "#ingAcabadoProducto", function () {
+    if( $(this).val() != null && $(this).val() != "")
+    $("#errorNingunAcabado").hide();
+});
+
+/*=============================================
 VALIDAR CHECKS PARA AGREGAR OTRO ACABADO / CORTE
 =============================================*/
 $(document).on("change", "#ingCheckOtroCorteProd", function () {
     $("#ingOtroCorteProd").removeClass("is-valid is-invalid");
     $("#ingOtroCorteProd").val(null);
     if ($(this).is(":checked")) {
+        $("#errorNingunCorte").hide();
         $("#ingOtroCorteProd").removeClass("d-none");
     } else {
         $("#ingOtroCorteProd").addClass("d-none");
@@ -59,6 +73,7 @@ $(document).on("change", "#ingCheckOtroAcabadoProd", function () {
     $("#ingOtroAcabadoProd").removeClass("is-valid is-invalid");
     $("#ingOtroAcabadoProd").val(null);
     if ($(this).is(":checked")) {
+        $("#errorNingunAcabado").hide();
         $("#ingOtroAcabadoProd").removeClass("d-none");
     } else {
         $("#ingOtroAcabadoProd").addClass("d-none");
@@ -142,6 +157,8 @@ FUNCION PARA LIMPIAR TODOS LOS CAMPOS
 =============================================*/
 function limpiarCamposAgregarProducto() {
     $("#ingNomProducto").val(null);
+    $("#ingNomProducto").attr("rows", 1);
+    $("#ingNomProducto").attr("style", "overflow: hidden; overflow-wrap: break-word; resize: none;");
     $("#ingNomProducto").removeClass("is-valid is-invalid");
     $("#ingPrecioInicial").val(null);
     $("#ingPrecioInicial").removeClass("is-valid is-invalid");
@@ -158,12 +175,14 @@ function limpiarCamposAgregarProducto() {
     $("#ingFormaProducto").val(null).trigger("change");
     $("#errorIngFormaProducto").hide();
     $("#ingCheckOtraFormaProd").prop("checked", false).trigger("change");
-    $("#ingCorteProducto").val(null).trigger("change");
+    $("#ingCorteProducto").val("").trigger("change");
     $("#ingCheckOtroCorteProd").prop("checked", false).trigger("change");
     $("#ingAcabadoProducto").val(null).trigger("change");
     $("#ingCheckOtroAcabadoProd").prop("checked", false).trigger("change");
 
     $("#ingObvProducto").val(null);
+    $("#ingObvProducto").attr("rows", 1);
+    $("#ingObvProducto").attr("style", "overflow: hidden; overflow-wrap: break-word; resize: none;");
     $("#ingObvProducto").removeClass("is-valid is-invalid");
 }
 
@@ -282,28 +301,28 @@ function agregarProducto(contendor, descripcion, cantidad, precioInicial, descue
         '        <div class="form-group">'+
         '            <div class="input-group">'+
         '                <div class="input-group-prepend">'+
-        '                    <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button></div>'+
+        '                    <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger btnQuitarProductoPedido"><i class="fas fa-times"></i></button></div>'+
         '                 </div>'+
-        '                 <textarea class="form-control" name="ingProductoNuevo" id="ingProductoNuevo" rows="2" placeholder="Descripción del producto" autocomplete="off" readonly required>'+descripcion+'</textarea>'+
+        '                 <textarea class="form-control textAreasProductos" name="ingProductoNuevo" id="ingProductoNuevo" placeholder="Descripción del producto" autocomplete="off" readonly required rows="2">'+descripcion+'</textarea>'+
         '            </div>'+
         '        </div>'+
         '    </div>'+
 
         '    <!-- CANTIDAD DEL PRODUCTO -->'+
-        '    <div class="col-5 col-lg-1">'+
+        '    <div class="col-5 col-lg-1 ingresoCantidadProducto">'+
         '        <div class="form-group">'+
-        '            <input class="form-control" type="number" min="1" name="ingCantidadProductoNuevo" placeholder="Cantidad" autocomplete="off" value="'+cantidad+'" precioFinal="'+precioFinal+'" required>'+
+        '            <input class="form-control nuevaCantidadProducto" type="number" min="1" name="ingCantidadProductoNuevo" placeholder="Cantidad" autocomplete="off" value="'+cantidad+'" precioFinal="'+precioFinal+'" required>'+
         '        </div>'+
         '    </div>'+
 
         '    <!-- PRECIO -->'+
-        '    <div class="col-7 col-lg-2">'+
+        '    <div class="col-7 col-lg-2 ingresoPrecioProducto">'+
         '        <div class="form-group">'+
         '            <div class="input-group">'+
         '                <div class="input-group-prepend">'+
         '                    <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>'+
         '                </div>'+
-        '                <input type="text" class="form-control ingPrecioProducto" name="ingPrecioProductoNuevo" placeholder="0.00" autocomplete="off" readonly required precioInicial="'+precioInicial+'" descuento="'+descuento+'" value="'+precioFinal+'">'+
+        '                <input type="text" class="form-control nuevoPrecioProducto" name="ingPrecioProductoNuevo" placeholder="0.00" autocomplete="off" readonly required precioInicial="'+precioInicial+'" descuento="'+descuento+'" precioFinal="'+precioFinal+'" value="'+precioFinal+'">'+
         '            </div>'+
         '        </div>'+
         '    </div>'+
@@ -316,6 +335,7 @@ function agregarProducto(contendor, descripcion, cantidad, precioInicial, descue
     );
 
     $(".ingPrecioProducto").number(true, 2);
+    autosize($('.textAreasProductos'));
 }
 
 /*=============================================
@@ -414,6 +434,16 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
             return false;
     }
 
+    if ( ($("#ingCorteProducto").val() == null || $("#ingCorteProducto").val() == "") && $("#ingCheckOtroCorteProd").prop("checked") == false ){
+        $("#errorNingunCorte").show();
+        return false;
+    }
+
+    if ( ($("#ingAcabadoProducto").val() == null || $("#ingAcabadoProducto").val() == "") && $("#ingCheckOtroAcabadoProd").prop("checked") == false ){
+        $("#errorNingunAcabado").show();
+        return false;
+    }
+
     // VALIDAR OBSERVACION
     if ($("#ingObvProducto").val() != "") {
         if (!validarExpresion($("#ingObvProducto"), expOMOCObv))
@@ -436,6 +466,29 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
 
 });
 
+/*=============================================
+LIMPIAR CAMPOS DEL FORMULARIO AL CERRAR MODAL
+=============================================*/
 $(document).on("click", ".closeModalProducto", function () {
    limpiarCamposAgregarProducto(); 
+});
+
+/*=============================================
+ELIMINAR PRODUCTO DEL PEDIDO
+=============================================*/
+$(document).on("click", ".btnQuitarProductoPedido", function(){
+    $(this).parent().parent().parent().parent().parent().parent().remove();
+});
+
+/*=============================================
+MODIFICAR CANTIDAD DEL PRODUCTO
+=============================================*/
+$("#formAgregarProducto").on("change", "input.nuevaCantidadProducto", function (){
+    var precio = $(this).parent().parent().parent().children(".ingresoPrecioProducto").children().children().children(".nuevoPrecioProducto");
+
+    var precioFinal = precio.attr("precioFinal");
+
+    precio.val(precioFinal);
+
+    console.log(precioFinal);
 });

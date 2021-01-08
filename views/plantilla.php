@@ -100,6 +100,8 @@
   <script src="views/plugins/jquery-number/jquery.number.min.js"></script>
   <!-- Select2 -->
   <script src="views/plugins/select2/js/select2.full.min.js"></script>
+  <!-- Autosize -->
+  <script src="views/plugins/autosize/autosize.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- DataTables -->

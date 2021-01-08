@@ -42,7 +42,10 @@ $(function () {
 
     //Initialize Select2 Elements
     $('.select2bs4').select2({
-        theme: 'bootstrap4'
+        theme: 'bootstrap4',
+        placeholder: function(){
+            $(this).data('placeholder');
+        }
     })
 
 })
@@ -57,3 +60,8 @@ $(".custom-file-input").on("change", function () {
 
 // Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
 $.widget.bridge('uibutton', $.ui.button)
+
+/*=============================================
+ALTO AUTOMATICO PARA TEXTAREAS
+=============================================*/
+autosize($('textarea'));
