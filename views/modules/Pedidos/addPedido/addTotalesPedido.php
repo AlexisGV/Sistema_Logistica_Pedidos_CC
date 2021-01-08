@@ -11,7 +11,7 @@ TITULO TOTALES DEL PEDIDO
                 <div class="input-group-prepend">
                     <div class="input-group-text">Subtotal<i class="fas fa-dollar-sign ml-2"></i></div>
                 </div>
-                <input type="text" class="form-control" name="ingSubtotalPedido" placeholder="0.00" autocomplete="off" readonly>
+                <input type="text" class="form-control" name="ingSubtotalPedido" id="ingSubtotalPedido" placeholder="0.00" autocomplete="off" readonly>
             </div>
         </div>
     </div>
@@ -23,7 +23,7 @@ TITULO TOTALES DEL PEDIDO
                 <div class="input-group-prepend">
                     <div class="input-group-text">IVA<i class="fas fa-percentage ml-2 d-none d-sm-block"></i></div>
                 </div>
-                <input type="number" min="0" value="0" class="form-control" name="ingIVAPedido" placeholder="0" autocomplete="off" required>
+                <input type="number" min="0" value="0" class="form-control" name="ingIVAPedido" id="ingIVAPedido" placeholder="0" autocomplete="off" required>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@ TITULO TOTALES DEL PEDIDO
                 <div class="input-group-prepend">
                     <div class="input-group-text">Total<i class="fas fa-dollar-sign ml-2"></i></div>
                 </div>
-                <input type="text" class="form-control" name="ingTotalPedido" placeholder="0.00" autocomplete="off" readonly>
+                <input type="text" class="form-control" name="ingTotalPedido" id="ingTotalPedido" placeholder="0.00" autocomplete="off" readonly>
             </div>
         </div>
     </div>

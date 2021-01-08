@@ -77,7 +77,7 @@ $(document).on("keyup", "#ingEmailCliente", function () {
 });
 
 $(document).on("keyup", "#ingTelfCliente", function () {
-    var expresion = /^55+[0-9]{8,8}$/;
+    var expresion = /^55+[0-9]{0,8}$/;
 
     if ($(this).val().match(expresion)) {
         $(this).removeClass("is-invalid is-valid is-warning");
@@ -116,7 +116,7 @@ $(document).on("submit", "#formAddPedido", function (e) {
 
     var expNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/,
         expCorreo = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/,
-        expTelefono = /^55+[0-9]{0,8}$/;
+        expTelefono = /^55+[0-9]{8,8}$/;
 
     if (!validarExpresion($("#ingNombreCliente"), expNombre)) e.preventDefault();
     if (!validarExpresion($("#ingEmailCliente"), expCorreo)) e.preventDefault();

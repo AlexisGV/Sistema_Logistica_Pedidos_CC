@@ -80,7 +80,7 @@
             $descripcionProducto = $datos["titulo"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Corte(s): " . $corte ." | Otro corte: " . $otroCorte . " | Acabado(s): " . $acabado . " | Otro acabado: " . $otroAcabado . " | Observación: " . $observacion;
 
             $datosProducto += [ "descripcion" => $descripcionProducto ];
-            $datosProducto += [ "precioInicial" => $datos["precioFinal"] ];
+            $datosProducto += [ "precioInicial" => $datos["precioInicial"] ];
             $datosProducto += [ "cantidad" => $datos["cantidad"] ];
             $datosProducto += [ "descuento" => $datos["descuento"] ];
             $datosProducto += [ "precioFinal" => $datos["precioFinal"] ];
