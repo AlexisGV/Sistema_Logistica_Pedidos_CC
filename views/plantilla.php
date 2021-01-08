@@ -136,6 +136,7 @@
   <!-- Pedidos -->
   <script src="views/js/validaciones/validacionPedidos.js"></script>
   <script src="views/js/validaciones/validacionAgregarProductos.js"></script>
+  <script src="views/js/levantarPedidos.js"></script>
 
   </body>
 

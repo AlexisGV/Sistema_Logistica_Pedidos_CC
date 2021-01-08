@@ -64,16 +64,22 @@ $(document).on("keyup", "#ingNombreCliente", function () {
 $(document).on("keyup", "#ingEmailCliente", function () {
     var expresion = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/;
 
-    if ($(this).val().match(expresion)) {
+    if ($(this).val() != null && $(this).val() != "") {
+        if ($(this).val().match(expresion)) {
+            $("#erroringEmailCliente").hide();
+            $(this).removeClass("is-invalid");
+            $(this).addClass("is-valid");
+        } else {
+            if ($(this).val() != "") $("#erroringEmailCliente").show();
+            else $("#erroringEmailCliente").hide();
+            $(this).removeClass("is-valid");
+            $(this).addClass("is-invalid");
+        }
+    }else{
+        $(this).removeClass("is-valid is-invalid");
         $("#erroringEmailCliente").hide();
-        $(this).removeClass("is-invalid");
-        $(this).addClass("is-valid");
-    } else {
-        if ($(this).val() != "") $("#erroringEmailCliente").show();
-        else $("#erroringEmailCliente").hide();
-        $(this).removeClass("is-valid");
-        $(this).addClass("is-invalid");
     }
+
 });
 
 $(document).on("keyup", "#ingTelfCliente", function () {
@@ -119,7 +125,11 @@ $(document).on("submit", "#formAddPedido", function (e) {
         expTelefono = /^55+[0-9]{8,8}$/;
 
     if (!validarExpresion($("#ingNombreCliente"), expNombre)) e.preventDefault();
-    if (!validarExpresion($("#ingEmailCliente"), expCorreo)) e.preventDefault();
+
+    if ( $("#ingEmailCliente").val() != "" && $("#ingEmailCliente").val() != null){
+        if (!validarExpresion($("#ingEmailCliente"), expCorreo)) e.preventDefault();
+    }
+    
     if (!validarExpresion($("#ingTelfCliente"), expTelefono)) e.preventDefault();
 
     if ($("#ingPagoCompleto").is(":checked") == false) {

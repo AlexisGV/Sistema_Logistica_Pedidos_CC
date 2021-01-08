@@ -286,6 +286,7 @@ $(document).on("keyup change blur", "#ingOtroAcabadoProd", function () {
     validarExpresion($(this), expresion);
 });
 
+var contadorProductos = 0;
 /*=============================================
 FUNCION PARA AGREGAR UN PRODUCTO AL CONTENEDOR
 =============================================*/
@@ -305,7 +306,7 @@ function agregarProducto(contendor, descripcion, cantidad, precioInicial, descue
         '                <div class="input-group-prepend">'+
         '                    <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger btnQuitarProductoPedido"><i class="fas fa-times"></i></button></div>'+
         '                 </div>'+
-        '                 <textarea class="form-control textAreasProductos" name="ingProductoNuevo" id="ingProductoNuevo" placeholder="Descripción del producto" autocomplete="off" readonly required rows="1">'+descripcion+'</textarea>'+
+        '                 <textarea class="form-control textAreasProductos nuevaDescripcionProducto" name="ingProductoNuevo" idProducto="producto'+contadorProductos+'" placeholder="Descripción del producto" autocomplete="off" readonly required rows="1">'+descripcion+'</textarea>'+
         '            </div>'+
         '        </div>'+
         '    </div>'+
@@ -313,7 +314,7 @@ function agregarProducto(contendor, descripcion, cantidad, precioInicial, descue
         '    <!-- CANTIDAD DEL PRODUCTO -->'+
         '    <div class="col-5 col-lg-1 ingresoCantidadProducto">'+
         '        <div class="form-group">'+
-        '            <input class="form-control nuevaCantidadProducto" type="number" min="1" name="ingCantidadProductoNuevo" placeholder="Cantidad" autocomplete="off" value="'+cantidad+'" precioFinal="'+precioFinal+'" required>'+
+        '            <input class="form-control nuevaCantidadProducto" type="number" min="1" name="ingCantidadProductoNuevo" idProducto="producto'+contadorProductos+'" placeholder="Cantidad" autocomplete="off" value="'+cantidad+'" precioFinal="'+precioFinal+'" required>'+
         '        </div>'+
         '    </div>'+
 
@@ -324,7 +325,7 @@ function agregarProducto(contendor, descripcion, cantidad, precioInicial, descue
         '                <div class="input-group-prepend">'+
         '                    <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>'+
         '                </div>'+
-        '                <input type="text" class="form-control nuevoPrecioProducto" name="ingPrecioProductoNuevo" placeholder="0.00" autocomplete="off" readonly required precioInicial="'+precioInicial+'" descuento="'+descuento+'" precioUnitario="'+precioUnitario+'" precioFinal="'+precioFinal+'" value="'+precioFinal+'">'+
+        '                <input type="text" class="form-control nuevoPrecioProducto" name="ingPrecioProductoNuevo" idProducto="producto'+contadorProductos+'" placeholder="0.00" autocomplete="off" readonly required precioInicial="'+precioInicial+'" descuento="'+descuento+'" precioUnitario="'+precioUnitario+'" precioFinal="'+precioFinal+'" value="'+precioFinal+'">'+
         '            </div>'+
         '        </div>'+
         '    </div>'+
@@ -458,9 +459,11 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
         data: $("#formAgregarProducto").serialize(),
         dataType: "json",
         success: function (respuesta) {
-            // $("#muestra").html(respuesta);
+            contadorProductos ++;
+
             agregarProducto($("#contenedorProductosKit"), respuesta["descripcion"], respuesta["cantidad"], respuesta["precioInicial"], respuesta["descuento"], respuesta["precioFinal"]);
             sumaTotalCostos();
+            listarProductos();
             $(".closeModalProducto").trigger("click");
 
             swal({
@@ -480,98 +483,4 @@ LIMPIAR CAMPOS DEL FORMULARIO AL CERRAR MODAL
 =============================================*/
 $(document).on("click", ".closeModalProducto", function () {
    limpiarCamposAgregarProducto(); 
-});
-
-/*=============================================
-ELIMINAR PRODUCTO DEL PEDIDO
-=============================================*/
-$(document).on("click", ".btnQuitarProductoPedido", function(){
-
-    swal({
-        title: "Quitar producto",
-        text: "¿Estas seguro de que quieres remover este producto?",
-        icon: "warning",
-        buttons: {
-            cancel: {
-                text: "Cancelar",
-                value: null,
-                visible: true,
-                className: "bg-danger",
-            },
-            confirm: {
-                text: "Confirmar",
-                value: true,
-                visible: true,
-                className: "bg-primary",
-            }
-        },
-    }).then((result) => {
-        if (result) {
-            $(this).parent().parent().parent().parent().parent().parent().remove();
-
-            if ( $("#contenedorProductosKit").html() != "" && $("#contenedorProductosKit").html() != null ){
-                sumaTotalCostos();
-            } else {
-                $("#ingSubtotalPedido").val("");
-                $("#ingIVAPedido").val("");
-                $("#ingTotalPedido").val("");
-            }
-
-        }
-    });
-});
-
-/*=============================================
-MODIFICAR CANTIDAD DEL PRODUCTO
-=============================================*/
-$(document).on("change", ".nuevaCantidadProducto", function (){
-    var precio = $(this).parent().parent().parent().children(".ingresoPrecioProducto").children().children().children(".nuevoPrecioProducto");
-
-    var precioFinal = $(this).val() * precio.attr("precioUnitario");
-
-    precio.val(precioFinal);
-    $(".nuevoPrecioProducto").number(true, 2);
-    sumaTotalCostos();
-});
-
-/*=============================================
-SUMAR TOTALES PARA OBTENER VALOR DEL PEDIDO
-=============================================*/
-function sumaTotalCostos() {
-
-    var precioItem = $(".nuevoPrecioProducto"),
-        arraySumaCostos = [];
-
-    for (var i = 0; i < precioItem.length; i++) {
-
-        arraySumaCostos.push(Number($(precioItem[i]).val()));
-
-    }
-
-    function sumarArrayCostos(total, numero) {
-        return total + numero;
-    }
-
-    var sumaTotalCostos = arraySumaCostos.reduce(sumarArrayCostos),
-        IVA = 0,
-        total = 0;
-
-    if ( $("#ingIVAPedido").val() != null && $("#ingIVAPedido").val() != "" )
-        IVA = $("#ingIVAPedido").val();
-    
-    total = sumaTotalCostos + ( (sumaTotalCostos * IVA) / 100);
-
-    $("#ingSubtotalPedido").val(sumaTotalCostos).number(true, 2);
-    $("#ingTotalPedido").val(total).number(true, 2);
-    // console.log("sumaTotalCostos", sumaTotalCostos);
-
-}
-
-/*=============================================
-CALCULAR IVA
-=============================================*/
-$(document).on("change", "#ingIVAPedido", function () {
-    if ( $("#ingSubtotalPedido").val() != "" && $("#ingSubtotalPedido").val() != null ) {
-        sumaTotalCostos();
-    }
 });
