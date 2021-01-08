@@ -155,7 +155,7 @@ function listarProductos() {
         "anticipo": anticipo
     });
     
-    console.log("listaProductos", listaProductos);
-    console.log("informacionPedido", informacionPedido);
+    console.log("listaProductos", JSON.stringify(listaProductos));
+    console.log("informacionPedido", JSON.stringify(informacionPedido));
 
 }
