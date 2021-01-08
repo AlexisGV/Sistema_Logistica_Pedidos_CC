@@ -22,19 +22,19 @@
 
             #Marca
             if ( $datos["checkMarca"] == "off" ):
-                $abvMarca = "M";
+                $abvMarca = "Marca";
                 $marca = $datos["marca"];
             else :
-                $abvMarca = "OM";
+                $abvMarca = "Otra marca";
                 $marca = $datos["otraMarca"];
             endif;
 
             #Forma
             if ( $datos["checkForma"] == "off" ):
-                $abvForma = "F";
+                $abvForma = "Forma";
                 $forma = $datos["forma"];
             else :
-                $abvForma = "OF";
+                $abvForma = "Otra forma";
                 $forma = $datos["otraForma"];
             endif;
 
@@ -77,7 +77,7 @@
                 $observacion = "Sin observaciones";
             endif;
 
-            $descripcionProducto = $datos["titulo"] . " | " . $abvMarca . "-" . $marca . " | " . $abvForma . "-" . $forma . " | C[" . $corte ."] | OC-" . $otroCorte . " | A[" . $acabado . "] | OA-" . $otroAcabado . " | Observación: " . $observacion;
+            $descripcionProducto = $datos["titulo"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Corte(s): " . $corte ." | Otro corte: " . $otroCorte . " | Acabado(s): " . $acabado . " | Otro acabado: " . $otroAcabado . " | Observación: " . $observacion;
 
             $datosProducto += [ "descripcion" => $descripcionProducto ];
             $datosProducto += [ "precioInicial" => $datos["precioFinal"] ];

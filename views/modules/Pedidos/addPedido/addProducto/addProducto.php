@@ -9,7 +9,7 @@ TITULO O DESCRIPCION DEL PRODUCTO
         </div>
         <textarea type="text" class="form-control" name="ingNomProducto" id="ingNomProducto" placeholder="Titulo o descripción breve del producto" autocomplete="off" rows="1" required></textarea>
         <div class="invalid-feedback" id="errorIngNomProducto">
-            Este campo solo admite los siguientes caracteres especiales: (,) Comas y (.) Puntos. NO lo puedes dejar vacío y además, no acepta valores númericos.
+            Este campo solo admite los siguientes caracteres especiales: (,) Comas y (.) Puntos. NO lo puedes dejar vacío.
         </div>
     </div>
 </div>

@@ -190,7 +190,7 @@ function limpiarCamposAgregarProducto() {
 VALIDAR TITULO O DESCRIPCION
 =============================================*/
 $(document).on("keyup change blur", "#ingNomProducto", function () {
-    let expresion = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s]+$/;
+    let expresion = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s]+$/;
     validarExpresion($(this), expresion);
 });
 
@@ -303,7 +303,7 @@ function agregarProducto(contendor, descripcion, cantidad, precioInicial, descue
         '                <div class="input-group-prepend">'+
         '                    <div class="input-group-text bg-transparent border-0 p-0 mr-2"><button type="button" class="btn btn-danger btnQuitarProductoPedido"><i class="fas fa-times"></i></button></div>'+
         '                 </div>'+
-        '                 <textarea class="form-control textAreasProductos" name="ingProductoNuevo" id="ingProductoNuevo" placeholder="Descripción del producto" autocomplete="off" readonly required rows="2">'+descripcion+'</textarea>'+
+        '                 <textarea class="form-control textAreasProductos" name="ingProductoNuevo" id="ingProductoNuevo" placeholder="Descripción del producto" autocomplete="off" readonly required rows="1">'+descripcion+'</textarea>'+
         '            </div>'+
         '        </div>'+
         '    </div>'+
@@ -334,7 +334,7 @@ function agregarProducto(contendor, descripcion, cantidad, precioInicial, descue
         '</div>'
     );
 
-    $(".ingPrecioProducto").number(true, 2);
+    $(".nuevoPrecioProducto").number(true, 2);
     autosize($('.textAreasProductos'));
 }
 
@@ -342,7 +342,7 @@ function agregarProducto(contendor, descripcion, cantidad, precioInicial, descue
 VALIDAR ENVIO DE FORMULARIO
 =============================================*/
 $(document).on("click", ".btnAñadirProducto", function (e) {
-    let expTit = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s]+$/,
+    let expTit = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s]+$/,
         expOMOCObv = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s]+$/,
         expOFOA = /^[A-Za-zñÑáÁéÉíÍóÓúÚ,.\s]+$/,
         expInt = /^[0-9]+$/,
@@ -459,6 +459,12 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
             // $("#muestra").html(respuesta);
             agregarProducto($("#contenedorProductosKit"), respuesta["descripcion"], respuesta["cantidad"], respuesta["precioInicial"], respuesta["descuento"], respuesta["precioFinal"]);
             $(".closeModalProducto").trigger("click");
+
+            swal({
+                title: "Producto añadido con éxito!",
+                text: "El producto se agrego de forma correcta a la lista del pedido.",
+                icon: "success",
+            });
         }
     });
 
@@ -477,18 +483,40 @@ $(document).on("click", ".closeModalProducto", function () {
 ELIMINAR PRODUCTO DEL PEDIDO
 =============================================*/
 $(document).on("click", ".btnQuitarProductoPedido", function(){
-    $(this).parent().parent().parent().parent().parent().parent().remove();
+
+    swal({
+        title: "Quitar producto",
+        text: "¿Estas seguro de que quieres remover este producto?",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                value: null,
+                visible: true,
+                className: "bg-danger",
+            },
+            confirm: {
+                text: "Confirmar",
+                value: true,
+                visible: true,
+                className: "bg-primary",
+            }
+        },
+    }).then((result) => {
+        if (result) {
+            $(this).parent().parent().parent().parent().parent().parent().remove();
+        }
+    });
 });
 
 /*=============================================
 MODIFICAR CANTIDAD DEL PRODUCTO
 =============================================*/
-$("#formAgregarProducto").on("change", "input.nuevaCantidadProducto", function (){
+$(document).on("change", ".nuevaCantidadProducto", function (){
     var precio = $(this).parent().parent().parent().children(".ingresoPrecioProducto").children().children().children(".nuevoPrecioProducto");
 
-    var precioFinal = precio.attr("precioFinal");
+    var precioFinal = $(this).val() * precio.attr("precioFinal");
 
     precio.val(precioFinal);
-
-    console.log(precioFinal);
+    $(".nuevoPrecioProducto").number(true, 2);
 });
