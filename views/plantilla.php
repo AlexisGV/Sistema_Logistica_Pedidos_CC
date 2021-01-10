@@ -25,6 +25,7 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- SweetAlert2 -->
   <script src="views/plugins/sweetalert2/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="views/css/plantilla.css">
 </head>
 
 

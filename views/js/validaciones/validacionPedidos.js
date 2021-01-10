@@ -143,11 +143,23 @@ $(document).on("submit", "#formAddPedido", function (e) {
             if (validarExpresion($("#ingAnticipoPedido"), expresion3)) {
                 $("#erroringAnticipoPedido").hide();
             } else {
-                if ($("#ingAnticipoPedido").val() != "") $("#erroringAnticipoPedido").show();
+                if ($("#ingAnticipoPedido").val() != "") {
+                    $("#erroringAnticipoPedido").show();
+                    e.preventDefault();
+                }
                 else $("#erroringAnticipoPedido").hide();
             }
 
         }
+    }
+
+    if ( $("#contenedorProductosKit").html() == "" || $("#contenedorProductosKit").html() == null ){
+        swal({
+            title: "Ningún producto en la lista",
+            text: "Para poder levantar un pedido, debes agregar al menos un producto a la lista.",
+            icon: "error",
+        });
+        e.preventDefault();
     }
 
 });

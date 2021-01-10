@@ -17,7 +17,13 @@ INFORMACION DEL PEDIDO
                 <div class="input-group-prepend">
                     <div class="input-group-text">N° Pedido</i></div>
                 </div>
-                <input type="text" class="form-control" name="ingFolioPedido" id="ingFolioPedido" placeholder="Número de pedido" autocomplete="off" readonly value="0000001">
+
+                <?php
+                
+                    $numeroPedido = ControladorPedidos::ctrObtenerNumeroPedido();
+                    echo '<input type="text" class="form-control" name="ingFolioPedido" id="ingFolioPedido" placeholder="Número de pedido" autocomplete="off" readonly value="'. $numeroPedido .'">';
+
+                ?>
             </div>
         </div>
     </div>
@@ -39,7 +45,7 @@ INFORMACION DEL PEDIDO
                 <div class="input-group-prepend">
                     <div class="input-group-text">Fecha inc.</div>
                 </div>
-                <input type="text" class="form-control text-center" name="ingFechaInicio" id="ingFechaInicio" placeholder="Fecha pedido" autocomplete="off" readonly value="<?php echo strftime("%A, %d de %B del %Y", strtotime($fechaActual));; ?>">
+                <input type="text" class="form-control text-center" name="ingFechaInicio" id="ingFechaInicio" placeholder="Fecha pedido" autocomplete="off" readonly value="<?php echo strftime("%A, %d de %B del %Y", strtotime($fechaActual)); ?>">
             </div>
         </div>
     </div>

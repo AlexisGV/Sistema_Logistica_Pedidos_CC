@@ -1,12 +1,13 @@
 /*=============================================
 ELIMINAR PRODUCTO DEL PEDIDO
 =============================================*/
-$(document).on("click", ".btnQuitarProductoPedido", function(){
+$("#formAddPedido").on("click", "button.btnQuitarProductoPedido", function(){
 
     swal({
         title: "Quitar producto",
         text: "¿Estas seguro de que quieres remover este producto?",
         icon: "warning",
+        closeOnClickOutside: false,
         buttons: {
             cancel: {
                 text: "Cancelar",
@@ -31,8 +32,10 @@ $(document).on("click", ".btnQuitarProductoPedido", function(){
                 listarProductos();
             } else {
                 $("#ingSubtotalPedido").val("");
-                $("#ingIVAPedido").val("");
+                $("#ingIVAPedido").val(0);
                 $("#ingTotalPedido").val("");
+                $("#listaProductos").val("");
+                $("#informacionPedido").val("");
             }
 
         }
@@ -42,7 +45,7 @@ $(document).on("click", ".btnQuitarProductoPedido", function(){
 /*=============================================
 MODIFICAR CANTIDAD DEL PRODUCTO
 =============================================*/
-$(document).on("change", ".nuevaCantidadProducto", function (){
+$("#formAddPedido").on("change", "input.nuevaCantidadProducto", function (){
     var precio = $(this).parent().parent().parent().children(".ingresoPrecioProducto").children().children().children(".nuevoPrecioProducto");
 
     var precioFinal = $(this).val() * precio.attr("precioUnitario");
@@ -155,7 +158,9 @@ function listarProductos() {
         "anticipo": anticipo
     });
     
-    console.log("listaProductos", JSON.stringify(listaProductos));
-    console.log("informacionPedido", JSON.stringify(informacionPedido));
+    // console.log("listaProductos", JSON.stringify(listaProductos));
+    // console.log("informacionPedido", JSON.stringify(informacionPedido));
+    $("#listaProductos").val(JSON.stringify(listaProductos));
+    $("#informacionPedido").val(JSON.stringify(informacionPedido));
 
 }

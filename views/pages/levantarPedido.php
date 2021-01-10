@@ -57,6 +57,8 @@ CONTENEDOR
 
                                     <!-- BOTON PARA AGREGAR NUEVOS PRODUCTOS -->
                                     <div class="col-12 text-center mb-3">
+                                        <input type="hidden" name="informacionPedido" id="informacionPedido">
+                                        <input type="hidden" name="listaProductos" id="listaProductos">
                                         <button type="button" class="btn btn-outline-success btnAgregarProducto" data-toggle="modal" data-target="#modalAddProducto"><i class="fas fa-plus-circle mr-1"></i> Agregar producto</button>
                                     </div>
                                 </div>
@@ -67,7 +69,7 @@ CONTENEDOR
 
                             <div class="card-footer bg-transparent" style="border-top: 1px solid #1A6890;">
                                 <div class="col-12 text-right">
-                                    <button type="submit" class="btn btn-primary">Enviar pedido</button>
+                                    <button type="submit" class="btn btn-primary">Levantar pedido</button>
                                 </div>
                             </div>
                         </form>
@@ -90,7 +92,7 @@ CONTENEDOR
 
 <?php
 
-// $elimiarRol = new ControladorRoles();
-// $elimiarRol->ctrEliminarRol();
+    $levantarPedido = new ControladorPedidos();
+    $levantarPedido->ctrLevantarPedido();
 
 ?>
