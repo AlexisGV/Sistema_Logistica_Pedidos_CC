@@ -33,6 +33,16 @@ class ControladorPedidos
         return $consulta;
     }
 
+    /*=========================================================
+    TRAER REGISTROS DE FORMA DESCENDENTE
+    =========================================================*/
+    static public function ctrTraerRegistrosDescendentes($tabla, $item)
+    {
+
+        $consulta = ModeloPedidos::mdlTraerRegistrosDescendentes($tabla, $item);
+        return $consulta;
+    }
+
     /*=============================================
     AGREGAR PRODUCTOS AL LEVANTAR PEDIDO - AJAX
     =============================================*/

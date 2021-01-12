@@ -50,6 +50,21 @@ class ModeloPedidos
         }
     }
 
+    /*=========================================================
+    TRAER REGISTROS DE FORMA DESCENDENTE
+    =========================================================*/
+    static public function mdlTraerRegistrosDescendentes($tabla, $item)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY $item DESC");
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
     /*=============================================
     VERIFICAR DUPLICADO DE PEDIDO
     =============================================*/
@@ -98,9 +113,9 @@ class ModeloPedidos
         $stmt->bindParam(":iva", $datos["iva"], PDO::PARAM_INT);
         $stmt->bindParam(":total", $datos["total"], PDO::PARAM_STR);
 
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
-        }else{
+        } else {
             return "error";
         }
 
@@ -111,7 +126,8 @@ class ModeloPedidos
     /*=============================================
     REGISTRO DE ESTADOS DE PEDIDO
     =============================================*/
-    static public function mdlRegistrarEstados($tabla, $idPedido, $idEstado, $idUsuario){
+    static public function mdlRegistrarEstados($tabla, $idPedido, $idEstado, $idUsuario)
+    {
         $estado = 0;
         $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Id_Pedido2, Id_Estatus1, Id_Usuario1, Estado) VALUES (:idPedido, :idEstado, :idUsuario, :estado)");
         $stmt->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
@@ -119,9 +135,9 @@ class ModeloPedidos
         $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
         $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
 
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
-        }else{
+        } else {
             return "error";
         }
 
@@ -132,7 +148,8 @@ class ModeloPedidos
     /*=============================================
     REGISTRO DE PRODUCTOS
     =============================================*/
-    static public function mdlRegistrarProducto($tabla, $datos){
+    static public function mdlRegistrarProducto($tabla, $datos)
+    {
 
         $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Id_Detalle_Pedido, Cantidad, Descripcion, Precio_Uni, Descuento, Importe, Observacion, Id_Pedido1, Id_Marca1, Id_Forma1) VALUE (:idProducto, :cantidad, :descripcion, :precioUnitario, :descuento, :importe, :observacion, :idPedido, :idMarca, :idForma)");
         $stmt->bindParam(":idProducto", $datos["idProducto"], PDO::PARAM_INT);
@@ -146,30 +163,31 @@ class ModeloPedidos
         $stmt->bindParam(":idMarca", $datos["idMarca"], PDO::PARAM_INT);
         $stmt->bindParam(":idForma", $datos["idForma"], PDO::PARAM_INT);
 
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
-        }else{
+        } else {
             print_r($stmt->errorInfo());
             return "error";
         }
 
         $stmt->closeCursor();
         $stmt = null;
-
     }
 
     /*=============================================
     ACTUALIZAR CAMPO NUMERICO (CLAVES)
     =============================================*/
-    static public function mdlActualizarCampoNumerico($tabla, $item, $valor, $item2 ,$idProducto){
+    static public function mdlActualizarCampoNumerico($tabla, $item, $valor, $item2, $idProducto)
+    {
         $stmt = Conexion::conectar()->prepare(
-                "UPDATE $tabla
+            "UPDATE $tabla
                  SET $item = :$item
-                 WHERE $item2 = :$item2");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
-        $stmt->bindParam(":".$item2, $idProducto, PDO::PARAM_INT);
+                 WHERE $item2 = :$item2"
+        );
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item2, $idProducto, PDO::PARAM_INT);
 
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
         } else {
             print_r($stmt->errorInfo());
@@ -183,15 +201,17 @@ class ModeloPedidos
     /*=============================================
     ACTUALIZAR CAMPO DE CADENA (OTROS DATOS)
     =============================================*/
-    static public function mdlActualizarCampoCadena($tabla, $item, $valor, $item2 ,$idProducto){
+    static public function mdlActualizarCampoCadena($tabla, $item, $valor, $item2, $idProducto)
+    {
         $stmt = Conexion::conectar()->prepare(
-                "UPDATE $tabla
+            "UPDATE $tabla
                  SET $item = :$item
-                 WHERE $item2 = :$item2");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);
-        $stmt->bindParam(":".$item2, $idProducto, PDO::PARAM_INT);
+                 WHERE $item2 = :$item2"
+        );
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $idProducto, PDO::PARAM_INT);
 
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
         } else {
             print_r($stmt->errorInfo());
@@ -205,12 +225,13 @@ class ModeloPedidos
     /*=============================================
     INSERSICIÓN DE CORTES / ACABADOS
     =============================================*/
-    static public function mdlInsertarCaracteristicas($tabla, $item, $valor, $item2, $valor2){
+    static public function mdlInsertarCaracteristicas($tabla, $item, $valor, $item2, $valor2)
+    {
         $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla ($item, $item2) VALUES (:$item, :$item2)");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
-        $stmt->bindParam(":".$item2, $valor2, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_INT);
 
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
         } else {
             print_r($stmt->errorInfo());
@@ -224,21 +245,23 @@ class ModeloPedidos
     /*=============================================
     ACTUALIZAR ESTADO DE PEDIDO
     =============================================*/
-    static public function mdlActualizarEstadoPedido($tabla, $item, $fecha, $idPedido, $idEsatado, $item2, $idUsuario){
+    static public function mdlActualizarEstadoPedido($tabla, $item, $fecha, $idPedido, $idEsatado, $item2, $idUsuario)
+    {
         $estado = "1";
         $stmt = Conexion::conectar()->prepare(
             "UPDATE $tabla
              SET $item=:$item,
                  $item2=:$item2,
                  Estado=:estado
-             WHERE Id_Pedido2=:idPedido AND Id_Estatus1=:idEstado");
-        $stmt->bindParam(":".$item, $fecha, PDO::PARAM_STR);
-        $stmt->bindParam(":".$item2, $idUsuario, PDO::PARAM_INT);
+             WHERE Id_Pedido2=:idPedido AND Id_Estatus1=:idEstado"
+        );
+        $stmt->bindParam(":" . $item, $fecha, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $idUsuario, PDO::PARAM_INT);
         $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
         $stmt->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
         $stmt->bindParam(":idEstado", $idEsatado, PDO::PARAM_INT);
 
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
         } else {
             print_r($stmt->errorInfo());
@@ -252,11 +275,12 @@ class ModeloPedidos
     /*=============================================
     ELIMINAR PEDIDO
     =============================================*/
-    static public function mdlEliminarPedido($tabla, $item, $valor){
+    static public function mdlEliminarPedido($tabla, $item, $valor)
+    {
         $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE $item=:$item");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
         } else {
             print_r($stmt->errorInfo());
@@ -266,7 +290,4 @@ class ModeloPedidos
         $stmt->closeCursor();
         $stmt = null;
     }
-    
-    
-
 }

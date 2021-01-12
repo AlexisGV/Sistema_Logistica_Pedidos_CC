@@ -45,6 +45,7 @@
           $_GET["pagina"] == "mainUsuarios" ||
           $_GET["pagina"] == "mainRoles" ||
           $_GET["pagina"] == "levantarPedido" ||
+          $_GET["pagina"] == "administrarPedidos" ||
           $_GET["pagina"] == "mainAcabado" ||
           $_GET["pagina"] == "mainCorte" ||
           $_GET["pagina"] == "mainForma" ||
