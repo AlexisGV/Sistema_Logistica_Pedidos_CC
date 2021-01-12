@@ -250,6 +250,27 @@ class ControladorPedidos
                     } else {
 
                         $regErroneo = 0;
+                        
+                        /* ACTUALIZAR PRIMER ESTADO DEL PEDIDO
+                        -------------------------------------------------- */
+                        #Traer clave de estado 1
+                        $tabla = "estatus_pedido";
+                        $item = "Nombre_Estatus";
+                        $valor = "Pedido en tienda";
+                        $estatus = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
+                        $idEstatus = $estatus["Id_Estatus"];
+
+                        $tabla = "actualizaciones_pedido";
+                        $campoFecha = "Fecha_Actualizacion";
+                        $campoUsuario = "Id_Usuario1";
+                        $idUsuario = $_SESSION["idUsuario"];
+
+                        $actualizarEstadoUno = ModeloPedidos::mdlActualizarEstadoPedido($tabla, $campoFecha, $fechaActual, $idPedido, $idEstatus, $campoUsuario, $idUsuario);
+
+                        if ( $actualizarEstadoUno == "error" ){
+                            $regErroneo++;
+                        }
+
             
                         for ( $i = 0; $i < count($listaProductos); $i++ ) {
 

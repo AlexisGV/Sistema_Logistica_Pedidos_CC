@@ -220,5 +220,33 @@ class ModeloPedidos
         $stmt->closeCursor();
         $stmt = null;
     }
-    
+
+    /*=============================================
+    ACTUALIZAR ESTADO DE PEDIDO
+    =============================================*/
+    static public function mdlActualizarEstadoPedido($tabla, $item, $fecha, $idPedido, $idEsatado, $item2, $idUsuario){
+        $estado = "1";
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla
+             SET $item=:$item,
+                 $item2=:$item2,
+                 Estado=:estado
+             WHERE Id_Pedido2=:idPedido AND Id_Estatus1=:idEstado");
+        $stmt->bindParam(":".$item, $fecha, PDO::PARAM_STR);
+        $stmt->bindParam(":".$item2, $idUsuario, PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
+        $stmt->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
+        $stmt->bindParam(":idEstado", $idEsatado, PDO::PARAM_INT);
+
+        if ( $stmt->execute() ){
+            return "ok";
+        } else {
+            print_r($stmt->errorInfo());
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
 }
