@@ -249,4 +249,24 @@ class ModeloPedidos
         $stmt = null;
     }
 
+    /*=============================================
+    ELIMINAR PEDIDO
+    =============================================*/
+    static public function mdlEliminarPedido($tabla, $item, $valor){
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE $item=:$item");
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+
+        if ( $stmt->execute() ){
+            return "ok";
+        } else {
+            print_r($stmt->errorInfo());
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+    
+    
+
 }

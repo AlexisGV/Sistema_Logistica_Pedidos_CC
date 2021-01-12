@@ -247,6 +247,12 @@ class ControladorPedidos
                                     }
                                 });
                               </script>';
+                        
+                        $tabla = "pedido";
+                        $item = "Id_Pedido";
+                        $eliminarPedido = ModeloPedidos::mdlEliminarPedido($tabla, $item, $idPedido);
+                              
+                        return false;
                     } else {
 
                         $regErroneo = 0;
@@ -505,6 +511,24 @@ class ControladorPedidos
                                 
                             } else {
                                 #Error al registrar un poducto - Borrar el pedido
+                                echo '<script>
+                                    swal({
+                                        title: "Error al registrar un producto!",
+                                        text: "Parace que hubo un error al registrar el producto.",
+                                        icon: "error",
+                                        closeOnClickOutside: false,
+                                    }).then( (result) => {
+                                        if (window.history.replaceState) {
+                                            window.history.replaceState(null, null, window.location.href);
+                                        }
+                                    });
+                                  </script>';
+
+                                $tabla = "pedido";
+                                $item = "Id_Pedido";
+                                $eliminarPedido = ModeloPedidos::mdlEliminarPedido($tabla, $item, $idPedido);
+
+                                return false;
                             }
                             
                         }
@@ -514,7 +538,7 @@ class ControladorPedidos
                         if ($regErroneo > 0){
                             echo '<script>
                                     swal({
-                                        title: "Eror al levantar el pedido!",
+                                        title: "Error al levantar el pedido!",
                                         text: "Parace que hubo algunos errores al registrar el pedido, intenta de nuevo.",
                                         icon: "error",
                                         closeOnClickOutside: false,
@@ -524,6 +548,12 @@ class ControladorPedidos
                                         }
                                     });
                                   </script>';
+
+                            $tabla = "pedido";
+                            $item = "Id_Pedido";
+                            $eliminarPedido = ModeloPedidos::mdlEliminarPedido($tabla, $item, $idPedido);
+                                        
+                            return false;
                         }else{
                             echo '<script>
                                     swal({
