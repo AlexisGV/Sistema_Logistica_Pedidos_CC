@@ -248,6 +248,8 @@ class ControladorPedidos
                                 });
                               </script>';
                     } else {
+
+                        $regErroneo = 0;
             
                         for ( $i = 0; $i < count($listaProductos); $i++ ) {
 
@@ -319,6 +321,10 @@ class ControladorPedidos
                                 "idForma" => $idForma
                             );
 
+                            echo '<div class="p-5 text-center">';
+                            echo '<pre>'; echo print_r($datosProducto); echo '</pre>';
+                            echo '</div>';
+
                             #Registrar producto
                             $tabla = "detalle_pedido";
                             $registrarProducto = ModeloPedidos::mdlRegistrarProducto($tabla, $datosProducto);
@@ -326,7 +332,6 @@ class ControladorPedidos
                             if ( $registrarProducto == "ok" ) {
 
                                 $item2 = "Id_Detalle_Pedido";
-                                $regErroneo = 0;
 
                                 /* ACTUALIZAR MARCAS
                                 -------------------------------------------------- */
@@ -346,6 +351,7 @@ class ControladorPedidos
                                     if ( $actualizarMarca == "error" ){
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
+                                        break;
                                     }
                                 } else if ( $arrayMarca[0] == "Otra marca" ) {
                                     $tabla = "detalle_pedido";
@@ -356,6 +362,7 @@ class ControladorPedidos
                                     if ( $actualizarMarca == "error" ){
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
+                                        break;
                                     }
                                 }
 
@@ -377,6 +384,7 @@ class ControladorPedidos
                                     if ( $actualizarForma == "error" ){
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
+                                        break;
                                     }
                                 } else if ( $arrayForma[0] == "Otra forma" ) {
                                     $tabla = "detalle_pedido";
@@ -387,17 +395,18 @@ class ControladorPedidos
                                     if ( $actualizarForma == "error" ){
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
+                                        break;
                                     }
                                 }
 
                                 /* ACTUALIZAR / INGRESAR CORTE(S)
                                 -------------------------------------------------- */
                                 if ( $cortesObtenidos[0] != "No especifica" ){
-                                    for ( $i = 0; $i < count($cortesObtenidos); $i++ ){
+                                    for ( $j = 0; $j < count($cortesObtenidos); $j++ ){
                                         #Traer clave del corte
                                         $tabla = "corte";
                                         $item = "Corte";
-                                        $valorCorte = $cortesObtenidos[$i];
+                                        $valorCorte = $cortesObtenidos[$j];
                                         $corte = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valorCorte);
                                         $idCorte = $corte["Id_Corte"];
 
@@ -410,32 +419,35 @@ class ControladorPedidos
                                         if ( $registrarCorte == "error" ){
                                             #Error al ingresar cortes - Eliminar pedido
                                             $regErroneo++;
+                                            break;
                                         }
                                     }
                                 }
 
                                 /* ACTUALIZAR OTRO CORTE
                                 -------------------------------------------------- */
-                                if ( $arrayOtroCorte[1] != "No" ){
+                                $valorOtroCorte = $arrayOtroCorte[1];
+                                if ( $valorOtroCorte != "No" ){
                                     $tabla = "detalle_pedido";
                                     $item = "Otro_Corte";
 
-                                    $actualizarOtroCorte = ModeloPedidos::mdlActualizarCampoCadena($tabla, $item, $arrayOtroCorte[1], $item2, $idProductoNuevo);
+                                    $actualizarOtroCorte = ModeloPedidos::mdlActualizarCampoCadena($tabla, $item, $valorOtroCorte, $item2, $idProductoNuevo);
 
                                     if ( $actualizarOtroCorte == "error" ){
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
+                                        break;
                                     }
                                 }
 
                                 /* ACTUALIZAR / INGRESAR ACABADO(S)
                                 -------------------------------------------------- */
                                 if ( $acabadosObtenidos[0] != "No especifica" ){
-                                    for ( $i = 0; $i < count($acabadosObtenidos); $i++ ){
+                                    for ( $j = 0; $j < count($acabadosObtenidos); $j++ ){
                                         #Traer clave del acabado
                                         $tabla = "acabado";
                                         $item = "Acabado";
-                                        $valorAcabado = $acabadosObtenidos[$i];
+                                        $valorAcabado = $acabadosObtenidos[$j];
                                         $acabado = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valorAcabado);
                                         $idAcabado = $acabado["Id_Acabado"];
 
@@ -448,56 +460,60 @@ class ControladorPedidos
                                         if ( $registrarAcabado == "error" ){
                                             #Error al ingresar acabados - Eliminar pedido
                                             $regErroneo++;
+                                            break;
                                         }
                                     }
                                 }
 
                                 /* ACTUALIZAR OTRO ACABADO
                                 -------------------------------------------------- */
-                                if ( $arrayOtroAcabado[1] != "No" ){
+                                $valorOtroAcabado = $arrayOtroAcabado[1];
+                                if ( $valorOtroAcabado != "No" ){
                                     $tabla = "detalle_pedido";
                                     $item = "Otro_Acabado";
 
-                                    $actualizarOtroAcabado = ModeloPedidos::mdlActualizarCampoCadena($tabla, $item, $arrayOtroAcabado[1], $item2, $idProductoNuevo);
+                                    $actualizarOtroAcabado = ModeloPedidos::mdlActualizarCampoCadena($tabla, $item, $valorOtroAcabado, $item2, $idProductoNuevo);
 
                                     if ( $actualizarOtroAcabado == "error" ){
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
+                                        break;
                                     }
                                 }
 
-                                /* EVALUAR SI HUBO ERRORES
-                                -------------------------------------------------- */
-                                if ($regErroneo > 0){
-                                    echo '<script>
-                                            swal({
-                                                title: "Eror al levantar el pedido!",
-                                                text: "Parace que hubo algunos errores al registrar el pedido, intenta de nuevo.",
-                                                icon: "error",
-                                                closeOnClickOutside: false,
-                                            }).then( (result) => {
-                                                if (window.history.replaceState) {
-                                                    window.history.replaceState(null, null, window.location.href);
-                                                }
-                                            });
-                                          </script>';
-                                }else{
-                                    echo '<script>
-                                            swal({
-                                                title: "Transacción exitosa!",
-                                                text: "El pedido se levanto de forma correcta, puedes verlo en el apartado de: Admistrar pedido.",
-                                                icon: "success",
-                                                closeOnClickOutside: false,
-                                            }).then( (result) => {
-                                                window.location = "levantarPedido";
-                                            });
-                                          </script>';
-                                }
-
+                                
                             } else {
                                 #Error al registrar un poducto - Borrar el pedido
                             }
-                
+                            
+                        }
+
+                        /* EVALUAR SI HUBO ERRORES
+                        -------------------------------------------------- */
+                        if ($regErroneo > 0){
+                            echo '<script>
+                                    swal({
+                                        title: "Eror al levantar el pedido!",
+                                        text: "Parace que hubo algunos errores al registrar el pedido, intenta de nuevo.",
+                                        icon: "error",
+                                        closeOnClickOutside: false,
+                                    }).then( (result) => {
+                                        if (window.history.replaceState) {
+                                            window.history.replaceState(null, null, window.location.href);
+                                        }
+                                    });
+                                  </script>';
+                        }else{
+                            echo '<script>
+                                    swal({
+                                        title: "Transacción exitosa!",
+                                        text: "El pedido se levanto de forma correcta, puedes verlo en el apartado de: Admistrar pedido.",
+                                        icon: "success",
+                                        closeOnClickOutside: false,
+                                    }).then( (result) => {
+                                        window.location = "levantarPedido";
+                                    });
+                                  </script>';
                         }
             
                     }
