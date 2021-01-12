@@ -485,11 +485,11 @@ class ControladorPedidos
                                     echo '<script>
                                             swal({
                                                 title: "Transacción exitosa!",
-                                                text: "El pedido se levanto de forma correcta, puedes verlo en el apartado de "Admistrar pedido".",
+                                                text: "El pedido se levanto de forma correcta, puedes verlo en el apartado de: Admistrar pedido.",
                                                 icon: "success",
                                                 closeOnClickOutside: false,
                                             }).then( (result) => {
-                                                windows.location = "levantarPedido";
+                                                window.location = "levantarPedido";
                                             });
                                           </script>';
                                 }
