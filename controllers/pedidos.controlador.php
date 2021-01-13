@@ -43,6 +43,15 @@ class ControladorPedidos
         return $consulta;
     }
 
+    /*=========================================================
+    SELECCIONAR ESTADO MAS RECIENTE DEL PEDIDO
+    =========================================================*/
+    static public function ctrTraerEstadoPedido($tabla, $idPedido, $itemOrden)
+    {
+        $estadosPedido = ModeloPedidos::mdlTraerEstadoPedido($tabla, $idPedido, $itemOrden);
+        return $estadosPedido;
+    }
+
     /*=============================================
     AGREGAR PRODUCTOS AL LEVANTAR PEDIDO - AJAX
     =============================================*/

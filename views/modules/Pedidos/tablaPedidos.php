@@ -2,6 +2,7 @@
 setlocale(LC_ALL,"spanish.utf8");
 date_default_timezone_set('UTC');
 date_default_timezone_set("America/Mexico_City");
+$fechaActual = date('Y-m-d');
 ?>
 
 <table class="table table-hover table-striped text-md-center tablas dt-responsive">
@@ -12,6 +13,7 @@ date_default_timezone_set("America/Mexico_City");
             <th scope="col">Fecha Inicio</th>
             <th scope="col">Fecha Entrega</th>
             <th scope="col">Días restantes</th>
+            <th scope="col">Estado</th>
             <th scope="col">Acciones</th>
         </tr>
     </thead>
@@ -29,7 +31,7 @@ date_default_timezone_set("America/Mexico_City");
                 <td><?php echo strftime("%A, %d de %B del %Y a las %r", strtotime($value["Fecha_Compromiso"])); ?></td>
                 <td>
                     <?php
-                        $date1 = new DateTime($value["Fecha_Inicio"]);
+                        $date1 = new DateTime($fechaActual);
                         $date2 = new DateTime($value["Fecha_Compromiso"]);
                         $diff = $date1->diff($date2);
                         $dias = $diff->days;
@@ -43,6 +45,40 @@ date_default_timezone_set("America/Mexico_City");
                         }else{
                             echo '<span class="badge bg-danger" style="font-size:1rem;">'. $dias . ' días</span>';
                         }
+                    ?>
+                </td>
+                <td>
+                    <?php
+                        $tabla = "actualizaciones_pedido";
+                        $idPedido = $value["Id_Pedido"];
+                        $item = "Orden";
+                        $estados = ControladorPedidos::ctrTraerEstadoPedido($tabla, $idPedido, $item);
+                        foreach ($estados as $key => $value) :
+
+                            $orden = $value["Orden"];
+                            $estado = $value["Nombre_Estatus"];
+
+                            if ( $orden == 1 ) :
+                                echo '<span class="badge bg-primary" style="font-size:1rem;">'. $estado . '</span>';
+                            elseif ( $orden == 2 ):
+                                echo '<span class="badge bg-success" style="font-size:1rem;">'. $estado . '</span>';
+                            elseif ( $orden == 3 ):
+                                echo '<span class="badge bg-danger" style="font-size:1rem;">'. $estado . '</span>';
+                            elseif ( $orden == 4 ):
+                                echo '<span class="badge bg-indigo" style="font-size:1rem;">'. $estado . '</span>';
+                            elseif ( $orden == 5 ):
+                                echo '<span class="badge bg-navy" style="font-size:1rem;">'. $estado . '</span>';
+                            elseif ( $orden == 6 ):
+                                echo '<span class="badge bg-danger" style="font-size:1rem;">'. $estado . '</span>';
+                            elseif ( $orden == 7 ):
+                                echo '<span class="badge bg-success" style="font-size:1rem;">'. $estado . '</span>';
+                            elseif ( $orden == 8 ):
+                                echo '<span class="badge bg-primary" style="font-size:1rem;">'. $estado . '</span>';
+                            elseif ( $orden == 9 ):
+                                echo '<span class="badge bg-maroon" style="font-size:1rem;">'. $estado . '</span>';
+                            endif;
+
+                        endforeach;
                     ?>
                 </td>
                 <td>

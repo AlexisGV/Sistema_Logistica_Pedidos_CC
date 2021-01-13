@@ -65,6 +65,28 @@ class ModeloPedidos
         $stmt = null;
     }
 
+    /*=========================================================
+    SELECCIONAR ESTADO MAS RECIENTE DEL PEDIDO
+    =========================================================*/
+    static public function mdlTraerEstadoPedido($tabla, $idPedido, $itemOrden){
+        $estado = 1;
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT * FROM $tabla
+             INNER JOIN estatus_pedido ON Id_Estatus=Id_Estatus1
+             WHERE Id_Pedido2=:idPedido AND Estado=:estado
+             ORDER BY $itemOrden DESC
+             LIMIT 1");
+        $stmt->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
     /*=============================================
     VERIFICAR DUPLICADO DE PEDIDO
     =============================================*/
