@@ -61,6 +61,15 @@ class ControladorPedidos
         return $infoPedido;
     }
 
+    /*=========================================================
+    TRAER PRODUCTOS DEL PEDIDO - BUSQUEDA
+    =========================================================*/
+    static public function ctrTraerProductosPedido($tabla, $item, $valor)
+    {
+        $infoPedido = ModeloPedidos::mdlTraerProductosPedido($tabla, $item, $valor);
+        return $infoPedido;
+    }
+
     /*=============================================
     AGREGAR PRODUCTOS AL LEVANTAR PEDIDO - AJAX
     =============================================*/

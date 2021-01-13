@@ -39,6 +39,21 @@ class AjaxPedidos
         echo json_encode($informacionPedido);
 
     }
+
+    /*=============================================
+    TRAER PRODUCTOS DEL PEDIDO
+    =============================================*/
+    public function ajaxVerProductosPedido(){
+
+        $tabla = "detalle_pedido";
+        $item = "Id_Pedido1";
+        $verPedidoId = $this->idPedido;
+
+        $productosPedido = ControladorPedidos::ctrTraerProductosPedido($tabla, $item, $verPedidoId);
+
+        echo json_encode($productosPedido);
+
+    }
 }
 
 /*=============================================
@@ -113,4 +128,13 @@ if ( isset($_POST["verPedidoId"]) ){
     $verPedido = new AjaxPedidos();
     $verPedido->idPedido = $_POST["verPedidoId"];
     $verPedido->ajaxVerPedido();
+}
+
+/*=============================================
+TRAER PRODUCTOS DEL PEDIDO
+=============================================*/
+if ( isset($_POST["verProdsPedidoId"]) ){
+    $verProdsPedido = new AjaxPedidos();
+    $verProdsPedido->idPedido = $_POST["verProdsPedidoId"];
+    $verProdsPedido->ajaxVerProductosPedido();
 }

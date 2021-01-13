@@ -18,9 +18,10 @@ $(document).on("click", ".btnVerDetallePedido", function () {
         processData: false,
         dataType: "json",
         success: function(respuesta){
-            console.log(respuesta);
+            // console.log(respuesta);
+            let idPedidoSeleccionado = respuesta["Id_Pedido"];
 
-            $("#viewNumeroPedido").html(respuesta["Id_Pedido"]);
+            $("#viewNumeroPedido").html(idPedidoSeleccionado);
 
             /*=============================================
             FECHAS
@@ -54,6 +55,27 @@ $(document).on("click", ".btnVerDetallePedido", function () {
             $("#datosCliente").append('<div class="text-center text-xl-right"><span class="font-weight-bold mr-1">Teléfono:</span>'+respuesta["Telefono_Cliente"]+'</div>');
 
             /*=============================================
+            MOSTRAR PRODUCTOS
+            =============================================*/
+            var datos2 = new FormData();
+            datos2.append('verProdsPedidoId', idPedidoSeleccionado);
+
+            $.ajax({
+
+                url: "ajax/pedidos.ajax.php",
+                method: "POST",
+                data: datos2,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function(respuesta){
+                    console.log(respuesta);
+                }
+            
+            });
+
+            /*=============================================
             TOTALES
             =============================================*/
             $("#totalesPedido").append('<div class="text-right"><span class="font-weight-bold mr-1">Subtotal:</span>$ '+Number(respuesta["Subtotal"]).toFixed(2)+'</div>');
@@ -78,6 +100,7 @@ LIMPIAR MODAL PARA VER DETALLES DEL PEDIDO
 =============================================*/
 $(document).on("click", ".closeModalVerDetallePedido", function(){
 
+    $("#viewNumeroPedido").html("");
     $("#fechasPedido").html("");
     $("#datosCliente").html("");
     $("#totalesPedido").html("");

@@ -105,6 +105,22 @@ class ModeloPedidos
         $stmt = null;
     }
 
+    /*=========================================================
+    TRAER PRODUCTOS DEL PEDIDO - BUSQUEDA
+    =========================================================*/
+    static public function mdlTraerProductosPedido($tabla, $item, $valor)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item=:$item");
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
     /*=============================================
     VERIFICAR DUPLICADO DE PEDIDO
     =============================================*/
