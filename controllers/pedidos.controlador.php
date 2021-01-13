@@ -358,10 +358,6 @@ class ControladorPedidos
                                 "idForma" => $idForma
                             );
 
-                            echo '<div class="p-5 text-center">';
-                            echo '<pre>'; echo print_r($datosProducto); echo '</pre>';
-                            echo '</div>';
-
                             #Registrar producto
                             $tabla = "detalle_pedido";
                             $registrarProducto = ModeloPedidos::mdlRegistrarProducto($tabla, $datosProducto);

@@ -44,7 +44,7 @@ CONTENEDOR
             </div>
 
             <?php
-            // include "views/modules/Formas/addForma/modalAddForma.php";
+            include "views/modules/Pedidos/modalVerPedido.php";
             // include "views/modules/Formas/editForma/modalEditForma.php";
             ?>
         </div>
