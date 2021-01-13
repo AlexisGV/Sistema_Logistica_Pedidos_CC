@@ -1,13 +1,13 @@
 <?php
 
 require_once "../controllers/pedidos.controlador.php";
-// require_once "../models/acabados.modelo.php";
+require_once "../models/pedidos.modelo.php";
 
 class AjaxPedidos
 {
 
     /*=============================================
-    AGREGAR PRODUCTOS
+    AGREGAR PRODUCTOS - AL LEVANTAR PEDIDO
     =============================================*/
     public $datosSimples = [],
            $cortes = [],
@@ -22,10 +22,27 @@ class AjaxPedidos
         $respuesta = ControladorPedidos::ctrAgregarProducto($valores, $cortesSelect, $acabadosSelect);
         echo json_encode($respuesta);
     }
+
+    /*=============================================
+    TRAER INFORMACION DEL PEDIDO
+    =============================================*/
+    public $idPedido;
+
+    public function ajaxVerPedido(){
+
+        $tabla = "pedido";
+        $item = "Id_Pedido";
+        $verPedidoId = $this->idPedido;
+
+        $informacionPedido = ControladorPedidos::ctrTraerInformacionPedido($tabla, $item, $verPedidoId);
+
+        echo json_encode($informacionPedido);
+
+    }
 }
 
 /*=============================================
-AGREGAR PRODUCTOS
+AGREGAR PRODUCTOS - AL LEVANTAR PEDIDO
 =============================================*/
 if (isset($_POST["ingNomProducto"])) {
     $agregarProducto = new AjaxPedidos();
@@ -87,4 +104,13 @@ if (isset($_POST["ingNomProducto"])) {
     $agregarProducto->datosSimples += ["otroAcabado" => $_POST["ingOtroAcabadoProd"]];
 
     $agregarProducto->ajaxAgregarProducto();
+}
+
+/*=============================================
+TRAER INFORMACION DEL PEDIDO
+=============================================*/
+if ( isset($_POST["verPedidoId"]) ){
+    $verPedido = new AjaxPedidos();
+    $verPedido->idPedido = $_POST["verPedidoId"];
+    $verPedido->ajaxVerPedido();
 }

@@ -20,22 +20,18 @@ MODAL - VER DETALLE PEDIDO
             <!-- CUERPO DEL MODAL
                 -------------------------------------------------- -->
             <div class="modal-body" style="border-top: #28a745 1px solid;">
+                <!-- FECHAS
+                -------------------------------------------------- -->                
                 <div class="mb-3">
                     <h5 class="font-weight-bold text-center">Fechas</h5>
-                    <div class="d-flex flex-xl-row flex-column justify-content-between" id="fechasPedido">
-                        <div class="text-center text-xl-left">Inicio: martes, 12 de enero del 2021</div>
-                        <div class="text-center">Compromiso: martes, 12 de enero del 2021</div>
-                        <div class="text-center text-xl-right">Entrega: martes, 12 de enero del 2021</div>
-                    </div>
+                    <div class="d-flex flex-xl-row flex-column justify-content-between" id="fechasPedido"></div>
                 </div>
 
+                <!-- DATOS DEL CLIENTE
+                -------------------------------------------------- -->
                 <div class="mb-3">
                     <h5 class="font-weight-bold text-center">Datos del cliente</h5>
-                    <div class="d-flex flex-xl-row flex-column justify-content-between" id="fechasPedido">
-                        <div class="text-center text-xl-left">Nombre: Francisco Alexis García Villanueva</div>
-                        <div class="text-center">Correo: alexisfvgarcia@gmail.com</div>
-                        <div class="text-center text-xl-right">Teléfono: 5542189135</div>
-                    </div>
+                    <div class="d-flex flex-xl-row flex-column justify-content-between" id="datosCliente"></div>
                 </div>
 
                 <div class="mb-3">
@@ -60,13 +56,7 @@ MODAL - VER DETALLE PEDIDO
                 </div>
 
                 <div class="mb-3">
-                    <div class="d-flex flex-column flex-xl-row justify-content-between">
-                        <div id="viewSubtotal" class="text-right"><span class="font-weight-bold mr-1">Subtotal:</span>$ 1,450.00</div>
-                        <div id="viewIVA" class="text-right"><span class="font-weight-bold mr-1">IVA Aplicado:</span>16 %</div>
-                        <div id="viewTotal" class="text-right"><span class="font-weight-bold mr-1">Total:</span>$ 1,450.00</div>
-                        <div id="viewAnticipo" class="text-right mt-2 mt-xl-0"><span class="font-weight-bold mr-1">Anticipo:</span>$ 1,400.00</div>
-                        <div id="viewDeuda" class="text-right"><span class="font-weight-bold mr-1">Debe:</span>$ 40.00</div>
-                    </div>
+                    <div class="d-flex flex-column flex-xl-row justify-content-between" id="totalesPedido"></div>
                 </div>
             </div>
             <!-- FIN CUERPO DEL MODAL
