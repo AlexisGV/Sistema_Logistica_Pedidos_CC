@@ -112,6 +112,34 @@ $(document).on("click", ".btnVerDetallePedido", function () {
 
 });
 
+$(document).on("click", ".btnEliminarPedido", function(){
+    var idPedido = $(this).attr('idPedido');
+
+    swal({
+        title: "Eliminar pedido \""+idPedido+"\"",
+        text: "¿Estas seguro de que quieres eliminar este pedido? No podrás recuperarlo en el futuro, se eliminará permanentemente. Si deseas continuar da clic en el botón \"Confirmar\"",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                value: null,
+                visible: true,
+                className: "bg-danger",
+            },
+            confirm: {
+                text: "Confirmar",
+                value: true,
+                visible: true,
+                className: "bg-primary",
+            }
+        },
+    }).then((result) => {
+        if (result) {
+            window.location = "index.php?pagina=administrarPedidos&idPedido=" + idPedido;
+        }
+    });
+});
+
 /*=============================================
 LIMPIAR MODAL PARA VER DETALLES DEL PEDIDO
 =============================================*/

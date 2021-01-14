@@ -726,4 +726,40 @@ class ControladorPedidos
 
         }
     }
+
+    /*=============================================
+    ELIMINAR PEDIDO
+    =============================================*/
+    static public function ctrEliminarPedido()
+    {
+        if ( isset($_GET["idPedido"]) && isset($_GET["idPedido"]) != "" ){
+            $tabla = "pedido";
+            $item = "Id_Pedido";
+            $valor = $_GET["idPedido"];
+
+            $eliminarPedido = ModeloPedidos::mdlEliminarPedido($tabla, $item, $valor);
+
+            if ($eliminarPedido == "ok") {
+                echo '<script>
+                        swal({
+                            title: "Eliminación exitosa!",
+                            text: "El pedido con número \"'.$valor.'\" se eliminó correctamente.",
+                            icon: "success",
+                        }).then( (result) => {
+                            window.location = "administrarPedidos";
+                        });
+                      </script>';
+            } else {
+                echo '<script>
+                        swal({
+                            title: "Error!",
+                            text: "Ha ocurrido un error con la conexión a la base de datos.",
+                            icon: "error",
+                        }).then( (result) => {
+                            window.location = "administrarPedidos";
+                        });
+                      </script>';
+            }
+        }
+    }
 }

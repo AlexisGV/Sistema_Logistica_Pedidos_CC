@@ -57,7 +57,10 @@ CONTENEDOR
 
 <?php
 
-// $elimiarForma = new ControladorForma();
-// $elimiarForma->ctrEliminarForma();
+/*=============================================
+ELIMINAR PEDIDO
+=============================================*/
+$eliminarPedido = new ControladorPedidos();
+$eliminarPedido->ctrEliminarPedido();
 
 ?>
