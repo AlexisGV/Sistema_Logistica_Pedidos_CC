@@ -122,6 +122,25 @@ class ModeloPedidos
     }
 
     /*=============================================
+    TRAER CARACTERISTICAS DEL PRODUCTO
+    =============================================*/
+    static public function mdlTraerCaracteristicasProducto($tabla, $tabla2, $campo1, $campo2, $item, $valor, $itemOrden){
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT * FROM $tabla
+             INNER JOIN $tabla2 ON $campo1=$campo2
+             WHERE $item=:$item
+             ORDER BY $itemOrden ASC");
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
     VERIFICAR DUPLICADO DE PEDIDO
     =============================================*/
     static public function mdlVerificarDuplicado($tabla, $item, $valor)
@@ -144,6 +163,22 @@ class ModeloPedidos
     {
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item=:$item");
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
+    TRAER REGISTRO UNICO POR CLAVE
+    =============================================*/
+    static public function mdlTraerRegistroUnicoPorClave($tabla, $item, $valor)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item=:$item");
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
         $stmt->execute();
 

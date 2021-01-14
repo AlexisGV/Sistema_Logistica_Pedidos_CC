@@ -70,7 +70,24 @@ $(document).on("click", ".btnVerDetallePedido", function () {
                 processData: false,
                 dataType: "json",
                 success: function(respuesta){
-                    console.log(respuesta);
+                    // console.log(respuesta);
+
+                    for ( var i=0; i < respuesta.length; i++ ){
+
+                        if ( respuesta[i]["descuento"] > 0 ) {
+                            badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-0" style="font-size: 1rem;">- '+respuesta[i]["descuento"]+'%</span>';
+                        } else {
+                            badgeDescuento = "";
+                        }
+
+                        $("#contenedorProductosModal").append(
+                            '<div class="productoNuevo row py-3 border-top border-secondary">'+
+                                '<div class="col-12 col-xl-10 pb-2 pb-xl-0"><span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>'+respuesta[i]["descripcion"]+'</div>'+
+                                '<div class="col-4 col-xl-1 text-left text-xl-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>'+respuesta[i]["cantidad"]+'</div>'+
+                                '<div class="col-6 col-xl-1 text-right text-xl-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>'+Number(respuesta[i]["importe"]).toFixed(2)+badgeDescuento+'</div>'+
+                            '</div>'
+                        );
+                    }
                 }
             
             });
@@ -84,9 +101,9 @@ $(document).on("click", ".btnVerDetallePedido", function () {
 
             if ( respuesta["Anticipo"] != respuesta["Total"] ) {
                 $("#totalesPedido").append('<div class="text-right mt-2 mt-xl-0"><span class="font-weight-bold mr-1">Anticipo:</span>$ '+Number(respuesta["Anticipo"]).toFixed(2)+'</div>');
-                $("#totalesPedido").append('<div class="text-right badge badge-danger" style="font-size: 1rem;"><span class="font-weight-bold mr-1">Debe:</span>$ '+(Number(respuesta["Total"]) - Number(respuesta["Anticipo"])).toFixed(2) +'</div>');
+                $("#totalesPedido").append('<div class="text-right"><span class="font-weight-bold mr-1">Debe:</span><span class="badge badge-danger" style="font-size: 1rem;">$ '+(Number(respuesta["Total"]) - Number(respuesta["Anticipo"])).toFixed(2) +'</span></div>');
             }else{
-                $("#totalesPedido").append('<div class="text-right badge badge-primary"><span class="font-weight-bold" style="font-size: 1rem;">PAGAGO</div>');
+                $("#totalesPedido").append('<div class="text-right"><span class="font-weight-bold"><span class="badge badge-primary" style="font-size: 1rem;">PAGAGO</span></div>');
             }
 
         }
@@ -103,6 +120,7 @@ $(document).on("click", ".closeModalVerDetallePedido", function(){
     $("#viewNumeroPedido").html("");
     $("#fechasPedido").html("");
     $("#datosCliente").html("");
+    $("#contenedorProductosModal").html("");
     $("#totalesPedido").html("");
 
 });

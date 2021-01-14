@@ -93,7 +93,7 @@ DATOS DEL CLIENTE
                 </div>
                 <input type="text" class="form-control" name="ingTelfCliente" id="ingTelfCliente" placeholder="Número teléfonico" autocomplete="off">
                 <div class="invalid-feedback" id="errorIngTelfCliente1">
-                    El teléfono debe empezar con 55
+                    El teléfono debe empezar con 55 o 56
                 </div>
                 <div class="warning-feedback text-info" id="errorIngTelfCliente2">
                     El teléfono debe tener 10 dígitos. Ejemplo (5588193595)

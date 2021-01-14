@@ -36,11 +36,11 @@ MODAL - VER DETALLE PEDIDO
 
                 <div class="mb-3">
                     <h5 class="font-weight-bold text-center">Detalles del pedido</h5>
-                    <div class="contenedorProductosModal bg-light border-bottom border-secondary">
-                        <div class="productoNuevo row py-3 border-top border-secondary">
+                    <div class="bg-light border-bottom border-secondary" id="contenedorProductosModal">
+                        <!-- <div class="productoNuevo row py-3 border-top border-secondary">
                             <div class="col-12 col-xl-10 pb-2 pb-xl-0"><span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>Prueba 1 | Marca: Bacardi | Forma: Cilindrica | Corte(s): Horizontal; Vertical | Otro corte: No | Acabado(s): Pulido | Otro acabado: No | Observación: Sin observaciones</div>
                             <div class="col-4 col-xl-1 text-left text-xl-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>1</div>
-                            <div class="col-6 col-xl-1 text-right text-xl-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ 1,474.00</div>
+                            <div class="col-6 col-xl-1 text-right text-xl-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ 1,474.00<span class="badge bg-indigo ml-2 ml-xl-0" style="font-size: 1rem;">- 10%</span></div>
                         </div>
                         <div class="productoNuevo row py-3 border-top border-secondary">
                             <div class="col-12 col-xl-10 pb-2 pb-xl-0"><span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>Prueba 2 | Marca: Bacardi | Forma: Cilindrica | Corte(s): Horizontal; Vertical | Otro corte: No | Acabado(s): Pulido | Otro acabado: No | Observación: Sin observaciones</div>
@@ -51,7 +51,7 @@ MODAL - VER DETALLE PEDIDO
                             <div class="col-12 col-xl-10 pb-2 pb-xl-0"><span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>Prueba 3 | Marca: Bacardi | Forma: Cilindrica | Corte(s): Horizontal; Vertical | Otro corte: No | Acabado(s): Pulido | Otro acabado: No | Observación: Sin observaciones</div>
                             <div class="col-4 col-xl-1 text-left text-xl-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>1</div>
                             <div class="col-6 col-xl-1 text-right text-xl-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ 1,474.00</div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 

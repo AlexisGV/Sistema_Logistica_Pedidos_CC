@@ -92,7 +92,7 @@ function sumaTotalCostos() {
 /*=============================================
 CALCULAR IVA
 =============================================*/
-$(document).on("change", "#ingIVAPedido", function () {
+$(document).on("change keyup", "#ingIVAPedido", function () {
     if ( $("#ingSubtotalPedido").val() != "" && $("#ingSubtotalPedido").val() != null ) {
         sumaTotalCostos();
         listarProductos();

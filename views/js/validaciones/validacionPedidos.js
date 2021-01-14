@@ -25,24 +25,47 @@ $(document).on("change", "#ingPagoCompleto", function () {
     } else {
         $("#ingAnticipoPedido").prop("readonly", false);
     }
+
+    listarProductos();
 });
 
-$(document).on("keyup", "#ingAnticipoPedido", function () {
+$(document).on("keyup change", "#ingAnticipoPedido", function () {
     var expresion = /^[0-9]+$/,
         expresion3 = /^[0-9]+\.[0-9]{1,2}$/;
 
-    if ($(this).val().match(expresion)) {
-        validarExpresion($(this), expresion);
-    } else {
+    if ( $("#ingTotalPedido").val() != "" && $("#ingTotalPedido").val() != null ) {
 
-        if (validarExpresion($(this), expresion3)) {
-            $("#erroringAnticipoPedido").hide();
+        if ($(this).val().match(expresion)) {
+            if (Number($("#ingTotalPedido").val()) >= Number($(this).val())){
+                $(this).removeClass("is-invalid");
+                $("#erroringAnticipoMenorPedido").hide();
+                validarExpresion($(this), expresion);
+                listarProductos();
+            }else{
+                $(this).addClass("is-invalid");
+                $("#erroringAnticipoMenorPedido").show();
+            }
         } else {
-            if ($(this).val() != "") $("#erroringAnticipoPedido").show();
-            else $("#erroringAnticipoPedido").hide();
+    
+            if (Number($("#ingTotalPedido").val()) >= Number($(this).val())){
+                $(this).removeClass("is-invalid");
+                $("#erroringAnticipoMenorPedido").hide();
+                if (validarExpresion($(this), expresion3)) {
+                    $("#erroringAnticipoPedido").hide();
+                } else {
+                    if ($(this).val() != "") $("#erroringAnticipoPedido").show();
+                    else $("#erroringAnticipoPedido").hide();
+                }
+                listarProductos();
+            }else{
+                $(this).addClass("is-invalid");
+                $("#erroringAnticipoMenorPedido").show();
+            }
+    
         }
-
+        
     }
+
 
 });
 
@@ -84,8 +107,9 @@ $(document).on("keyup", "#ingEmailCliente", function () {
 
 $(document).on("keyup", "#ingTelfCliente", function () {
     var expresion = /^55+[0-9]{0,8}$/;
+    var expresion2 = /^56+[0-9]{0,8}$/;
 
-    if ($(this).val().match(expresion)) {
+    if ($(this).val().match(expresion) || $(this).val().match(expresion2)) {
         $(this).removeClass("is-invalid is-valid is-warning");
 
         if ($(this).val().length < 10) {
@@ -100,7 +124,7 @@ $(document).on("keyup", "#ingTelfCliente", function () {
     } else {
 
         if ($(this).val() != "") {
-            if ($(this).val().length >= 2 && $(this).val().substring(0, 2) != "55")
+            if ($(this).val().length >= 2 && ($(this).val().substring(0, 2) != "55" && $(this).val().substring(0, 2) != "56"))
                 $("#errorIngTelfCliente1").show();
             else
                 $("#errorIngTelfCliente1").show();
@@ -123,6 +147,7 @@ $(document).on("submit", "#formAddPedido", function (e) {
     var expNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/,
         expCorreo = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/,
         expTelefono = /^55+[0-9]{8,8}$/;
+        expTelefono2 = /^56+[0-9]{8,8}$/;
 
     if (!validarExpresion($("#ingNombreCliente"), expNombre)) e.preventDefault();
 
@@ -130,27 +155,59 @@ $(document).on("submit", "#formAddPedido", function (e) {
         if (!validarExpresion($("#ingEmailCliente"), expCorreo)) e.preventDefault();
     }
     
-    if (!validarExpresion($("#ingTelfCliente"), expTelefono)) e.preventDefault();
+    if (!validarExpresion($("#ingTelfCliente"), expTelefono) && !validarExpresion($("#ingTelfCliente"), expTelefono2)) e.preventDefault();
 
     if ($("#ingPagoCompleto").is(":checked") == false) {
         var expresion = /^[0-9]+$/,
             expresion3 = /^[0-9]+\.[0-9]{1,2}$/;
 
-        if ($("#ingAnticipoPedido").val().match(expresion)) {
-            validarExpresion($("#ingAnticipoPedido"), expresion);
-        } else {
+        if ( $("#ingAnticipoPedido").val() != "" && $("#ingAnticipoPedido").val() != null){
 
-            if (validarExpresion($("#ingAnticipoPedido"), expresion3)) {
-                $("#erroringAnticipoPedido").hide();
-            } else {
-                if ($("#ingAnticipoPedido").val() != "") {
-                    $("#erroringAnticipoPedido").show();
-                    e.preventDefault();
+            if ( $("#ingTotalPedido").val() != "" && $("#ingTotalPedido").val() != null ) {
+                
+                if ($("#ingAnticipoPedido").val().match(expresion)) {
+                    if (Number($("#ingTotalPedido").val()) >= Number($("#ingAnticipoPedido").val())){
+                        $("#ingAnticipoPedido").removeClass("is-invalid");
+                        $("#erroringAnticipoMenorPedido").hide();
+                        validarExpresion($("#ingAnticipoPedido"), expresion);
+                    }else{
+                        $("#ingAnticipoPedido").addClass("is-invalid");
+                        $("#erroringAnticipoMenorPedido").show();
+                        e.preventDefault();
+                    }
+                    
+                } else {
+        
+                    if (Number($("#ingTotalPedido").val()) >= Number($("#ingAnticipoPedido").val())){
+                        $("#ingAnticipoPedido").removeClass("is-invalid");
+                        $("#erroringAnticipoMenorPedido").hide();
+                        if (validarExpresion($("#ingAnticipoPedido"), expresion3)) {
+                            $("#erroringAnticipoPedido").hide();
+                        } else {
+                            if ($("#ingAnticipoPedido").val() != "") {
+                                $("#erroringAnticipoPedido").show();
+                                e.preventDefault();
+                            }
+                            else $("#erroringAnticipoPedido").hide();
+                        }
+                    }else{
+                        $("#ingAnticipoPedido").addClass("is-invalid");
+                        $("#erroringAnticipoMenorPedido").show();
+                        e.preventDefault();
+                    }
+
+        
                 }
-                else $("#erroringAnticipoPedido").hide();
+
+            }else{
+                e.preventDefault();
             }
 
+        }else{
+            $("#ingAnticipoPedido").addClass("is-invalid");
+            e.preventDefault();
         }
+
     }
 
     if ( $("#contenedorProductosKit").html() == "" || $("#contenedorProductosKit").html() == null ){

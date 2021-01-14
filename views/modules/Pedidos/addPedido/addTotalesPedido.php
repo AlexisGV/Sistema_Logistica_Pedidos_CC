@@ -55,6 +55,9 @@ TITULO TOTALES DEL PEDIDO
                 <div class="invalid-feedback" id="erroringAnticipoPedido">
                     El valor debe tener 2 decimales.
                 </div>
+                <div class="invalid-feedback" id="erroringAnticipoMenorPedido">
+                    El anticipo debe ser menor o igual al total.
+                </div>
             </div>
         </div>
     </div>
