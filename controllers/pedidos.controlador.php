@@ -745,6 +745,7 @@ class ControladorPedidos
                             title: "Eliminación exitosa!",
                             text: "El pedido con número \"'.$valor.'\" se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "administrarPedidos";
                         });
@@ -755,6 +756,7 @@ class ControladorPedidos
                             title: "Error!",
                             text: "Ha ocurrido un error con la conexión a la base de datos.",
                             icon: "error",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "administrarPedidos";
                         });

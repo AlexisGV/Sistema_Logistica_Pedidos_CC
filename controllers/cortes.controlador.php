@@ -214,6 +214,7 @@ class ControladorCorte
                             title: "Eliminación exitosa!",
                             text: "El tipo de corte se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainCorte";
                         });
@@ -224,6 +225,7 @@ class ControladorCorte
                             title: "Error!",
                             text: "Ha ocurrido un error con la conexión a la base de datos.",
                             icon: "error",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainCorte";
                         });

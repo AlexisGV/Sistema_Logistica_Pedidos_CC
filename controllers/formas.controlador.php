@@ -213,6 +213,7 @@ class ControladorForma
                             title: "Eliminación exitosa!",
                             text: "La forma se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainForma";
                         });
@@ -223,6 +224,7 @@ class ControladorForma
                             title: "Error!",
                             text: "Ha ocurrido un error con la conexión a la base de datos.",
                             icon: "error",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainForma";
                         });

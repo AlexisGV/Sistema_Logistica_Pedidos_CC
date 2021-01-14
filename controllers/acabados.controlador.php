@@ -216,6 +216,7 @@ class ControladorAcabado
                             title: "Eliminación exitosa!",
                             text: "El tipo de acabado se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainAcabado";
                         });
@@ -226,6 +227,7 @@ class ControladorAcabado
                             title: "Error!",
                             text: "Ha ocurrido un error con la conexión a la base de datos.",
                             icon: "error",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainAcabado";
                         });

@@ -268,6 +268,7 @@ class ControladorUsuarios
                             title: "Eliminación exitosa!",
                             text: "El producto se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainUsuarios";
                         });
@@ -278,6 +279,7 @@ class ControladorUsuarios
                             title: "Error!",
                             text: "Ha ocurrido un error con la conexión a la base de datos.",
                             icon: "error",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainUsuarios";
                         });

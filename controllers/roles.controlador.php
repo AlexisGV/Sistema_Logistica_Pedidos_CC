@@ -76,6 +76,7 @@ class ControladorRoles
                             title: "Eliminación exitosa!",
                             text: "El rol se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainRoles";
                         });
@@ -86,6 +87,7 @@ class ControladorRoles
                             title: "Error al intentar eliminar!",
                             text: "No se ha podido eliminar, ya que tienes usuarios registrados con este tipo de rol.",
                             icon: "warning",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainRoles";
                         });
@@ -96,6 +98,7 @@ class ControladorRoles
                             title: "Error!",
                             text: "Ha ocurrido un error con la conexión a la base de datos.",
                             icon: "error",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainRoles";
                         });

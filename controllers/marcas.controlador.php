@@ -209,6 +209,7 @@ class ControladorMarca
                             title: "Eliminación exitosa!",
                             text: "La marca se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainMarca";
                         });
@@ -219,6 +220,7 @@ class ControladorMarca
                             title: "Error!",
                             text: "Ha ocurrido un error con la conexión a la base de datos.",
                             icon: "error",
+                            closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainMarca";
                         });

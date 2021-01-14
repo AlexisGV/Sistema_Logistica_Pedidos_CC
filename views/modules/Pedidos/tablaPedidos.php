@@ -11,7 +11,7 @@ $fechaActual = date('Y-m-d');
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">N° de Pedido</th>
             <th scope="col">Fecha Inicio</th>
-            <th scope="col">Fecha Entrega</th>
+            <th scope="col">Fecha Compromiso</th>
             <th scope="col">Días restantes</th>
             <th scope="col">Estado</th>
             <th scope="col">Acciones</th>
