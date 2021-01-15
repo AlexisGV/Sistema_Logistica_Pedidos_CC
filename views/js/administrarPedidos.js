@@ -112,6 +112,133 @@ $(document).on("click", ".btnVerDetallePedido", function () {
 
 });
 
+/*=============================================
+CHANGE PARA CHECKBOX DE PAGO COMPLETO
+=============================================*/
+$(document).on("change", "#editPagoCompleto", function(){
+    if ($(this).is(":checked")) {
+        $("#editAnticipo").removeClass("is-valid is-invalid");
+        $("#editAnticipo").prop("readonly", true);
+        $("#editAnticipo").val("");
+    } else {
+        $("#editAnticipo").prop("readonly", false);
+    }
+});
+
+/*=============================================
+EDITAR PEDIDO
+=============================================*/
+$(document).on("click", ".btnEditarPedido", function(){
+
+    var idPedido = $(this).attr("idPedido");
+
+    var datos = new FormData();
+    datos.append('verPedidoId', idPedido);
+
+    $.ajax({
+        url: "ajax/pedidos.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(respuesta){
+            // console.log(respuesta);
+
+            let idPedidoSeleccionado = respuesta["Id_Pedido"];
+
+            $("#viewEditNumeroPedido").html(idPedidoSeleccionado);
+
+            /*=============================================
+            FECHAS
+            =============================================*/
+            var fechaInicio = new Date(respuesta["Fecha_Inicio"]);
+            var fechaCompromiso = new Date(respuesta["Fecha_Compromiso"]);
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+            $("#editFechaInicioPedido").val(fechaInicio.toLocaleDateString("es-MX", options));
+            $("#editFechaCompromisoPedido").val(fechaCompromiso.toLocaleDateString("es-MX", options));
+
+            if ( respuesta["Fecha_Entrega"] != null && respuesta["Fecha_Entrega"] != "" ) {
+                var fechaEntrega = new Date(respuesta["Fecha_Compromiso"]);
+                $("#editFechaEntregaPedido").val(fechaEntrega.toLocaleDateString("es-MX", options));
+            } else {
+                $("#editFechaEntregaPedido").val("Aún no se entrega");
+            }
+
+            /*=============================================
+            DATOS DEL CLIENTE
+            =============================================*/
+            $("#editCliente").val(respuesta["Nombre_Cliente"]);
+            $("#editTelefono").val(respuesta["Telefono_Cliente"]);
+            $("#editCorreo").val(respuesta["Correo_Cliente"]);
+
+            /*=============================================
+            PRODUCTOS
+            =============================================*/
+            var datos2 = new FormData();
+            datos2.append('verProdsPedidoId', idPedidoSeleccionado);
+
+            $.ajax({
+
+                url: "ajax/pedidos.ajax.php",
+                method: "POST",
+                data: datos2,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function(respuesta){
+                    // console.log(respuesta);
+
+                    for ( var i=0; i < respuesta.length; i++ ){
+
+                        if ( respuesta[i]["descuento"] > 0 ) {
+                            badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-0" style="font-size: 1rem;">- '+respuesta[i]["descuento"]+'%</span>';
+                        } else {
+                            badgeDescuento = "";
+                        }
+
+                        $("#editContenedorProductos").append(
+                            '<div class="productoNuevo row py-3 border-top border-secondary" idProducto="'+respuesta[i]["idProducto"]+'">'+
+                            '    <div class="col-12 col-xl-9 pb-2 pb-xl-0">'+
+                            '        <span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>'+respuesta[i]["descripcion"]+
+                            '    </div>'+
+                            '    <div class="col-6 col-xl-1"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>'+respuesta[i]["cantidad"]+'</div>'+
+                            '    <div class="col-6 col-xl-1"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ '+Number(respuesta[i]["importe"]).toFixed(2)+badgeDescuento+'</div>'+
+                            '    <div class="col-12 col-xl-1 py-2 py-xl-0"><button type="button" class="btn btn-warning w-100" idProducto="'+respuesta[i]["idProducto"]+'"><i class="fas fa-edit mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Editar producto</span></button></div>'+
+                            '</div>'
+                        );
+
+                    }
+
+                }
+
+            });
+
+            /*=============================================
+            TOTALES
+            =============================================*/
+            $("#editSubtotal").val(Number(respuesta["Subtotal"]).toFixed(2));
+            $("#editIVA").val(respuesta["IVA"]);
+            $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
+            
+            if ( respuesta["Anticipo"] == respuesta["Total"] ) {
+                $("#editPagoCompleto").prop("checked", true).trigger("change");
+            } else {
+                $("#editPagoCompleto").prop("checked", false).trigger("change");
+                $("#editAnticipo").val(Number(respuesta["Anticipo"]).toFixed(2));
+            }
+            
+        }
+    });
+
+});
+
+/*=============================================
+ELIMINAR PEDIDO
+=============================================*/
 $(document).on("click", ".btnEliminarPedido", function(){
     var idPedido = $(this).attr('idPedido');
 
@@ -151,4 +278,25 @@ $(document).on("click", ".closeModalVerDetallePedido", function(){
     $("#contenedorProductosModal").html("");
     $("#totalesPedido").html("");
 
+});
+
+/*=============================================
+LIMPIAR MODAL PARA EDITAR PEDIDO
+=============================================*/
+$(document).on("click", ".closeModalEditPedido", function(){
+
+    $("#viewEditNumeroPedido").html("");
+    $("#editFechaInicioPedido").val("");
+    $("#editFechaCompromisoPedido").val("");
+    $("#editFechaEntregaPedido").val("");
+    $("#editCliente").val("");
+    $("#editCliente").removeClass("is-valid is-invalid");
+    $("#editCorreo").val("");
+    $("#editCorreo").removeClass("is-valid is-invalid");
+    $("#editContenedorProductos").html("");
+    $("#editSubtotal").val("");
+    $("#editIVA").val("");
+    $("#editIVA").removeClass("is-valid is-invalid");
+    $("#editTotal").val("");
+    $("#editAnticipo").removeClass("is-valid is-invalid");
 });
