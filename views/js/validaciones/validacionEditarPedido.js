@@ -32,7 +32,7 @@ $(document).on("change keyup blur", "#editTelefono", function(){
 });
 
 $(document).on("keyup change", "#editAnticipo", function () {
-    var expresion = /^[0-9]+$/,
+    let expresion = /^[0-9]+$/,
         expresion3 = /^[0-9]+\.[0-9]{1,2}$/;
 
     if ( $("#editTotal").val() != "" && $("#editTotal").val() != null ) {
