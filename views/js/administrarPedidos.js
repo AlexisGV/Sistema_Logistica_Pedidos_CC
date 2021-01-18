@@ -99,9 +99,12 @@ $(document).on("click", ".btnVerDetallePedido", function () {
             $("#totalesPedido").append('<div class="text-right"><span class="font-weight-bold mr-1">IVA Aplicado:</span>'+respuesta["IVA"]+' %</div>');
             $("#totalesPedido").append('<div class="text-right"><span class="font-weight-bold mr-1">Total:</span>$ '+Number(respuesta["Total"]).toFixed(2)+'</div>');
 
-            if ( respuesta["Anticipo"] != respuesta["Total"] ) {
+            if ( respuesta["Anticipo"] < respuesta["Total"] ) {
                 $("#totalesPedido").append('<div class="text-right mt-2 mt-xl-0"><span class="font-weight-bold mr-1">Anticipo:</span>$ '+Number(respuesta["Anticipo"]).toFixed(2)+'</div>');
                 $("#totalesPedido").append('<div class="text-right"><span class="font-weight-bold mr-1">Debe:</span><span class="badge badge-danger" style="font-size: 1rem;">$ '+(Number(respuesta["Total"]) - Number(respuesta["Anticipo"])).toFixed(2) +'</span></div>');
+            } else if ( respuesta["Anticipo"] > respuesta["Total"] ) {
+                $("#totalesPedido").append('<div class="text-right mt-2 mt-xl-0"><span class="font-weight-bold mr-1">Anticipo:</span>$ '+Number(respuesta["Anticipo"]).toFixed(2)+'</div>');
+                $("#totalesPedido").append('<div class="text-right"><span class="font-weight-bold mr-1">Devolver:</span><span class="badge badge-warning" style="font-size: 1rem;">$ '+(Number(respuesta["Anticipo"]) - Number(respuesta["Total"])).toFixed(2) +'</span></div>');
             }else{
                 $("#totalesPedido").append('<div class="text-right"><span class="font-weight-bold"><span class="badge badge-primary" style="font-size: 1rem;">PAGAGO</span></div>');
             }
@@ -149,6 +152,7 @@ $(document).on("click", ".btnEditarPedido", function(){
             let idPedidoSeleccionado = respuesta["Id_Pedido"];
 
             $("#viewEditNumeroPedido").html(idPedidoSeleccionado);
+            $("#editIdPedido").val(idPedidoSeleccionado);
 
             /*=============================================
             FECHAS
@@ -171,8 +175,8 @@ $(document).on("click", ".btnEditarPedido", function(){
             DATOS DEL CLIENTE
             =============================================*/
             $("#editCliente").val(respuesta["Nombre_Cliente"]);
-            $("#editTelefono").val(respuesta["Telefono_Cliente"]);
             $("#editCorreo").val(respuesta["Correo_Cliente"]);
+            $("#editTelefono").val(respuesta["Telefono_Cliente"]);
 
             /*=============================================
             PRODUCTOS
@@ -207,7 +211,12 @@ $(document).on("click", ".btnEditarPedido", function(){
                             '    </div>'+
                             '    <div class="col-6 col-xl-1"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>'+respuesta[i]["cantidad"]+'</div>'+
                             '    <div class="col-6 col-xl-1"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ '+Number(respuesta[i]["importe"]).toFixed(2)+badgeDescuento+'</div>'+
-                            '    <div class="col-12 col-xl-1 py-2 py-xl-0"><button type="button" class="btn btn-warning w-100" idProducto="'+respuesta[i]["idProducto"]+'"><i class="fas fa-edit mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Editar producto</span></button></div>'+
+                            '    <div class="col-12 col-xl-1 py-2 py-xl-0">'+
+                            '       <div class="btn-group w-100">'+
+                                        '<button type="button" class="btn btn-warning" idProducto="'+respuesta[i]["idProducto"]+'"><i class="fas fa-edit mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Editar</span></button>'+
+                                        '<button type="button" class="btn btn-danger btnEliminarDetallePedido" idProducto="'+respuesta[i]["idProducto"]+'"><i class="fas fa-trash-alt mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Eliminar</span></button>'+
+                            '       </div>'+
+                            '   </div>'+
                             '</div>'
                         );
 
@@ -234,6 +243,37 @@ $(document).on("click", ".btnEditarPedido", function(){
         }
     });
 
+});
+
+/*=============================================
+ELIMINAR PRODUCTO
+=============================================*/
+$(document).on("click", ".btnEliminarDetallePedido", function(){
+    var idProducto = $(this).attr('idProducto');
+
+    swal({
+        title: "Eliminar producto",
+        text: "¿Estas seguro de que quieres eliminar este producto? No podrás recuperarlo en el futuro, se eliminará permanentemente. Si deseas continuar da clic en el botón \"Confirmar\"",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                value: null,
+                visible: true,
+                className: "bg-danger",
+            },
+            confirm: {
+                text: "Confirmar",
+                value: true,
+                visible: true,
+                className: "bg-primary",
+            }
+        },
+    }).then((result) => {
+        if (result) {
+            window.location = "index.php?pagina=administrarPedidos&idDetallePedido=" + idProducto;
+        }
+    });
 });
 
 /*=============================================
@@ -268,6 +308,19 @@ $(document).on("click", ".btnEliminarPedido", function(){
 });
 
 /*=============================================
+CALCULAR IVA - EDITAR
+=============================================*/
+$(document).on("change keyup", "#editIVA", function () {
+    if ( $("#editSubtotal").val() != "" && $("#editSubtotal").val() != null ) {
+        let subtotal = Number($("#editSubtotal").val());
+        let total = ( ( subtotal * $(this).val() ) / 100 ) + subtotal;
+
+        $("#editTotal").val(total.toFixed(2));
+    }
+});
+
+
+/*=============================================
 LIMPIAR MODAL PARA VER DETALLES DEL PEDIDO
 =============================================*/
 $(document).on("click", ".closeModalVerDetallePedido", function(){
@@ -286,6 +339,7 @@ LIMPIAR MODAL PARA EDITAR PEDIDO
 $(document).on("click", ".closeModalEditPedido", function(){
 
     $("#viewEditNumeroPedido").html("");
+    $("#editIdPedido").val("");
     $("#editFechaInicioPedido").val("");
     $("#editFechaCompromisoPedido").val("");
     $("#editFechaEntregaPedido").val("");

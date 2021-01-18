@@ -95,7 +95,7 @@ class ModeloPedidos
     static public function mdlTraerInformacionPedido($tabla, $item, $valor)
     {
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item=:$item");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -111,7 +111,7 @@ class ModeloPedidos
     static public function mdlTraerProductosPedido($tabla, $item, $valor)
     {
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item=:$item");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -124,13 +124,15 @@ class ModeloPedidos
     /*=============================================
     TRAER CARACTERISTICAS DEL PRODUCTO
     =============================================*/
-    static public function mdlTraerCaracteristicasProducto($tabla, $tabla2, $campo1, $campo2, $item, $valor, $itemOrden){
+    static public function mdlTraerCaracteristicasProducto($tabla, $tabla2, $campo1, $campo2, $item, $valor, $itemOrden)
+    {
         $stmt = Conexion::conectar()->prepare(
             "SELECT * FROM $tabla
              INNER JOIN $tabla2 ON $campo1=$campo2
              WHERE $item=:$item
-             ORDER BY $itemOrden ASC");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+             ORDER BY $itemOrden ASC"
+        );
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -364,7 +366,71 @@ class ModeloPedidos
     }
 
     /*=============================================
-    ELIMINAR PEDIDO
+    ACTUALIZAR PEDIDO
+    =============================================*/
+    static public function mdlActualizarPedido($tabla, $item, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla
+             SET Nombre_Cliente=:cliente,
+                 Correo_Cliente=:correo,
+                 Telefono_Cliente=:telefono,
+                 Anticipo=:anticipo,
+                 Subtotal=:subtotal,
+                 IVA=:iva,
+                 Total=:total
+             WHERE $item=:$item"
+        );
+        $stmt->bindParam(":cliente", $datos["cliente"], PDO::PARAM_STR);
+        $stmt->bindParam(":correo", $datos["correo"], PDO::PARAM_STR);
+        $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+        $stmt->bindParam(":anticipo", $datos["anticipo"], PDO::PARAM_STR);
+        $stmt->bindParam(":subtotal", $datos["subtotal"], PDO::PARAM_STR);
+        $stmt->bindParam(":iva", $datos["iva"], PDO::PARAM_INT);
+        $stmt->bindParam(":total", $datos["total"], PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item, $datos["idPedido"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            $stmt->errorInfo();
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
+    ACTUALIZAR TOTALES
+    =============================================*/
+    static public function mdlActualizarTotales($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla
+             SET Subtotal=:subtotal,
+                 IVA=:iva,
+                 Total=:total
+             WHERE Id_Pedido=:idPedido");
+        $stmt->bindParam(":subtotal", $datos["subtotal"], PDO::PARAM_STR);
+        $stmt->bindParam(":iva", $datos["iva"], PDO::PARAM_INT);
+        $stmt->bindParam(":total", $datos["total"], PDO::PARAM_STR);
+        $stmt->bindParam(":idPedido", $datos["idPedido"], PDO::PARAM_INT);
+
+        if ( $stmt->execute() ) {
+            return "ok";
+        } else {
+            $stmt->errorInfo();
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+
+    /*=============================================
+    ELIMINAR PEDIDO / PRODUCTO
     =============================================*/
     static public function mdlEliminarPedido($tabla, $item, $valor)
     {

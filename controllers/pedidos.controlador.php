@@ -69,16 +69,16 @@ class ControladorPedidos
         $productos = [];
         $infoPedido = ModeloPedidos::mdlTraerProductosPedido($tabla, $item, $valor);
 
-        foreach($infoPedido as $key => $value){
+        foreach ($infoPedido as $key => $value) {
 
             $descripcion = "";
 
             /* OBTENER LA MARCA DEL PRODUCTO
             -------------------------------------------------- */
-            if ( $value["Otra_Marca"] != "" && $value["Otra_Marca"] != null ) {
+            if ($value["Otra_Marca"] != "" && $value["Otra_Marca"] != null) {
                 $abvMarca = "Otra marca";
                 $marca = $value["Otra_Marca"];
-            }else{
+            } else {
                 $abvMarca = "Marca";
 
                 #Traer nombre de la marca
@@ -91,10 +91,10 @@ class ControladorPedidos
 
             /* OBTENER LA FORMA DEL PRODUCTO
             -------------------------------------------------- */
-            if ( $value["Otra_Forma"] != "" && $value["Otra_Forma"] != null ) {
+            if ($value["Otra_Forma"] != "" && $value["Otra_Forma"] != null) {
                 $abvForma = "Otra forma";
                 $forma = $value["Otra_Forma"];
-            }else{
+            } else {
                 $abvForma = "Forma";
 
                 #Traer nombre de la forma
@@ -117,11 +117,11 @@ class ControladorPedidos
             $registrosCortes = ModeloPedidos::mdlTraerCaracteristicasProducto($tabla, $tabla2, $campo1, $campo2, $item, $valor, $itemOrden);
 
             $cortes = "";
-            if ( $registrosCortes ) {
-                foreach( $registrosCortes as $i => $value2 ){
-                    if ( ($i+1) == count($registrosCortes) ):
+            if ($registrosCortes) {
+                foreach ($registrosCortes as $i => $value2) {
+                    if (($i + 1) == count($registrosCortes)) :
                         $cortes .= $value2["Corte"];
-                    else:
+                    else :
                         $cortes .= $value2["Corte"] . "; ";
                     endif;
                 }
@@ -131,12 +131,12 @@ class ControladorPedidos
 
             /* OBTENER OTRO CORTE DEL PRODUCTO
             -------------------------------------------------- */
-            if ( $value["Otro_Corte"] != "" && $value["Otro_Corte"] != null ) {
+            if ($value["Otro_Corte"] != "" && $value["Otro_Corte"] != null) {
                 $otroCorte = $value["Otro_Corte"];
-            }else {
+            } else {
                 $otroCorte = "No";
             }
-            
+
             /* OBTENER LOS ACABADOS DEL PRODUCTO
             -------------------------------------------------- */
             $tabla = "acabado";
@@ -149,11 +149,11 @@ class ControladorPedidos
             $registrosAcabados = ModeloPedidos::mdlTraerCaracteristicasProducto($tabla, $tabla2, $campo1, $campo2, $item, $valor, $itemOrden);
 
             $acabados = "";
-            if ( $registrosAcabados ) {
-                foreach( $registrosAcabados as $i => $value2 ){
-                    if ( ($i+1) == count($registrosAcabados) ):
+            if ($registrosAcabados) {
+                foreach ($registrosAcabados as $i => $value2) {
+                    if (($i + 1) == count($registrosAcabados)) :
                         $acabados .= $value2["Acabado"];
-                    else:
+                    else :
                         $acabados .= $value2["Acabado"] . "; ";
                     endif;
                 }
@@ -163,15 +163,16 @@ class ControladorPedidos
 
             /* OBTENER OTRO ACABADO DEL PRODUCTO
             -------------------------------------------------- */
-            if ( $value["Otro_Acabado"] != "" && $value["Otro_Acabado"] != null ) {
+            if ($value["Otro_Acabado"] != "" && $value["Otro_Acabado"] != null) {
                 $otroAcabado = $value["Otro_Acabado"];
-            }else{
+            } else {
                 $otroAcabado = "No";
             }
 
             $descripcion = $value["Descripcion"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Corte(s): " . $cortes . " | Otro corte: " . $otroCorte . " | Acabado(s): " . $acabados . " | Otro acabado: " . $otroAcabado . " | Observación: " . $value["Observacion"];
 
-            array_push($productos,
+            array_push(
+                $productos,
                 array(
                     "idProducto" => $value["Id_Detalle_Pedido"],
                     "descripcion" => $descripcion,
@@ -181,7 +182,6 @@ class ControladorPedidos
                     "importe" => $value["Importe"]
                 )
             );
-
         }
 
         return $productos;
@@ -218,9 +218,9 @@ class ControladorPedidos
         $corte = "";
         if ($cortes) :
             for ($i = 0; $i < count($cortes); $i++) {
-                if ( ($i+1) == count($cortes)){
+                if (($i + 1) == count($cortes)) {
                     $corte .= $cortes[$i];
-                } else{
+                } else {
                     $corte .= $cortes[$i] . "; ";
                 }
             }
@@ -238,7 +238,7 @@ class ControladorPedidos
         $acabado = "";
         if ($acabados) :
             for ($i = 0; $i < count($acabados); $i++) {
-                if ( ($i+1) == count($acabados) ) {
+                if (($i + 1) == count($acabados)) {
                     $acabado .= $acabados[$i];
                 } else {
                     $acabado .= $acabados[$i] . "; ";
@@ -299,7 +299,7 @@ class ControladorPedidos
             $idPedido = $informacionPedido[0]["idPedido"];
             $resultadoDuplicado = ModeloPedidos::mdlVerificarDuplicado($tabla, $item, $idPedido);
 
-            if ( $resultadoDuplicado ) {
+            if ($resultadoDuplicado) {
                 echo '<script>
                         swal({
                             title: "Registro duplicado",
@@ -331,7 +331,7 @@ class ControladorPedidos
                 $tabla = "pedido";
                 $registrarPedido = ModeloPedidos::mdlRegistrarPedido($tabla, $informacionGeneralPedido);
 
-                if ( $registrarPedido == "error" ){
+                if ($registrarPedido == "error") {
                     echo '<script>
                         swal({
                             title: "Error al registrar pedido",
@@ -360,19 +360,19 @@ class ControladorPedidos
                     $usuario = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
                     $idUsuario = $usuario["Id_Usuario"];
 
-                    foreach ( $estados as $key => $value ) {
+                    foreach ($estados as $key => $value) {
 
                         #Registrar estado
                         $tabla = "actualizaciones_pedido";
 
                         $registrarEstado = ModeloPedidos::mdlRegistrarEstados($tabla, $idPedido, $value["Id_Estatus"], $idUsuario);
 
-                        if ( $registrarEstado == "error") {
+                        if ($registrarEstado == "error") {
                             $errorRegistroEstado++;
                             echo '<script>
                                     swal({
                                         title: "Error al registrar estado de pedido",
-                                        text: "Ha ocurrido un error al intentar registrar el estado de pedido con el número de orden: '.$value["Id_Estatus"].' para el pedido con el número: '.$idPedido.'.",
+                                        text: "Ha ocurrido un error al intentar registrar el estado de pedido con el número de orden: ' . $value["Id_Estatus"] . ' para el pedido con el número: ' . $idPedido . '.",
                                         icon: "info",
                                         closeOnClickOutside: false,
                                     }).then( (result) => {
@@ -382,12 +382,11 @@ class ControladorPedidos
                                     });
                                   </script>';
                         }
-
                     }
 
                     /* REGISTRAR PRODUCTOS DEL PEDIDO
                     -------------------------------------------------- */
-                    if ($errorRegistroEstado > 0){
+                    if ($errorRegistroEstado > 0) {
                         #Error al registrar estados - Borrar pedido ingresado
                         echo '<script>
                                 swal({
@@ -401,16 +400,16 @@ class ControladorPedidos
                                     }
                                 });
                               </script>';
-                        
+
                         $tabla = "pedido";
                         $item = "Id_Pedido";
                         $eliminarPedido = ModeloPedidos::mdlEliminarPedido($tabla, $item, $idPedido);
-                              
+
                         return false;
                     } else {
 
                         $regErroneo = 0;
-                        
+
                         /* ACTUALIZAR PRIMER ESTADO DEL PEDIDO
                         -------------------------------------------------- */
                         #Traer clave de estado 1
@@ -427,12 +426,12 @@ class ControladorPedidos
 
                         $actualizarEstadoUno = ModeloPedidos::mdlActualizarEstadoPedido($tabla, $campoFecha, $fechaActual, $idPedido, $idEstatus, $campoUsuario, $idUsuario);
 
-                        if ( $actualizarEstadoUno == "error" ){
+                        if ($actualizarEstadoUno == "error") {
                             $regErroneo++;
                         }
 
-            
-                        for ( $i = 0; $i < count($listaProductos); $i++ ) {
+
+                        for ($i = 0; $i < count($listaProductos); $i++) {
 
                             #Estableciendo el ID del producto o detalle de pedido
                             $tabla = "detalle_pedido";
@@ -448,29 +447,29 @@ class ControladorPedidos
 
                             #Extraer datos de la descripcion
                             $arrayDescripcion = explode(" | ", $listaProductos[$i]["descripcion"]);
-                
+
                             #Contenido marca
                             $arrayMarca = explode(": ", $arrayDescripcion[1]);
-                
+
                             #Contenido forma
                             $arrayForma = explode(": ", $arrayDescripcion[2]);
-                
+
                             #Contenido corte(s)
                             $arrayCortes = explode(": ", $arrayDescripcion[3]);
                             #Obtener los cortes
                             $cortesObtenidos = explode("; ", $arrayCortes[1]);
-                
+
                             #Contenido otro corte
                             $arrayOtroCorte = explode(": ", $arrayDescripcion[4]);
-                
+
                             #Contenido acabado(s)
                             $arrayAcabados = explode(": ", $arrayDescripcion[5]);
                             #Obtener los cortes
                             $acabadosObtenidos = explode("; ", $arrayAcabados[1]);
-                
+
                             #Contenido otro acabado
                             $arrayOtroAcabado = explode(": ", $arrayDescripcion[6]);
-                
+
                             #Contenido observación
                             $arrayObservacion = explode(": ", $arrayDescripcion[7]);
 
@@ -506,14 +505,14 @@ class ControladorPedidos
                             $tabla = "detalle_pedido";
                             $registrarProducto = ModeloPedidos::mdlRegistrarProducto($tabla, $datosProducto);
 
-                            if ( $registrarProducto == "ok" ) {
+                            if ($registrarProducto == "ok") {
 
                                 $item2 = "Id_Detalle_Pedido";
 
                                 /* ACTUALIZAR MARCAS
                                 -------------------------------------------------- */
                                 $valorMarca = $arrayMarca[1];
-                                if ( $arrayMarca[0] == "Marca" ){
+                                if ($arrayMarca[0] == "Marca") {
                                     #Traer clave de la marca
                                     $tabla = "marca";
                                     $item = "Marca";
@@ -522,21 +521,21 @@ class ControladorPedidos
 
                                     $tabla = "detalle_pedido";
                                     $item = "Id_Marca1";
-                                    
+
                                     $actualizarMarca = ModeloPedidos::mdlActualizarCampoNumerico($tabla, $item, $idMarca, $item2, $idProductoNuevo);
 
-                                    if ( $actualizarMarca == "error" ){
+                                    if ($actualizarMarca == "error") {
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
                                         break;
                                     }
-                                } else if ( $arrayMarca[0] == "Otra marca" ) {
+                                } else if ($arrayMarca[0] == "Otra marca") {
                                     $tabla = "detalle_pedido";
                                     $item = "Otra_Marca";
 
                                     $actualizarMarca = ModeloPedidos::mdlActualizarCampoCadena($tabla, $item, $valorMarca, $item2, $idProductoNuevo);
 
-                                    if ( $actualizarMarca == "error" ){
+                                    if ($actualizarMarca == "error") {
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
                                         break;
@@ -546,7 +545,7 @@ class ControladorPedidos
                                 /* ACTUALIZAR FORMAS
                                 -------------------------------------------------- */
                                 $valorForma = $arrayForma[1];
-                                if ( $arrayForma[0] == "Forma" ){
+                                if ($arrayForma[0] == "Forma") {
                                     #Traer clave de la forma
                                     $tabla = "forma";
                                     $item = "Forma";
@@ -555,21 +554,21 @@ class ControladorPedidos
 
                                     $tabla = "detalle_pedido";
                                     $item = "Id_Forma1";
-                                    
+
                                     $actualizarForma = ModeloPedidos::mdlActualizarCampoNumerico($tabla, $item, $idForma, $item2, $idProductoNuevo);
 
-                                    if ( $actualizarForma == "error" ){
+                                    if ($actualizarForma == "error") {
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
                                         break;
                                     }
-                                } else if ( $arrayForma[0] == "Otra forma" ) {
+                                } else if ($arrayForma[0] == "Otra forma") {
                                     $tabla = "detalle_pedido";
                                     $item = "Otra_Forma";
 
                                     $actualizarForma = ModeloPedidos::mdlActualizarCampoCadena($tabla, $item, $valorForma, $item2, $idProductoNuevo);
 
-                                    if ( $actualizarForma == "error" ){
+                                    if ($actualizarForma == "error") {
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
                                         break;
@@ -578,8 +577,8 @@ class ControladorPedidos
 
                                 /* ACTUALIZAR / INGRESAR CORTE(S)
                                 -------------------------------------------------- */
-                                if ( $cortesObtenidos[0] != "No especifica" ){
-                                    for ( $j = 0; $j < count($cortesObtenidos); $j++ ){
+                                if ($cortesObtenidos[0] != "No especifica") {
+                                    for ($j = 0; $j < count($cortesObtenidos); $j++) {
                                         #Traer clave del corte
                                         $tabla = "corte";
                                         $item = "Corte";
@@ -590,10 +589,10 @@ class ControladorPedidos
                                         $tabla = "corte_dpedido";
                                         $item = "Id_Corte1";
                                         $item3 = "Id_Detalle_Pedido2";
-                                        
+
                                         $registrarCorte = ModeloPedidos::mdlInsertarCaracteristicas($tabla, $item, $idCorte, $item3, $idProductoNuevo);
 
-                                        if ( $registrarCorte == "error" ){
+                                        if ($registrarCorte == "error") {
                                             #Error al ingresar cortes - Eliminar pedido
                                             $regErroneo++;
                                             break;
@@ -604,13 +603,13 @@ class ControladorPedidos
                                 /* ACTUALIZAR OTRO CORTE
                                 -------------------------------------------------- */
                                 $valorOtroCorte = $arrayOtroCorte[1];
-                                if ( $valorOtroCorte != "No" ){
+                                if ($valorOtroCorte != "No") {
                                     $tabla = "detalle_pedido";
                                     $item = "Otro_Corte";
 
                                     $actualizarOtroCorte = ModeloPedidos::mdlActualizarCampoCadena($tabla, $item, $valorOtroCorte, $item2, $idProductoNuevo);
 
-                                    if ( $actualizarOtroCorte == "error" ){
+                                    if ($actualizarOtroCorte == "error") {
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
                                         break;
@@ -619,8 +618,8 @@ class ControladorPedidos
 
                                 /* ACTUALIZAR / INGRESAR ACABADO(S)
                                 -------------------------------------------------- */
-                                if ( $acabadosObtenidos[0] != "No especifica" ){
-                                    for ( $j = 0; $j < count($acabadosObtenidos); $j++ ){
+                                if ($acabadosObtenidos[0] != "No especifica") {
+                                    for ($j = 0; $j < count($acabadosObtenidos); $j++) {
                                         #Traer clave del acabado
                                         $tabla = "acabado";
                                         $item = "Acabado";
@@ -631,10 +630,10 @@ class ControladorPedidos
                                         $tabla = "acabado_dpedido";
                                         $item = "Id_Acabado1";
                                         $item3 = "Id_Detalle_Pedido1";
-                                        
+
                                         $registrarAcabado = ModeloPedidos::mdlInsertarCaracteristicas($tabla, $item, $idAcabado, $item3, $idProductoNuevo);
 
-                                        if ( $registrarAcabado == "error" ){
+                                        if ($registrarAcabado == "error") {
                                             #Error al ingresar acabados - Eliminar pedido
                                             $regErroneo++;
                                             break;
@@ -645,20 +644,18 @@ class ControladorPedidos
                                 /* ACTUALIZAR OTRO ACABADO
                                 -------------------------------------------------- */
                                 $valorOtroAcabado = $arrayOtroAcabado[1];
-                                if ( $valorOtroAcabado != "No" ){
+                                if ($valorOtroAcabado != "No") {
                                     $tabla = "detalle_pedido";
                                     $item = "Otro_Acabado";
 
                                     $actualizarOtroAcabado = ModeloPedidos::mdlActualizarCampoCadena($tabla, $item, $valorOtroAcabado, $item2, $idProductoNuevo);
 
-                                    if ( $actualizarOtroAcabado == "error" ){
+                                    if ($actualizarOtroAcabado == "error") {
                                         #Error al actualizar la marca - Eliminar pedido
                                         $regErroneo++;
                                         break;
                                     }
                                 }
-
-                                
                             } else {
                                 #Error al registrar un poducto - Borrar el pedido
                                 echo '<script>
@@ -680,12 +677,11 @@ class ControladorPedidos
 
                                 return false;
                             }
-                            
                         }
 
                         /* EVALUAR SI HUBO ERRORES
                         -------------------------------------------------- */
-                        if ($regErroneo > 0){
+                        if ($regErroneo > 0) {
                             echo '<script>
                                     swal({
                                         title: "Error al levantar el pedido!",
@@ -702,9 +698,9 @@ class ControladorPedidos
                             $tabla = "pedido";
                             $item = "Id_Pedido";
                             $eliminarPedido = ModeloPedidos::mdlEliminarPedido($tabla, $item, $idPedido);
-                                        
+
                             return false;
-                        }else{
+                        } else {
                             echo '<script>
                                     swal({
                                         title: "Transacción exitosa!",
@@ -716,23 +712,81 @@ class ControladorPedidos
                                     });
                                   </script>';
                         }
-            
                     }
-        
                 }
-
             }
-
-
         }
     }
 
     /*=============================================
-    ELIMINAR PEDIDO
+    ACTUALIZAR PEDIDO
+    =============================================*/
+    static public function ctrActualizarPedido()
+    {
+
+        if (isset($_POST["editCliente"])) {
+
+            /* EVALUAR SI HAY ANTICIPO
+            -------------------------------------------------- */
+            if (isset($_POST["editPagoCompleto"]) && isset($_POST["editPagoCompleto"]) == "on") {
+                $anticipo = $_POST["editTotal"];
+            } else {
+                $anticipo = $_POST["editAnticipo"];
+            }
+
+            /* ORDENANDO LOS DATOS
+            -------------------------------------------------- */
+            $datos = array(
+                "idPedido" => $_POST["editIdPedido"],
+                "cliente" => $_POST["editCliente"],
+                "correo" => $_POST["editCorreo"],
+                "telefono" => $_POST["editTelefono"],
+                "subtotal" => $_POST["editSubtotal"],
+                "iva" => $_POST["editIVA"],
+                "total" => $_POST["editTotal"],
+                "anticipo" => $anticipo
+            );
+
+            $tabla = "pedido";
+            $item = "Id_Pedido";
+            $actualizarPedido = ModeloPedidos::mdlActualizarPedido($tabla, $item, $datos);
+
+            if ($actualizarPedido == "ok") {
+                echo '<script>
+                        swal({
+                            title: "Actualización de pedido exitosa!",
+                            text: "Los datos del pedido ' . $datos["idPedido"] . ' se actualizaron de forma correcta.",
+                            icon: "success",
+                            closeOnClickOutside: false,
+                        }).then( (result) => {
+                            if (window.history.replaceState) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                        });
+                      </script>';
+            } else {
+                echo '<script>
+                        swal({
+                            title: "Error al intentar actualizar!",
+                            text: "Ocurrió un error al actualizar los datos del pedido con número ' . $datos["idPedido"] . '. Intente de nuevo",
+                            icon: "success",
+                            closeOnClickOutside: false,
+                        }).then( (result) => {
+                            if (window.history.replaceState) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                        });
+                      </script>';
+            }
+        }
+    }
+
+    /*=============================================
+    ELIMINAR PEDIDO / PRODUCTO
     =============================================*/
     static public function ctrEliminarPedido()
     {
-        if ( isset($_GET["idPedido"]) && isset($_GET["idPedido"]) != "" ){
+        if (isset($_GET["idPedido"]) && isset($_GET["idPedido"]) != "") {
             $tabla = "pedido";
             $item = "Id_Pedido";
             $valor = $_GET["idPedido"];
@@ -743,7 +797,7 @@ class ControladorPedidos
                 echo '<script>
                         swal({
                             title: "Eliminación exitosa!",
-                            text: "El pedido con número \"'.$valor.'\" se eliminó correctamente.",
+                            text: "El pedido con número \"' . $valor . '\" se eliminó correctamente.",
                             icon: "success",
                             closeOnClickOutside: false,
                         }).then( (result) => {
@@ -762,6 +816,106 @@ class ControladorPedidos
                         });
                       </script>';
             }
+        } else if (isset($_GET["idDetallePedido"]) && isset($_GET["idDetallePedido"]) != "") {
+            $tabla = "detalle_pedido";
+            $item = "Id_Detalle_Pedido";
+            $valor = $_GET["idDetallePedido"];
+
+            $registroProducto = ModeloPedidos::mdlTraerRegistroUnicoPorClave($tabla, $item, $valor);
+            $idPedido = $registroProducto["Id_Pedido1"];
+
+            $eliminarProducto = ModeloPedidos::mdlEliminarPedido($tabla, $item, $valor);
+
+            if ($eliminarProducto == "ok") {
+
+                $actualizarTotales = ControladorPedidos::actualizarTotales($idPedido);
+
+                if ( $actualizarTotales == "error" ) {
+                    echo '<script>
+                        swal({
+                            title: "Error al actualizar totales!",
+                            text: "El producto fue removido del pedido correctamente, pero hubo un problema al actulizar los totales.",
+                            icon: "error",
+                            closeOnClickOutside: false,
+                        }).then( (result) => {
+                            window.location = "administrarPedidos";
+                        });
+                      </script>';
+                }
+
+                echo '<script>
+                        swal({
+                            title: "Eliminación exitosa!",
+                            text: "El producto fue removido del pedido correctamente.",
+                            icon: "success",
+                            closeOnClickOutside: false,
+                        }).then( (result) => {
+                            window.location = "administrarPedidos";
+                        });
+                      </script>';
+            } else {
+                echo '<script>
+                        swal({
+                            title: "Error!",
+                            text: "Ha ocurrido un error al intentar eliminar el producto.",
+                            icon: "error",
+                            closeOnClickOutside: false,
+                        }).then( (result) => {
+                            window.location = "administrarPedidos";
+                        });
+                      </script>';
+            }
         }
     }
+
+    /*=============================================
+    ACTUALIZAR TOTALES DEL PEDIDO AL ACTUALIZAR
+    =============================================*/
+    static public function actualizarTotales($idPedido){
+
+        /* TRAER INFORMACION DEL PEDIDO
+        -------------------------------------------------- */
+        $tabla = "pedido";
+        $item = "Id_Pedido";
+        $informacionPedido = ModeloPedidos::mdlTraerRegistroUnicoPorClave($tabla, $item, $idPedido);
+
+        $iva = $informacionPedido["IVA"];
+
+        /* TRAER PRODUCTOS DEL PEDIDO
+        -------------------------------------------------- */
+        $tabla = "detalle_pedido";
+        $item = "Id_Pedido1";
+        $productos = ModeloPedidos::mdlTraerProductosPedido($tabla, $item, $idPedido);
+
+        $sumaSubtotales = 0;
+        $total = 0;
+
+        if ( $productos ) {
+
+            foreach ( $productos as $key => $value ) {
+                $sumaSubtotales += floatval($value["Importe"]);
+            }
+
+            $total = $sumaSubtotales + ( ( $sumaSubtotales * $iva ) / 100 );
+
+        } else {
+            $iva = 0;
+        }
+
+        /* ACTUALIZAR TOTALES
+        -------------------------------------------------- */
+        $tabla = "pedido";
+        $datos = array(
+            "idPedido" => $idPedido,
+            "subtotal" => $sumaSubtotales,
+            "iva" => $iva,
+            "total" => $total
+        );
+
+        $actualizarPedido = ModeloPedidos::mdlActualizarTotales($tabla, $datos);
+
+        return $actualizarPedido;
+
+    }    
+    
 }

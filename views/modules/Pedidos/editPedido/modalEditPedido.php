@@ -12,6 +12,7 @@ MODAL - EDITAR PEDIDO
                 -------------------------------------------------- -->
             <div class="modal-header" style="border-top: #FFC107 12px solid;">
                 <h1 class="modal-title">Editar Pedido "<span id="viewEditNumeroPedido">10001</span>"</h1>
+                <input type="hidden" name="editIdPedido" id="editIdPedido">
                 <button type="button" class="close btn text-black closeModalEditPedido" data-dismiss="modal">×</button>
             </div>
             <!-- FIN HEADER
@@ -92,6 +93,7 @@ MODAL - EDITAR PEDIDO
                 <div class="mb-3">
                     <h5 class="font-weight-bold text-center">Detalles del pedido</h5>
                     <div class="bg-light border-bottom border-secondary" id="editContenedorProductos"></div>
+                    <div class="text-center mt-3"><button type="button" class="btn btn-outline-success">Agregar producto</button></div>
                 </div>
 
                 <div class="mb-3">
@@ -169,3 +171,14 @@ MODAL - EDITAR PEDIDO
 </div>
 
 <!--============  FIN MODAL - AGREGAR ACABADO =============-->
+
+<?php
+
+    /*=============================================
+    ACTUALIZAR PEDIDO
+    =============================================*/
+    $actualizarPedido = new ControladorPedidos();
+    $actualizarPedido->ctrActualizarPedido();
+
+?>
+
