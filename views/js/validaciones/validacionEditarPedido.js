@@ -75,7 +75,7 @@ $(document).on("submit", "#formEditPedido", function(e){
         expEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/,
         expTelf = /^5+[5-6]+[0-9]{8,8}$/;
 
-    if ( !validarExpresion($("editCliente"), expNombre) ) {e.preventDefault();}
+    if ( !validarExpresion($("#editCliente"), expNombre) ) {e.preventDefault();}
     if ( !validarExpresion($("#editTelefono"), expTelf) ) {e.preventDefault();}
 
     if ( $("#editCorreo").val() != "" && $("#editCorreo").val() != null ) {
