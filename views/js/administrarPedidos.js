@@ -199,21 +199,26 @@ $(document).on("click", ".btnEditarPedido", function(){
                     for ( var i=0; i < respuesta.length; i++ ){
 
                         if ( respuesta[i]["descuento"] > 0 ) {
-                            badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-0" style="font-size: 1rem;">- '+respuesta[i]["descuento"]+'%</span>';
+                            badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- '+respuesta[i]["descuento"]+'%</span>';
                         } else {
                             badgeDescuento = "";
                         }
 
                         $("#editContenedorProductos").append(
                             '<div class="productoNuevo row py-3 border-top border-secondary" idProducto="'+respuesta[i]["idProducto"]+'">'+
-                            '    <div class="col-12 col-xl-9 pb-2 pb-xl-0">'+
+                            '    <div class="col-12 col-xl-8 pb-2 pb-xl-0">'+
                             '        <span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>'+respuesta[i]["descripcion"]+
                             '    </div>'+
-                            '    <div class="col-6 col-xl-1"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>'+respuesta[i]["cantidad"]+'</div>'+
-                            '    <div class="col-6 col-xl-1"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ '+Number(respuesta[i]["importe"]).toFixed(2)+badgeDescuento+'</div>'+
+                            '    <div class="col-6 col-xl-2 text-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>'+
+                            '       <div class="btn-group">'+
+                            '           <button type="button" class="btn btn-outline-info btnAddOne" idProducto="'+respuesta[i]["idProducto"]+'" idPedido="'+idPedidoSeleccionado+'"><i class="fas fa-plus"></i></button>'+
+                            '           <div class="btn border border-info px-3 font-weight-bold">'+respuesta[i]["cantidad"]+'</div>'+
+                            '           <button type="button" class="btn btn-outline-info btnRemoveOne" idProducto="'+respuesta[i]["idProducto"]+'" idPedido="'+idPedidoSeleccionado+'"><i class="fas fa-minus"></i></button>'+
+                            '       </div>'+
+                            '   </div>'+
+                            '    <div class="col-6 col-xl-1 text-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ <span class="precioProducto">'+Number(respuesta[i]["importe"]).toFixed(2)+badgeDescuento+'</span></div>'+
                             '    <div class="col-12 col-xl-1 py-2 py-xl-0">'+
                             '       <div class="btn-group w-100">'+
-                                        '<button type="button" class="btn btn-warning" idProducto="'+respuesta[i]["idProducto"]+'"><i class="fas fa-edit mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Editar</span></button>'+
                                         '<button type="button" class="btn btn-danger btnEliminarDetallePedido" idProducto="'+respuesta[i]["idProducto"]+'"><i class="fas fa-trash-alt mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Eliminar</span></button>'+
                             '       </div>'+
                             '   </div>'+
