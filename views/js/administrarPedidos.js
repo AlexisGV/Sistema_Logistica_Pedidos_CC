@@ -209,9 +209,9 @@ $(document).on("click", ".btnEditarPedido", function () {
                     for (var i = 0; i < respuesta.length; i++) {
 
                         if (respuesta[i]["descuento"] > 0) {
-                            badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- ' + respuesta[i]["descuento"] + '%</span>';
+                            var badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- ' + respuesta[i]["descuento"] + '%</span>';
                         } else {
-                            badgeDescuento = "";
+                            var badgeDescuento = "";
                         }
 
                         $("#editContenedorProductos").append(
@@ -222,11 +222,11 @@ $(document).on("click", ".btnEditarPedido", function () {
                             '    <div class="col-6 col-xl-2 text-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>' +
                             '       <div class="btn-group">' +
                             '           <button type="button" class="btn btn-outline-info btnAddOne" idProducto="' + respuesta[i]["idProducto"] + '" idPedido="' + idPedidoSeleccionado + '"><i class="fas fa-plus"></i></button>' +
-                            '           <div class="btn border border-info px-3 font-weight-bold">' + respuesta[i]["cantidad"] + '</div>' +
+                            '           <div class="btn border border-info px-3 font-weight-bold cantidadProducto">' + respuesta[i]["cantidad"] + '</div>' +
                             '           <button type="button" class="btn btn-outline-info btnRemoveOne" idProducto="' + respuesta[i]["idProducto"] + '" idPedido="' + idPedidoSeleccionado + '"><i class="fas fa-minus"></i></button>' +
                             '       </div>' +
                             '   </div>' +
-                            '    <div class="col-6 col-xl-1 text-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ <span class="precioProducto">' + Number(respuesta[i]["importe"]).toFixed(2) + badgeDescuento + '</span></div>' +
+                            '    <div class="col-6 col-xl-1 text-center contenedorPrecioProducto"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ <span class="precioProducto" precio="' + respuesta[i]["precioUnitario"] + '">' + Number(respuesta[i]["importe"]).toFixed(2) + badgeDescuento + '</span></div>' +
                             '    <div class="col-12 col-xl-1 py-2 py-xl-0">' +
                             '       <div class="btn-group w-100">' +
                             '<button type="button" class="btn btn-danger btnEliminarDetallePedido" idProducto="' + respuesta[i]["idProducto"] + '"><i class="fas fa-trash-alt mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Eliminar</span></button>' +
@@ -257,6 +257,192 @@ $(document).on("click", ".btnEditarPedido", function () {
 
         }
     });
+
+});
+
+/*=============================================
+AGREGAR NUEVA CANTIDAD
+=============================================*/
+$(document).on("click", ".btnAddOne", function () {
+    let idProducto = $(this).attr("idProducto");
+
+    let campoCantidad = $(this).parent().children(".cantidadProducto");
+    let campoPrecio = $(this).parent().parent().parent().children(".contenedorPrecioProducto").children(".precioProducto");
+
+    swal({
+        title: "Agregar uno más al producto",
+        text: "¿Estas seguro de que quieres agregar uno a la cantidad del producto? Esta acción cambiará los precios de forma automática sin necesidad de dar clic en el botón \"Guardar cambios\" . Si deseas continuar da clic en el botón \"Confirmar\"",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                value: null,
+                visible: true,
+                className: "bg-danger",
+            },
+            confirm: {
+                text: "Confirmar",
+                value: true,
+                visible: true,
+                className: "bg-primary",
+            }
+        },
+    }).then((result) => {
+        if (result) {
+
+            let accion = "suma";
+            var datos = new FormData();
+            datos.append('idDetallePedidoCantidad', idProducto);
+            datos.append('accion', accion);
+
+            $.ajax({
+                url: "ajax/pedidos.ajax.php",
+                method: "POST",
+                data: datos,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function (respuesta) {
+                    // console.log(respuesta);
+
+                    campoCantidad.text(respuesta["Cantidad"]);
+                    campoPrecio.text(Number(respuesta["Importe"]).toFixed(2));
+                    $("#editSubtotal").val(Number(respuesta["Subtotal"]).toFixed(2));
+                    $("#editIVA").val(respuesta["IVA"]);
+                    $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
+
+                    if (respuesta["Anticipo"] == respuesta["Total"]) {
+                        $("#editPagoCompleto").prop("checked", true).trigger("change");
+                    } else {
+                        $("#editPagoCompleto").prop("checked", false).trigger("change");
+                        $("#editAnticipo").val(Number(respuesta["Anticipo"]).toFixed(2));
+                    }
+
+                    if (respuesta == "errorCantidad") {
+                        swal({
+                            title: "Error al actualizar la cantidad!",
+                            text: "No se puedo aumentar la cantidad del producto, intente de nuevo.",
+                            icon: "error",
+                            closeOnClickOutside: false,
+                        });
+                    } else if ( respuesta == "errorTotales" ) {
+                        swal({
+                            title: "Error al actualizar totales!",
+                            text: "La cantidad y los precios se cambiaron, pero hubo un problema al actualizar los totales.",
+                            icon: "error",
+                            closeOnClickOutside: false,
+                        });
+                    } else {
+                        swal({
+                            title: "Cantidad sumada!",
+                            text: "Se agrego uno al producto seleccionado de forma correcta.",
+                            icon: "success",
+                            closeOnClickOutside: false,
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+});
+
+/*=============================================
+DISMINUIR CANTIDAD DEL PRODUCTO
+=============================================*/
+$(document).on("click", ".btnRemoveOne", function () {
+    let idProducto = $(this).attr("idProducto");
+
+    let campoCantidad = $(this).parent().children(".cantidadProducto");
+    let campoPrecio = $(this).parent().parent().parent().children(".contenedorPrecioProducto").children(".precioProducto");
+
+    if ( (Number(campoCantidad.text()) - 1) == 0 ) {
+        swal({
+            title: "Error!",
+            text: "No puedes tener productos con cantidad en 0. Si deseas eliminar el producto da clic sobre el botón correspondiente, el cual puedes identificar con color rojo.",
+            icon: "error",
+            closeOnClickOutside: false,
+        });
+    } else {
+        swal({
+            title: "Disminuir uno al producto",
+            text: "¿Estas seguro de que quieres descontar uno a la cantidad del producto? Esta acción cambiará los precios de forma automática sin necesidad de dar clic en el botón \"Guardar cambios\" . Si deseas continuar da clic en el botón \"Confirmar\"",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Cancelar",
+                    value: null,
+                    visible: true,
+                    className: "bg-danger",
+                },
+                confirm: {
+                    text: "Confirmar",
+                    value: true,
+                    visible: true,
+                    className: "bg-primary",
+                }
+            },
+        }).then((result) => {
+            if (result) {
+    
+                let accion = "resta";
+                var datos = new FormData();
+                datos.append('idDetallePedidoCantidad', idProducto);
+                datos.append('accion', accion);
+    
+                $.ajax({
+                    url: "ajax/pedidos.ajax.php",
+                    method: "POST",
+                    data: datos,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (respuesta) {
+                        // console.log(respuesta);
+    
+                        campoCantidad.text(respuesta["Cantidad"]);
+                        campoPrecio.text(Number(respuesta["Importe"]).toFixed(2));
+                        $("#editSubtotal").val(Number(respuesta["Subtotal"]).toFixed(2));
+                        $("#editIVA").val(respuesta["IVA"]);
+                        $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
+    
+                        if (respuesta["Anticipo"] == respuesta["Total"]) {
+                            $("#editPagoCompleto").prop("checked", true).trigger("change");
+                        } else {
+                            $("#editPagoCompleto").prop("checked", false).trigger("change");
+                            $("#editAnticipo").val(Number(respuesta["Anticipo"]).toFixed(2));
+                        }
+    
+                        if (respuesta == "errorCantidad") {
+                            swal({
+                                title: "Error al actualizar la cantidad!",
+                                text: "No se puedo aumentar la cantidad del producto, intente de nuevo.",
+                                icon: "error",
+                                closeOnClickOutside: false,
+                            });
+                        } else if ( respuesta == "errorTotales" ) {
+                            swal({
+                                title: "Error al actualizar totales!",
+                                text: "La cantidad y los precios se cambiaron, pero hubo un problema al actualizar los totales.",
+                                icon: "error",
+                                closeOnClickOutside: false,
+                            });
+                        } else {
+                            swal({
+                                title: "Cantidad restada!",
+                                text: "Se descontó uno al producto seleccionado de forma correcta.",
+                                icon: "success",
+                                closeOnClickOutside: false,
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+
 
 });
 
@@ -334,7 +520,7 @@ $(document).on("click", ".btnEliminarDetallePedido", function () {
                 }
 
             });
-            
+
         }
     });
 });

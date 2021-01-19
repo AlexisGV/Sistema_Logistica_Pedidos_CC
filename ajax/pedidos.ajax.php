@@ -69,6 +69,22 @@ class AjaxPedidos
         echo json_encode($eliminarProducto);
 
     }
+
+    /*=============================================
+    ELIMINAR PRODUCTO DEL PEDIDO
+    =============================================*/
+    public $tipo;
+
+    public function ajaxActualizarCantidad(){
+
+        $idDetallePedido = $this->idProducto;
+        $accion = $this->tipo;
+
+        $actualizarCantidad = ControladorPedidos::ctrActualizarCantidad($idDetallePedido, $accion);
+
+        echo json_encode($actualizarCantidad);
+
+    }
     
 }
 
@@ -156,10 +172,20 @@ if ( isset($_POST["verProdsPedidoId"]) ){
 }
 
 /*=============================================
-TRAER PRODUCTOS DEL PEDIDO
+ELIMINAR PRODUCTOS DEL PEDIDO
 =============================================*/
 if ( isset($_POST["idDetallePedido"]) ){
     $eliminarProducto = new AjaxPedidos();
     $eliminarProducto->idProducto = $_POST["idDetallePedido"];
     $eliminarProducto->ajaxEliminarProductoPedido();
+}
+
+/*=============================================
+ACTUALIZAR CANTIDAD DE PRODUCTO
+=============================================*/
+if ( isset($_POST["idDetallePedidoCantidad"]) ){
+    $actualizarCantidad = new AjaxPedidos();
+    $actualizarCantidad->idProducto = $_POST["idDetallePedidoCantidad"];
+    $actualizarCantidad->tipo = $_POST["accion"];
+    $actualizarCantidad->ajaxActualizarCantidad();
 }

@@ -121,6 +121,25 @@ class ModeloPedidos
         $stmt = null;
     }
 
+    /*=========================================================
+    TRAER INFORMACION DEL PRODUCTO JUNTOS CON LAS DEL PEDIDO
+    =========================================================*/
+    static public function mdlTraerProductoConPedido($tabla, $item, $valor)
+    {
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT * FROM $tabla
+             INNER JOIN pedido ON Id_Pedido=Id_Pedido1 
+             WHERE $item=:$item");
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
     /*=============================================
     TRAER CARACTERISTICAS DEL PRODUCTO
     =============================================*/
@@ -402,6 +421,41 @@ class ModeloPedidos
     }
 
     /*=============================================
+    ACTUALIZAR CANTIDAD
+    =============================================*/
+    static public function mdlActualizarCantidad($tabla, $idProducto, $cantidad, $precio, $tipo)
+    {
+
+        if ($tipo == "suma") :
+            $cantidadNueva = intval($cantidad) + 1;
+        elseif ($tipo == "resta") :
+            $cantidadNueva = intval($cantidad) - 1;
+        endif;
+
+        $precioFinal = floatval($precio) * $cantidadNueva;
+
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla
+             SET Cantidad=:cantidad,
+                 Importe=:precio
+             WHERE Id_Detalle_Pedido=:idProducto"
+        );
+        $stmt->bindParam(":cantidad", $cantidadNueva, PDO::PARAM_INT);
+        $stmt->bindParam(":precio", $precioFinal, PDO::PARAM_STR);
+        $stmt->bindParam(":idProducto", $idProducto, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            $stmt->errorInfo();
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
     ACTUALIZAR TOTALES
     =============================================*/
     static public function mdlActualizarTotales($tabla, $datos)
@@ -411,13 +465,14 @@ class ModeloPedidos
              SET Subtotal=:subtotal,
                  IVA=:iva,
                  Total=:total
-             WHERE Id_Pedido=:idPedido");
+             WHERE Id_Pedido=:idPedido"
+        );
         $stmt->bindParam(":subtotal", $datos["subtotal"], PDO::PARAM_STR);
         $stmt->bindParam(":iva", $datos["iva"], PDO::PARAM_INT);
         $stmt->bindParam(":total", $datos["total"], PDO::PARAM_STR);
         $stmt->bindParam(":idPedido", $datos["idPedido"], PDO::PARAM_INT);
 
-        if ( $stmt->execute() ) {
+        if ($stmt->execute()) {
             return "ok";
         } else {
             $stmt->errorInfo();

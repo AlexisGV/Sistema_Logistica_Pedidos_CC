@@ -782,6 +782,37 @@ class ControladorPedidos
     }
 
     /*=============================================
+    ACTUALIZAR CANTIDAD
+    =============================================*/
+    static public function ctrActualizarCantidad($idProducto, $tipo){
+
+        $tabla = "detalle_pedido";
+        $item = "Id_Detalle_Pedido";
+        $producto = ModeloPedidos::mdlTraerRegistroUnicoPorClave($tabla, $item, $idProducto);
+        $cantidadActual = $producto["Cantidad"];
+        $precioUnitario = $producto["Precio_Uni"];
+        $idPedido = $producto["Id_Pedido1"];
+
+        $actualizarCantidad = ModeloPedidos::mdlActualizarCantidad($tabla, $idProducto, $cantidadActual, $precioUnitario, $tipo);
+
+        if ( $actualizarCantidad == "ok" ) {
+
+            $actualizarTotales = ControladorPedidos::actualizarTotales($idPedido);
+
+            if ( $actualizarTotales == "error" ) {
+                return "errorTotales";
+            } else {
+                $datosPedido = ModeloPedidos::mdlTraerProductoConPedido($tabla, $item, $idProducto);
+                return $datosPedido;
+            }
+
+        } else {
+            return "errorCantidad";
+        }
+        
+    }
+
+    /*=============================================
     ELIMINAR PRODUCTO
     =============================================*/
     static public function ctrEliminarProducto($idProducto)
