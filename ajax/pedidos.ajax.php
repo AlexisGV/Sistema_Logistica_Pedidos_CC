@@ -10,16 +10,26 @@ class AjaxPedidos
     AGREGAR PRODUCTOS - AL LEVANTAR PEDIDO
     =============================================*/
     public $datosSimples = [],
-           $cortes = [],
-           $acabados = [];
+        $cortes = [],
+        $acabados = [];
 
     public function ajaxAgregarProducto()
     {
         $valores = $this->datosSimples;
-        $cortesSelect = $this->cortes; 
-        $acabadosSelect = $this->acabados; 
+        $cortesSelect = $this->cortes;
+        $acabadosSelect = $this->acabados;
 
         $respuesta = ControladorPedidos::ctrAgregarProducto($valores, $cortesSelect, $acabadosSelect);
+        echo json_encode($respuesta);
+    }
+
+    public function ajaxAgregarProductoToPedido()
+    {
+        $valores = $this->datosSimples;
+        $cortesSelect = $this->cortes;
+        $acabadosSelect = $this->acabados;
+
+        $respuesta = ControladorPedidos::ctrAgregarProductoToPedido($valores, $cortesSelect, $acabadosSelect);
         echo json_encode($respuesta);
     }
 
@@ -28,7 +38,8 @@ class AjaxPedidos
     =============================================*/
     public $idPedido;
 
-    public function ajaxVerPedido(){
+    public function ajaxVerPedido()
+    {
 
         $tabla = "pedido";
         $item = "Id_Pedido";
@@ -37,13 +48,13 @@ class AjaxPedidos
         $informacionPedido = ControladorPedidos::ctrTraerInformacionPedido($tabla, $item, $verPedidoId);
 
         echo json_encode($informacionPedido);
-
     }
 
     /*=============================================
     TRAER PRODUCTOS DEL PEDIDO
     =============================================*/
-    public function ajaxVerProductosPedido(){
+    public function ajaxVerProductosPedido()
+    {
 
         $tabla = "detalle_pedido";
         $item = "Id_Pedido1";
@@ -52,7 +63,6 @@ class AjaxPedidos
         $productosPedido = ControladorPedidos::ctrTraerProductosPedido($tabla, $item, $verPedidoId);
 
         echo json_encode($productosPedido);
-
     }
 
     /*=============================================
@@ -60,14 +70,14 @@ class AjaxPedidos
     =============================================*/
     public $idProducto;
 
-    public function ajaxEliminarProductoPedido(){
+    public function ajaxEliminarProductoPedido()
+    {
 
         $idDetallePedido = $this->idProducto;
 
         $eliminarProducto = ControladorPedidos::ctrEliminarProducto($idDetallePedido);
 
         echo json_encode($eliminarProducto);
-
     }
 
     /*=============================================
@@ -75,7 +85,8 @@ class AjaxPedidos
     =============================================*/
     public $tipo;
 
-    public function ajaxActualizarCantidad(){
+    public function ajaxActualizarCantidad()
+    {
 
         $idDetallePedido = $this->idProducto;
         $accion = $this->tipo;
@@ -83,19 +94,23 @@ class AjaxPedidos
         $actualizarCantidad = ControladorPedidos::ctrActualizarCantidad($idDetallePedido, $accion);
 
         echo json_encode($actualizarCantidad);
-
     }
-    
 }
 
 /*=============================================
 AGREGAR PRODUCTOS - AL LEVANTAR PEDIDO
 =============================================*/
-if (isset($_POST["ingNomProducto"])) {
+if (isset($_POST["ingNomProducto"]) || isset($_POST["ingNomProductoPedido"])) {
     $agregarProducto = new AjaxPedidos();
 
     #Informacion básica del producto
-    $agregarProducto->datosSimples += ["titulo" => $_POST["ingNomProducto"]];
+    if (isset($_POST["ingNomProducto"])) :
+        $agregarProducto->datosSimples += ["titulo" => $_POST["ingNomProducto"]];
+    elseif (isset($_POST["ingNomProductoPedido"])) :
+        $agregarProducto->datosSimples += ["idPedido" => $_POST["idPedido"]];
+        $agregarProducto->datosSimples += ["titulo" => $_POST["ingNomProductoPedido"]];
+    endif;
+
     $agregarProducto->datosSimples += ["precioInicial" => $_POST["ingPrecioInicial"]];
     $agregarProducto->datosSimples += ["cantidad" => $_POST["ingCantidad"]];
     $agregarProducto->datosSimples += ["descuento" => $_POST["ingDescuento"]];
@@ -103,9 +118,9 @@ if (isset($_POST["ingNomProducto"])) {
     $agregarProducto->datosSimples += ["observacion" => $_POST["ingObvProducto"]];
 
     #Marca
-    if ( isset($_POST["ingMarcaProducto"]) ){
+    if (isset($_POST["ingMarcaProducto"])) {
         $agregarProducto->datosSimples += ["marca" => $_POST["ingMarcaProducto"]];
-    }else{
+    } else {
         $agregarProducto->datosSimples += ["marca" => "Otra marca"];
     }
     if (isset($_POST["ingCheckOtraMarcaProd"])) {
@@ -116,9 +131,9 @@ if (isset($_POST["ingNomProducto"])) {
     $agregarProducto->datosSimples += ["otraMarca" => $_POST["ingOtraMarcaProd"]];
 
     #Forma
-    if (isset($_POST["ingFormaProducto"])){
+    if (isset($_POST["ingFormaProducto"])) {
         $agregarProducto->datosSimples += ["forma" => $_POST["ingFormaProducto"]];
-    }else{
+    } else {
         $agregarProducto->datosSimples += ["forma" => "Otra forma"];
     }
     if (isset($_POST["ingCheckOtraFormaProd"])) {
@@ -150,13 +165,23 @@ if (isset($_POST["ingNomProducto"])) {
     }
     $agregarProducto->datosSimples += ["otroAcabado" => $_POST["ingOtroAcabadoProd"]];
 
-    $agregarProducto->ajaxAgregarProducto();
+    #Ejecucion de los metodos
+    if (isset($_POST["ingNomProducto"])) :
+        /* EJECUTAR METODO PARA AGREGAR PRODUCTO AL LEVANTAR PEDIDO
+        -------------------------------------------------- */
+        $agregarProducto->ajaxAgregarProducto();
+    elseif (isset($_POST["ingNomProductoPedido"])) :
+        /* EJECUTAR METODO PARA AGREGAR PRODUCTO A PEDIDO EXISTENTE
+        -------------------------------------------------- */
+        $agregarProducto->ajaxAgregarProductoToPedido();
+    endif;
+    
 }
 
 /*=============================================
 TRAER INFORMACION DEL PEDIDO
 =============================================*/
-if ( isset($_POST["verPedidoId"]) ){
+if (isset($_POST["verPedidoId"])) {
     $verPedido = new AjaxPedidos();
     $verPedido->idPedido = $_POST["verPedidoId"];
     $verPedido->ajaxVerPedido();
@@ -165,7 +190,7 @@ if ( isset($_POST["verPedidoId"]) ){
 /*=============================================
 TRAER PRODUCTOS DEL PEDIDO
 =============================================*/
-if ( isset($_POST["verProdsPedidoId"]) ){
+if (isset($_POST["verProdsPedidoId"])) {
     $verProdsPedido = new AjaxPedidos();
     $verProdsPedido->idPedido = $_POST["verProdsPedidoId"];
     $verProdsPedido->ajaxVerProductosPedido();
@@ -174,7 +199,7 @@ if ( isset($_POST["verProdsPedidoId"]) ){
 /*=============================================
 ELIMINAR PRODUCTOS DEL PEDIDO
 =============================================*/
-if ( isset($_POST["idDetallePedido"]) ){
+if (isset($_POST["idDetallePedido"])) {
     $eliminarProducto = new AjaxPedidos();
     $eliminarProducto->idProducto = $_POST["idDetallePedido"];
     $eliminarProducto->ajaxEliminarProductoPedido();
@@ -183,7 +208,7 @@ if ( isset($_POST["idDetallePedido"]) ){
 /*=============================================
 ACTUALIZAR CANTIDAD DE PRODUCTO
 =============================================*/
-if ( isset($_POST["idDetallePedidoCantidad"]) ){
+if (isset($_POST["idDetallePedidoCantidad"])) {
     $actualizarCantidad = new AjaxPedidos();
     $actualizarCantidad->idProducto = $_POST["idDetallePedidoCantidad"];
     $actualizarCantidad->tipo = $_POST["accion"];

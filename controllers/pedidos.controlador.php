@@ -813,6 +813,48 @@ class ControladorPedidos
     }
 
     /*=============================================
+    AGREGAR PRODUCTO A PEDIDO EXISTENTE
+    =============================================*/
+    static public function ctrAgregarProductoToPedido($datosSimples, $cortesSelect, $acabadosSelect){
+
+        #Estableciendo el ID del producto o detalle de pedido
+        $tabla = "detalle_pedido";
+        $item = "Id_Detalle_Pedido";
+
+        $idProducto = ModeloPedidos::mdlObtenerSiguienteId($tabla, $item);
+
+        if ($idProducto) {
+            $idProductoNuevo = intval($idProducto["Id_Detalle_Pedido"]) + 1;
+        } else {
+            $idProductoNuevo = "1";
+        }
+
+        #Traer clave de la marca
+        $tabla = "marca";
+        $item = "Marca";
+        if ( $datosSimples["checkMarca"] != "off" ) {
+            $valor = $datosSimples["marca"];
+            $marca = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
+            $idMarca = $marca["Id_Marca"];
+        } else {
+            $valor = "Otra marca";
+            $marca = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
+            $idMarca = $marca["Id_Marca"];
+
+        }
+        
+        #Traer clave de la forma "Otra forma"
+        // $tabla = "forma";
+        // $item = "Forma";
+        // $valor = "Otra forma";
+        // $forma = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
+        // $idForma = $forma["Id_Forma"];
+
+        return $datosSimples;
+
+    }
+
+    /*=============================================
     ELIMINAR PRODUCTO
     =============================================*/
     static public function ctrEliminarProducto($idProducto)

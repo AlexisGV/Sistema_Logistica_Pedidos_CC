@@ -1,7 +1,7 @@
 <!--=============================================
 MODAL - EDITAR PEDIDO
 =============================================-->
-<div class="modal fade" id="modalEditPedido" data-backdrop="static">
+<div class="modal fade" id="modalEditPedido" data-backdrop="static" style="overflow-y: scroll;">
     <!--=============================================
     FORMULARIO - EDITAR PEDIDO
     =============================================-->
@@ -93,7 +93,7 @@ MODAL - EDITAR PEDIDO
                 <div class="mb-3">
                     <h5 class="font-weight-bold text-center">Detalles del pedido</h5>
                     <div class="bg-light border-bottom border-secondary" id="editContenedorProductos"></div>
-                    <div class="text-center mt-3"><button type="button" class="btn btn-outline-success">Agregar producto</button></div>
+                    <div class="text-center mt-3"><button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalAddProductoPedido" id="addProductoToPedido">Agregar producto</button></div>
                 </div>
 
                 <div class="mb-3">
@@ -160,7 +160,7 @@ MODAL - EDITAR PEDIDO
                 -------------------------------------------------- -->
             <div class="modal-footer" style="border-top: #FFC107 1px solid;">
                 <button type="button" class="btn btn-danger closeModalEditPedido" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                <button type="submit" class="btn btn-warning">Guardar cambios</button>
             </div>
             <!-- FIN PIE DEL MODAL
                 -------------------------------------------------- -->

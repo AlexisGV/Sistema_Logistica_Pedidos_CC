@@ -509,6 +509,13 @@ $(document).on("click", ".btnEliminarDetallePedido", function () {
                         $("#editIVA").val(respuesta["IVA"]);
                         $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
 
+                        if (respuesta["Anticipo"] == respuesta["Total"]) {
+                            $("#editPagoCompleto").prop("checked", true).trigger("change");
+                        } else {
+                            $("#editPagoCompleto").prop("checked", false).trigger("change");
+                            $("#editAnticipo").val(Number(respuesta["Anticipo"]).toFixed(2));
+                        }
+
                         swal({
                             title: "Eliminación exitosa!",
                             text: "El producto fue removido del pedido correctamente.",
