@@ -110,7 +110,7 @@ class ModeloPedidos
     =========================================================*/
     static public function mdlTraerProductosPedido($tabla, $item, $valor)
     {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item=:$item");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item=:$item ORDER BY Id_Detalle_Pedido ASC");
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
         $stmt->execute();

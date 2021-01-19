@@ -782,7 +782,40 @@ class ControladorPedidos
     }
 
     /*=============================================
-    ELIMINAR PEDIDO / PRODUCTO
+    ELIMINAR PRODUCTO
+    =============================================*/
+    static public function ctrEliminarProducto($idProducto)
+    {
+        $tabla = "detalle_pedido";
+        $item = "Id_Detalle_Pedido";
+        $valor = $idProducto;
+
+        $registroProducto = ModeloPedidos::mdlTraerRegistroUnicoPorClave($tabla, $item, $valor);
+        $idPedido = $registroProducto["Id_Pedido1"];
+
+        $eliminarProducto = ModeloPedidos::mdlEliminarPedido($tabla, $item, $valor);
+
+        if ($eliminarProducto == "ok") {
+
+            $actualizarTotales = ControladorPedidos::actualizarTotales($idPedido);
+
+            if ($actualizarTotales == "error") {
+                return "errorActualizacion";
+            } else {
+                $tabla = "pedido";
+                $item = "Id_Pedido";
+                $valoresPedido = ModeloPedidos::mdlTraerInformacionPedido($tabla, $item, $idPedido);
+
+                return $valoresPedido;
+            }
+
+        } else {
+            return "error";
+        }
+    }
+
+    /*=============================================
+    ELIMINAR PEDIDO
     =============================================*/
     static public function ctrEliminarPedido()
     {
@@ -816,62 +849,14 @@ class ControladorPedidos
                         });
                       </script>';
             }
-        } else if (isset($_GET["idDetallePedido"]) && isset($_GET["idDetallePedido"]) != "") {
-            $tabla = "detalle_pedido";
-            $item = "Id_Detalle_Pedido";
-            $valor = $_GET["idDetallePedido"];
-
-            $registroProducto = ModeloPedidos::mdlTraerRegistroUnicoPorClave($tabla, $item, $valor);
-            $idPedido = $registroProducto["Id_Pedido1"];
-
-            $eliminarProducto = ModeloPedidos::mdlEliminarPedido($tabla, $item, $valor);
-
-            if ($eliminarProducto == "ok") {
-
-                $actualizarTotales = ControladorPedidos::actualizarTotales($idPedido);
-
-                if ( $actualizarTotales == "error" ) {
-                    echo '<script>
-                        swal({
-                            title: "Error al actualizar totales!",
-                            text: "El producto fue removido del pedido correctamente, pero hubo un problema al actulizar los totales.",
-                            icon: "error",
-                            closeOnClickOutside: false,
-                        }).then( (result) => {
-                            window.location = "administrarPedidos";
-                        });
-                      </script>';
-                }
-
-                echo '<script>
-                        swal({
-                            title: "Eliminación exitosa!",
-                            text: "El producto fue removido del pedido correctamente.",
-                            icon: "success",
-                            closeOnClickOutside: false,
-                        }).then( (result) => {
-                            window.location = "administrarPedidos";
-                        });
-                      </script>';
-            } else {
-                echo '<script>
-                        swal({
-                            title: "Error!",
-                            text: "Ha ocurrido un error al intentar eliminar el producto.",
-                            icon: "error",
-                            closeOnClickOutside: false,
-                        }).then( (result) => {
-                            window.location = "administrarPedidos";
-                        });
-                      </script>';
-            }
         }
     }
 
     /*=============================================
     ACTUALIZAR TOTALES DEL PEDIDO AL ACTUALIZAR
     =============================================*/
-    static public function actualizarTotales($idPedido){
+    static public function actualizarTotales($idPedido)
+    {
 
         /* TRAER INFORMACION DEL PEDIDO
         -------------------------------------------------- */
@@ -890,14 +875,13 @@ class ControladorPedidos
         $sumaSubtotales = 0;
         $total = 0;
 
-        if ( $productos ) {
+        if ($productos) {
 
-            foreach ( $productos as $key => $value ) {
+            foreach ($productos as $key => $value) {
                 $sumaSubtotales += floatval($value["Importe"]);
             }
 
-            $total = $sumaSubtotales + ( ( $sumaSubtotales * $iva ) / 100 );
-
+            $total = $sumaSubtotales + (($sumaSubtotales * $iva) / 100);
         } else {
             $iva = 0;
         }
@@ -915,7 +899,5 @@ class ControladorPedidos
         $actualizarPedido = ModeloPedidos::mdlActualizarTotales($tabla, $datos);
 
         return $actualizarPedido;
-
-    }    
-    
+    }
 }

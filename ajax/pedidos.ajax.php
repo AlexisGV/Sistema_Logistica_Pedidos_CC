@@ -54,6 +54,22 @@ class AjaxPedidos
         echo json_encode($productosPedido);
 
     }
+
+    /*=============================================
+    ELIMINAR PRODUCTO DEL PEDIDO
+    =============================================*/
+    public $idProducto;
+
+    public function ajaxEliminarProductoPedido(){
+
+        $idDetallePedido = $this->idProducto;
+
+        $eliminarProducto = ControladorPedidos::ctrEliminarProducto($idDetallePedido);
+
+        echo json_encode($eliminarProducto);
+
+    }
+    
 }
 
 /*=============================================
@@ -137,4 +153,13 @@ if ( isset($_POST["verProdsPedidoId"]) ){
     $verProdsPedido = new AjaxPedidos();
     $verProdsPedido->idPedido = $_POST["verProdsPedidoId"];
     $verProdsPedido->ajaxVerProductosPedido();
+}
+
+/*=============================================
+TRAER PRODUCTOS DEL PEDIDO
+=============================================*/
+if ( isset($_POST["idDetallePedido"]) ){
+    $eliminarProducto = new AjaxPedidos();
+    $eliminarProducto->idProducto = $_POST["idDetallePedido"];
+    $eliminarProducto->ajaxEliminarProductoPedido();
 }
