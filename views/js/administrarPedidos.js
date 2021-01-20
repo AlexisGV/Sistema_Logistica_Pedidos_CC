@@ -306,8 +306,13 @@ $(document).on("click", ".btnAddOne", function () {
                 success: function (respuesta) {
                     // console.log(respuesta);
 
+                    var badgeDescuento = "";
+                    if (respuesta["Descuento"] > 0) {
+                        badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- ' + respuesta["Descuento"] + '%</span>';
+                    }
+
                     campoCantidad.text(respuesta["Cantidad"]);
-                    campoPrecio.text(Number(respuesta["Importe"]).toFixed(2));
+                    campoPrecio.html(Number(respuesta["Importe"]).toFixed(2)+badgeDescuento);
                     $("#editSubtotal").val(Number(respuesta["Subtotal"]).toFixed(2));
                     $("#editIVA").val(respuesta["IVA"]);
                     $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
@@ -326,7 +331,7 @@ $(document).on("click", ".btnAddOne", function () {
                             icon: "error",
                             closeOnClickOutside: false,
                         });
-                    } else if ( respuesta == "errorTotales" ) {
+                    } else if (respuesta == "errorTotales") {
                         swal({
                             title: "Error al actualizar totales!",
                             text: "La cantidad y los precios se cambiaron, pero hubo un problema al actualizar los totales.",
@@ -335,8 +340,8 @@ $(document).on("click", ".btnAddOne", function () {
                         });
                     } else {
                         swal({
-                            title: "Cantidad sumada!",
-                            text: "Se agrego uno al producto seleccionado de forma correcta.",
+                            title: "Cantidad aumentada",
+                            text: "Se sumo uno a la cantidad del producto seleccionado de forma exitosa.",
                             icon: "success",
                             closeOnClickOutside: false,
                         });
@@ -357,7 +362,7 @@ $(document).on("click", ".btnRemoveOne", function () {
     let campoCantidad = $(this).parent().children(".cantidadProducto");
     let campoPrecio = $(this).parent().parent().parent().children(".contenedorPrecioProducto").children(".precioProducto");
 
-    if ( (Number(campoCantidad.text()) - 1) == 0 ) {
+    if ((Number(campoCantidad.text()) - 1) == 0) {
         swal({
             title: "Error!",
             text: "No puedes tener productos con cantidad en 0. Si deseas eliminar el producto da clic sobre el botón correspondiente, el cual puedes identificar con color rojo.",
@@ -385,12 +390,12 @@ $(document).on("click", ".btnRemoveOne", function () {
             },
         }).then((result) => {
             if (result) {
-    
+
                 let accion = "resta";
                 var datos = new FormData();
                 datos.append('idDetallePedidoCantidad', idProducto);
                 datos.append('accion', accion);
-    
+
                 $.ajax({
                     url: "ajax/pedidos.ajax.php",
                     method: "POST",
@@ -401,20 +406,25 @@ $(document).on("click", ".btnRemoveOne", function () {
                     dataType: "json",
                     success: function (respuesta) {
                         // console.log(respuesta);
-    
+
+                        var badgeDescuento = "";
+                        if (respuesta["Descuento"] > 0) {
+                            badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- ' + respuesta["Descuento"] + '%</span>';
+                        }
+
                         campoCantidad.text(respuesta["Cantidad"]);
-                        campoPrecio.text(Number(respuesta["Importe"]).toFixed(2));
+                        campoPrecio.html(Number(respuesta["Importe"]).toFixed(2)+badgeDescuento);
                         $("#editSubtotal").val(Number(respuesta["Subtotal"]).toFixed(2));
                         $("#editIVA").val(respuesta["IVA"]);
                         $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
-    
+
                         if (respuesta["Anticipo"] == respuesta["Total"]) {
                             $("#editPagoCompleto").prop("checked", true).trigger("change");
                         } else {
                             $("#editPagoCompleto").prop("checked", false).trigger("change");
                             $("#editAnticipo").val(Number(respuesta["Anticipo"]).toFixed(2));
                         }
-    
+
                         if (respuesta == "errorCantidad") {
                             swal({
                                 title: "Error al actualizar la cantidad!",
@@ -422,7 +432,7 @@ $(document).on("click", ".btnRemoveOne", function () {
                                 icon: "error",
                                 closeOnClickOutside: false,
                             });
-                        } else if ( respuesta == "errorTotales" ) {
+                        } else if (respuesta == "errorTotales") {
                             swal({
                                 title: "Error al actualizar totales!",
                                 text: "La cantidad y los precios se cambiaron, pero hubo un problema al actualizar los totales.",
@@ -431,8 +441,8 @@ $(document).on("click", ".btnRemoveOne", function () {
                             });
                         } else {
                             swal({
-                                title: "Cantidad restada!",
-                                text: "Se descontó uno al producto seleccionado de forma correcta.",
+                                title: "Cantidad descontada",
+                                text: "Se restó uno a la cantidad del producto seleccionado de forma exitosa.",
                                 icon: "success",
                                 closeOnClickOutside: false,
                             });
