@@ -321,7 +321,7 @@ $(document).on("click", ".btnAddOne", function () {
                         });
                     } else {
                         var badgeDescuento = "";
-                        if (respuesta["Descuento"] > 0) {
+                        if (Number(respuesta["Descuento"]) > 0) {
                             badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- ' + respuesta["Descuento"] + '%</span>';
                         }
 

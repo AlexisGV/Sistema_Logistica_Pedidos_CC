@@ -795,7 +795,7 @@ class ControladorPedidos
         $precioUnitario = $producto["Precio_CDescuento"];
         $idPedido = $producto["Id_Pedido1"];
 
-        if ($cantidadActual == 1) {
+        if ($cantidadActual == 1 && $tipo == "resta") {
             return "errorCantidadNula";
         } else {
 
