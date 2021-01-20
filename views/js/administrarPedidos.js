@@ -305,25 +305,6 @@ $(document).on("click", ".btnAddOne", function () {
                 dataType: "json",
                 success: function (respuesta) {
                     // console.log(respuesta);
-
-                    var badgeDescuento = "";
-                    if (respuesta["Descuento"] > 0) {
-                        badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- ' + respuesta["Descuento"] + '%</span>';
-                    }
-
-                    campoCantidad.text(respuesta["Cantidad"]);
-                    campoPrecio.html(Number(respuesta["Importe"]).toFixed(2)+badgeDescuento);
-                    $("#editSubtotal").val(Number(respuesta["Subtotal"]).toFixed(2));
-                    $("#editIVA").val(respuesta["IVA"]);
-                    $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
-
-                    if (respuesta["Anticipo"] == respuesta["Total"]) {
-                        $("#editPagoCompleto").prop("checked", true).trigger("change");
-                    } else {
-                        $("#editPagoCompleto").prop("checked", false).trigger("change");
-                        $("#editAnticipo").val(Number(respuesta["Anticipo"]).toFixed(2));
-                    }
-
                     if (respuesta == "errorCantidad") {
                         swal({
                             title: "Error al actualizar la cantidad!",
@@ -339,6 +320,24 @@ $(document).on("click", ".btnAddOne", function () {
                             closeOnClickOutside: false,
                         });
                     } else {
+                        var badgeDescuento = "";
+                        if (respuesta["Descuento"] > 0) {
+                            badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- ' + respuesta["Descuento"] + '%</span>';
+                        }
+
+                        campoCantidad.text(respuesta["Cantidad"]);
+                        campoPrecio.html(Number(respuesta["Importe"]).toFixed(2) + badgeDescuento);
+                        $("#editSubtotal").val(Number(respuesta["Subtotal"]).toFixed(2));
+                        $("#editIVA").val(respuesta["IVA"]);
+                        $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
+
+                        if (respuesta["Anticipo"] == respuesta["Total"]) {
+                            $("#editPagoCompleto").prop("checked", true).trigger("change");
+                        } else {
+                            $("#editPagoCompleto").prop("checked", false).trigger("change");
+                            $("#editAnticipo").val(Number(respuesta["Anticipo"]).toFixed(2));
+                        }
+
                         swal({
                             title: "Cantidad aumentada",
                             text: "Se sumo uno a la cantidad del producto seleccionado de forma exitosa.",
@@ -406,29 +405,10 @@ $(document).on("click", ".btnRemoveOne", function () {
                     dataType: "json",
                     success: function (respuesta) {
                         // console.log(respuesta);
-
-                        var badgeDescuento = "";
-                        if (respuesta["Descuento"] > 0) {
-                            badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- ' + respuesta["Descuento"] + '%</span>';
-                        }
-
-                        campoCantidad.text(respuesta["Cantidad"]);
-                        campoPrecio.html(Number(respuesta["Importe"]).toFixed(2)+badgeDescuento);
-                        $("#editSubtotal").val(Number(respuesta["Subtotal"]).toFixed(2));
-                        $("#editIVA").val(respuesta["IVA"]);
-                        $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
-
-                        if (respuesta["Anticipo"] == respuesta["Total"]) {
-                            $("#editPagoCompleto").prop("checked", true).trigger("change");
-                        } else {
-                            $("#editPagoCompleto").prop("checked", false).trigger("change");
-                            $("#editAnticipo").val(Number(respuesta["Anticipo"]).toFixed(2));
-                        }
-
                         if (respuesta == "errorCantidad") {
                             swal({
                                 title: "Error al actualizar la cantidad!",
-                                text: "No se puedo aumentar la cantidad del producto, intente de nuevo.",
+                                text: "No se pudo descontar la cantidad del producto, intente de nuevo.",
                                 icon: "error",
                                 closeOnClickOutside: false,
                             });
@@ -439,7 +419,36 @@ $(document).on("click", ".btnRemoveOne", function () {
                                 icon: "error",
                                 closeOnClickOutside: false,
                             });
+                        } else if (respuesta == "errorCantidadNula") {
+                            swal({
+                                title: "Error al actualizar la cantidad!",
+                                text: "Tal parece que has intentado manipular el código para cambiar la cantidad, sin embargo esta no se ha realizado con éxito.",
+                                icon: "error",
+                                closeOnClickOutside: false,
+                            }).then((result) => {
+                                if (result) {
+                                    campoCantidad.text(1);
+                                }
+                            });
                         } else {
+                            var badgeDescuento = "";
+                            if (respuesta["Descuento"] > 0) {
+                                badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-1" style="font-size: 1rem;">- ' + respuesta["Descuento"] + '%</span>';
+                            }
+
+                            campoCantidad.text(respuesta["Cantidad"]);
+                            campoPrecio.html(Number(respuesta["Importe"]).toFixed(2) + badgeDescuento);
+                            $("#editSubtotal").val(Number(respuesta["Subtotal"]).toFixed(2));
+                            $("#editIVA").val(respuesta["IVA"]);
+                            $("#editTotal").val(Number(respuesta["Total"]).toFixed(2));
+
+                            if (respuesta["Anticipo"] == respuesta["Total"]) {
+                                $("#editPagoCompleto").prop("checked", true).trigger("change");
+                            } else {
+                                $("#editPagoCompleto").prop("checked", false).trigger("change");
+                                $("#editAnticipo").val(Number(respuesta["Anticipo"]).toFixed(2));
+                            }
+
                             swal({
                                 title: "Cantidad descontada",
                                 text: "Se restó uno a la cantidad del producto seleccionado de forma exitosa.",

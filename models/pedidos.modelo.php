@@ -263,7 +263,7 @@ class ModeloPedidos
     static public function mdlRegistrarProducto($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Id_Detalle_Pedido, Cantidad, Descripcion, Precio_Uni, Descuento, Precio_CDescuento, Importe, Observacion, Id_Pedido1, Id_Marca1, Id_Forma1) VALUE (:idProducto, :cantidad, :descripcion, :precioInicial, :descuento, :precioConDescuento, :importe, :observacion, :idPedido, :idMarca, :idForma)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Id_Detalle_Pedido, Cantidad, Descripcion, Precio_Uni, Descuento, Precio_CDescuento, Importe, Observacion, Id_Pedido1, Id_Marca1, Id_Forma1, Otra_Marca, Otra_Forma, Otro_Corte, Otro_Acabado) VALUE (:idProducto, :cantidad, :descripcion, :precioInicial, :descuento, :precioConDescuento, :importe, :observacion, :idPedido, :idMarca, :idForma, :otraMarca, :otraForma, :otroCorte, :otroAcabado)");
         $stmt->bindParam(":idProducto", $datos["idProducto"], PDO::PARAM_INT);
         $stmt->bindParam(":cantidad", $datos["cantidad"], PDO::PARAM_INT);
         $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
@@ -275,6 +275,10 @@ class ModeloPedidos
         $stmt->bindParam(":idPedido", $datos["idPedido"], PDO::PARAM_INT);
         $stmt->bindParam(":idMarca", $datos["idMarca"], PDO::PARAM_INT);
         $stmt->bindParam(":idForma", $datos["idForma"], PDO::PARAM_INT);
+        $stmt->bindParam(":otraMarca", $datos["otraMarca"], PDO::PARAM_STR);
+        $stmt->bindParam(":otraForma", $datos["otraForma"], PDO::PARAM_STR);
+        $stmt->bindParam(":otroCorte", $datos["otroCorte"], PDO::PARAM_STR);
+        $stmt->bindParam(":otroAcabado", $datos["otroAcabado"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return "ok";

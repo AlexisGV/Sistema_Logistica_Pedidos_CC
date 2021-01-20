@@ -785,7 +785,8 @@ class ControladorPedidos
     /*=============================================
     ACTUALIZAR CANTIDAD
     =============================================*/
-    static public function ctrActualizarCantidad($idProducto, $tipo){
+    static public function ctrActualizarCantidad($idProducto, $tipo)
+    {
 
         $tabla = "detalle_pedido";
         $item = "Id_Detalle_Pedido";
@@ -794,33 +795,38 @@ class ControladorPedidos
         $precioUnitario = $producto["Precio_CDescuento"];
         $idPedido = $producto["Id_Pedido1"];
 
-        $actualizarCantidad = ModeloPedidos::mdlActualizarCantidad($tabla, $idProducto, $cantidadActual, $precioUnitario, $tipo);
-
-        if ( $actualizarCantidad == "ok" ) {
-
-            $actualizarTotales = ControladorPedidos::actualizarTotales($idPedido);
-
-            if ( $actualizarTotales == "error" ) {
-                return "errorTotales";
-            } else {
-                $datosPedido = ModeloPedidos::mdlTraerProductoConPedido($tabla, $item, $idProducto);
-                return $datosPedido;
-            }
-
+        if ($cantidadActual == 1) {
+            return "errorCantidadNula";
         } else {
-            return "errorCantidad";
+
+            $actualizarCantidad = ModeloPedidos::mdlActualizarCantidad($tabla, $idProducto, $cantidadActual, $precioUnitario, $tipo);
+
+            if ($actualizarCantidad == "ok") {
+
+                $actualizarTotales = ControladorPedidos::actualizarTotales($idPedido);
+
+                if ($actualizarTotales == "error") {
+                    return "errorTotales";
+                } else {
+                    $datosPedido = ModeloPedidos::mdlTraerProductoConPedido($tabla, $item, $idProducto);
+                    return $datosPedido;
+                }
+            } else {
+                return "errorCantidad";
+            }
         }
-        
     }
 
     /*=============================================
     AGREGAR PRODUCTO A PEDIDO EXISTENTE
     =============================================*/
-    static public function ctrAgregarProductoToPedido($datosSimples, $cortesSelect, $acabadosSelect){
+    static public function ctrAgregarProductoToPedido($datosSimples, $cortesSelect, $acabadosSelect)
+    {
 
         #Estableciendo el ID del producto o detalle de pedido
         $tabla = "detalle_pedido";
         $item = "Id_Detalle_Pedido";
+        $idPedido = $datosSimples["idPedido"];
 
         $idProducto = ModeloPedidos::mdlObtenerSiguienteId($tabla, $item);
 
@@ -833,38 +839,229 @@ class ControladorPedidos
         #Traer clave de la marca
         $tabla = "marca";
         $item = "Marca";
-        if ( $datosSimples["checkMarca"] != "off" ) {
+        if ($datosSimples["checkMarca"] == "off") {
             $valor = $datosSimples["marca"];
-            $marca = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
-            $idMarca = $marca["Id_Marca"];
         } else {
             $valor = "Otra marca";
-            $marca = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
-            $idMarca = $marca["Id_Marca"];
         }
-        
+        $marca = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
+        $idMarca = $marca["Id_Marca"];
+
         #Traer clave de la forma
         $tabla = "forma";
         $item = "Forma";
-        if ( $datosSimples["checkForma"] != "off" ) {
+        if ($datosSimples["checkForma"] == "off") {
             $valor = $datosSimples["forma"];
-            $forma = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
-            $idForma = $forma["Id_Forma"];
         } else {
             $valor = "Otra forma";
-            $forma = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
-            $idForma = $forma["Id_Forma"];
+        }
+        $forma = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
+        $idForma = $forma["Id_Forma"];
+
+        #Obteniendo precio con descuento
+        $precioConDescuento = floatval($datosSimples["precioInicial"]) - ((floatval($datosSimples["precioInicial"]) * intval($datosSimples["descuento"])) / 100);
+
+        #Estableciendo la observacion vacia
+        if ($datosSimples["observacion"] == "") {
+            $observacion = "Sin observaciones";
+        } else {
+            $observacion = $datosSimples["observacion"];
         }
 
+        $tabla = "detalle_pedido";
         #Organizando los datos para guardar producto
         $datos = array(
-            "idPedido" => $datosSimples["idPedido"],
-            "titulo" => $datosSimples["titulo"],
-            "cantidad" => $datosSimples["cantidad"]
+            "idProducto" => $idProductoNuevo,
+            "idPedido" => $idPedido,
+            "descripcion" => $datosSimples["titulo"],
+            "precioInicial" => $datosSimples["precioInicial"],
+            "descuento" => $datosSimples["descuento"],
+            "precioConDescuento" => $precioConDescuento,
+            "cantidad" => $datosSimples["cantidad"],
+            "importe" => $datosSimples["precioFinal"],
+            "idMarca" => $idMarca,
+            "idForma" => $idForma,
+            "otraMarca" => $datosSimples["otraMarca"],
+            "otraForma" => $datosSimples["otraForma"],
+            "otroCorte" => $datosSimples["otroCorte"],
+            "otroAcabado" => $datosSimples["otroAcabado"],
+            "observacion" => $observacion
         );
 
-        return $datosSimples;
+        $insertarNuevoProducto = ModeloPedidos::mdlRegistrarProducto($tabla, $datos);
 
+        if ($insertarNuevoProducto == "ok") {
+
+            /* ACTUALIZAR / INGRESAR CORTE(S)
+            -------------------------------------------------- */
+            if ($cortesSelect) {
+                for ($j = 0; $j < count($cortesSelect); $j++) {
+                    #Traer clave del corte
+                    $tabla = "corte";
+                    $item = "Corte";
+                    $valorCorte = $cortesSelect[$j];
+                    $corte = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valorCorte);
+                    $idCorte = $corte["Id_Corte"];
+
+                    $tabla = "corte_dpedido";
+                    $item = "Id_Corte1";
+                    $item3 = "Id_Detalle_Pedido2";
+
+                    $registrarCorte = ModeloPedidos::mdlInsertarCaracteristicas($tabla, $item, $idCorte, $item3, $idProductoNuevo);
+                }
+            }
+
+            /* ACTUALIZAR / INGRESAR ACABADO(S)
+            -------------------------------------------------- */
+            if ($acabadosSelect) {
+                for ($j = 0; $j < count($acabadosSelect); $j++) {
+                    #Traer clave del acabado
+                    $tabla = "acabado";
+                    $item = "Acabado";
+                    $valorAcabado = $acabadosSelect[$j];
+                    $acabado = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valorAcabado);
+                    $idAcabado = $acabado["Id_Acabado"];
+
+                    $tabla = "acabado_dpedido";
+                    $item = "Id_Acabado1";
+                    $item3 = "Id_Detalle_Pedido1";
+
+                    $registrarAcabado = ModeloPedidos::mdlInsertarCaracteristicas($tabla, $item, $idAcabado, $item3, $idProductoNuevo);
+                }
+            }
+
+            #Actualiza totales
+            $actualizarTotales = ControladorPedidos::actualizarTotales($idPedido);
+
+            if ($actualizarTotales == "ok") {
+
+                #Consulta que regresa el producto añadido y los totales
+                $tabla = "detalle_pedido";
+                $item = "Id_Detalle_Pedido";
+                $datosPedido = ModeloPedidos::mdlTraerProductoConPedido($tabla, $item, $idProductoNuevo);
+
+                $descripcion = "";
+
+                /* OBTENER LA MARCA DEL PRODUCTO
+                -------------------------------------------------- */
+                if ($datosPedido["Otra_Marca"] != "" && $datosPedido["Otra_Marca"] != null) {
+                    $abvMarca = "Otra marca";
+                    $marca = $datosPedido["Otra_Marca"];
+                } else {
+                    $abvMarca = "Marca";
+
+                    #Traer nombre de la marca
+                    $tabla = "marca";
+                    $item = "Id_Marca";
+                    $valor = $datosPedido["Id_Marca1"];
+                    $registroMarca = ModeloPedidos::mdlTraerRegistroUnicoPorClave($tabla, $item, $valor);
+                    $marca = $registroMarca["Marca"];
+                }
+
+                /* OBTENER LA FORMA DEL PRODUCTO
+                -------------------------------------------------- */
+                if ($datosPedido["Otra_Forma"] != "" && $datosPedido["Otra_Forma"] != null) {
+                    $abvForma = "Otra forma";
+                    $forma = $datosPedido["Otra_Forma"];
+                } else {
+                    $abvForma = "Forma";
+
+                    #Traer nombre de la forma
+                    $tabla = "forma";
+                    $item = "Id_Forma";
+                    $valor = $datosPedido["Id_Forma1"];
+                    $registroForma = ModeloPedidos::mdlTraerRegistroUnicoPorClave($tabla, $item, $valor);
+                    $forma = $registroForma["Forma"];
+                }
+
+                /* OBTENER LOS CORTES DEL PRODUCTO
+                -------------------------------------------------- */
+                $tabla = "corte";
+                $tabla2 = "corte_dpedido";
+                $campo1 = "Id_Corte";
+                $campo2 = "Id_Corte1";
+                $item = "Id_Detalle_Pedido2";
+                $valor = $datosPedido["Id_Detalle_Pedido"];
+                $itemOrden = "Corte";
+                $registrosCortes = ModeloPedidos::mdlTraerCaracteristicasProducto($tabla, $tabla2, $campo1, $campo2, $item, $valor, $itemOrden);
+
+                $cortes = "";
+                if ($registrosCortes) {
+                    foreach ($registrosCortes as $i => $value2) {
+                        if (($i + 1) == count($registrosCortes)) :
+                            $cortes .= $value2["Corte"];
+                        else :
+                            $cortes .= $value2["Corte"] . "; ";
+                        endif;
+                    }
+                } else {
+                    $cortes = "No especifica";
+                }
+
+                /* OBTENER OTRO CORTE DEL PRODUCTO
+                -------------------------------------------------- */
+                if ($datosPedido["Otro_Corte"] != "" && $datosPedido["Otro_Corte"] != null) {
+                    $otroCorte = $datosPedido["Otro_Corte"];
+                } else {
+                    $otroCorte = "No";
+                }
+
+                /* OBTENER LOS ACABADOS DEL PRODUCTO
+                -------------------------------------------------- */
+                $tabla = "acabado";
+                $tabla2 = "acabado_dpedido";
+                $campo1 = "Id_Acabado";
+                $campo2 = "Id_Acabado1";
+                $item = "Id_Detalle_Pedido1";
+                $valor = $datosPedido["Id_Detalle_Pedido"];
+                $itemOrden = "Acabado";
+                $registrosAcabados = ModeloPedidos::mdlTraerCaracteristicasProducto($tabla, $tabla2, $campo1, $campo2, $item, $valor, $itemOrden);
+
+                $acabados = "";
+                if ($registrosAcabados) {
+                    foreach ($registrosAcabados as $i => $value2) {
+                        if (($i + 1) == count($registrosAcabados)) :
+                            $acabados .= $value2["Acabado"];
+                        else :
+                            $acabados .= $value2["Acabado"] . "; ";
+                        endif;
+                    }
+                } else {
+                    $acabados = "No especifica";
+                }
+
+                /* OBTENER OTRO ACABADO DEL PRODUCTO
+                -------------------------------------------------- */
+                if ($datosPedido["Otro_Acabado"] != "" && $datosPedido["Otro_Acabado"] != null) {
+                    $otroAcabado = $datosPedido["Otro_Acabado"];
+                } else {
+                    $otroAcabado = "No";
+                }
+
+                $descripcion = $datosPedido["Descripcion"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Corte(s): " . $cortes . " | Otro corte: " . $otroCorte . " | Acabado(s): " . $acabados . " | Otro acabado: " . $otroAcabado . " | Observación: " . $datosPedido["Observacion"];
+
+                $datosProductoConPedido = array(
+                    "descripcion" => $descripcion,
+                    "cantidad" => $datosPedido["Cantidad"],
+                    "descuento" => $datosPedido["Descuento"],
+                    "importe" => $datosPedido["Importe"],
+                    "subtotal" => $datosPedido["Subtotal"],
+                    "IVA" => $datosPedido["IVA"],
+                    "total" => $datosPedido["Total"],
+                    "anticipo" => $datosPedido["Anticipo"],
+                    "idProducto" => $datosPedido["Id_Detalle_Pedido"],
+                    "idPedido" => $datosPedido["Id_Pedido1"],
+                );
+
+                return $datosProductoConPedido;
+            } else {
+                return "errorTotales";
+            }
+        } else {
+            return "errorProducto";
+        }
+
+        return $cortesSelect;
     }
 
     /*=============================================
@@ -894,7 +1091,6 @@ class ControladorPedidos
 
                 return $valoresPedido;
             }
-
         } else {
             return "error";
         }
