@@ -492,7 +492,8 @@ class ControladorPedidos
                                 "idProducto" => $idProductoNuevo,
                                 "cantidad" => $listaProductos[$i]["cantidad"],
                                 "descripcion" =>  $arrayDescripcion[0],
-                                "precioUnitario" => $listaProductos[$i]["precio"],
+                                "precioInicial" => $listaProductos[$i]["precioInicial"],
+                                "precioConDescuento" => $listaProductos[$i]["precioConDescuento"],
                                 "descuento" => $listaProductos[$i]["descuento"],
                                 "importe" => $listaProductos[$i]["importe"],
                                 "observacion" => $arrayObservacion[1],
@@ -790,7 +791,7 @@ class ControladorPedidos
         $item = "Id_Detalle_Pedido";
         $producto = ModeloPedidos::mdlTraerRegistroUnicoPorClave($tabla, $item, $idProducto);
         $cantidadActual = $producto["Cantidad"];
-        $precioUnitario = $producto["Precio_Uni"];
+        $precioUnitario = $producto["Precio_CDescuento"];
         $idPedido = $producto["Id_Pedido1"];
 
         $actualizarCantidad = ModeloPedidos::mdlActualizarCantidad($tabla, $idProducto, $cantidadActual, $precioUnitario, $tipo);
@@ -840,15 +841,27 @@ class ControladorPedidos
             $valor = "Otra marca";
             $marca = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
             $idMarca = $marca["Id_Marca"];
-
         }
         
-        #Traer clave de la forma "Otra forma"
-        // $tabla = "forma";
-        // $item = "Forma";
-        // $valor = "Otra forma";
-        // $forma = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
-        // $idForma = $forma["Id_Forma"];
+        #Traer clave de la forma
+        $tabla = "forma";
+        $item = "Forma";
+        if ( $datosSimples["checkForma"] != "off" ) {
+            $valor = $datosSimples["forma"];
+            $forma = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
+            $idForma = $forma["Id_Forma"];
+        } else {
+            $valor = "Otra forma";
+            $forma = ModeloPedidos::mdlTraerRegistroUnico($tabla, $item, $valor);
+            $idForma = $forma["Id_Forma"];
+        }
+
+        #Organizando los datos para guardar producto
+        $datos = array(
+            "idPedido" => $datosSimples["idPedido"],
+            "titulo" => $datosSimples["titulo"],
+            "cantidad" => $datosSimples["cantidad"]
+        );
 
         return $datosSimples;
 

@@ -48,7 +48,7 @@ MODIFICAR CANTIDAD DEL PRODUCTO
 $("#formAddPedido").on("change", "input.nuevaCantidadProducto", function (){
     var precio = $(this).parent().parent().parent().children(".ingresoPrecioProducto").children().children().children(".nuevoPrecioProducto");
 
-    var precioFinal = $(this).val() * precio.attr("precioUnitario");
+    var precioFinal = $(this).val() * precio.attr("precioConDescuento");
 
     precio.val(precioFinal);
     $(".nuevoPrecioProducto").number(true, 2);
@@ -138,9 +138,10 @@ function listarProductos() {
         listaProductos.push({
             "idPedido": idPedido,
             "descripcion": $(descripcion[i]).val(),
-            "precio": $(importe[i]).attr("precioUnitario"),
-            "cantidad": $(cantidad[i]).val(),
+            "precioInicial": $(importe[i]).attr("precioInicial"),
             "descuento": $(importe[i]).attr("descuento"),
+            "precioConDescuento": $(importe[i]).attr("precioConDescuento"),
+            "cantidad": $(cantidad[i]).val(),
             "importe": $(importe[i]).val()
         });
     
@@ -158,8 +159,8 @@ function listarProductos() {
         "anticipo": anticipo
     });
     
-    // console.log("listaProductos", JSON.stringify(listaProductos));
-    // console.log("informacionPedido", JSON.stringify(informacionPedido));
+    console.log("listaProductos", JSON.stringify(listaProductos));
+    console.log("informacionPedido", JSON.stringify(informacionPedido));
     $("#listaProductos").val(JSON.stringify(listaProductos));
     $("#informacionPedido").val(JSON.stringify(informacionPedido));
 

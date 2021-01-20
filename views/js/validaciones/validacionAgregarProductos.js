@@ -291,7 +291,7 @@ var contadorProductos = 0;
 FUNCION PARA AGREGAR UN PRODUCTO AL CONTENEDOR
 =============================================*/
 function agregarProducto(contendor, descripcion, cantidad, precioInicial, descuento, precioFinal) {
-    var precioUnitario = Number(precioInicial) - ( (Number(precioInicial) * Number(descuento)) / 100);
+    var precioConDescuento = Number(precioInicial) - ( (Number(precioInicial) * Number(descuento)) / 100);
 
     contendor.append(
         '<div class="row nuevoProducto">'+
@@ -325,7 +325,7 @@ function agregarProducto(contendor, descripcion, cantidad, precioInicial, descue
         '                <div class="input-group-prepend">'+
         '                    <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>'+
         '                </div>'+
-        '                <input type="text" class="form-control nuevoPrecioProducto" name="ingPrecioProductoNuevo" idProducto="producto'+contadorProductos+'" placeholder="0.00" autocomplete="off" readonly required precioInicial="'+precioInicial+'" descuento="'+descuento+'" precioUnitario="'+precioUnitario+'" precioFinal="'+precioFinal+'" value="'+precioFinal+'">'+
+        '                <input type="text" class="form-control nuevoPrecioProducto" name="ingPrecioProductoNuevo" idProducto="producto'+contadorProductos+'" placeholder="0.00" autocomplete="off" readonly required precioInicial="'+precioInicial+'" descuento="'+descuento+'" precioConDescuento="'+precioConDescuento+'" precioFinal="'+precioFinal+'" value="'+precioFinal+'">'+
         '            </div>'+
         '        </div>'+
         '    </div>'+
