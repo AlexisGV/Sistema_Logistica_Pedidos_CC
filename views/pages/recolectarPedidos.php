@@ -51,6 +51,10 @@ CONTENEDOR
                 </div>
             </div>
 
+            <?php
+            include "views/modules/Pedidos/modalVerPedido.php";
+            ?>
+
         </div>
     </section>
     <!-- FIN DE CONTENEDOR PRINCIPAL

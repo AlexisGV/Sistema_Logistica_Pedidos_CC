@@ -54,14 +54,26 @@ $fechaActual = date('Y-m-d');
                         $diff = $date1->diff($date2);
                         $dias = $diff->days;
 
-                        if ($dias > 14) {
-                            echo '<span class="badge bg-success" style="font-size:1rem;">' . $dias . ' días</span>';
-                        } else if ($dias <= 14 && $dias > 7) {
-                            echo '<span class="badge bg-info" style="font-size:1rem;">' . $dias . ' días</span>';
-                        } else if ($dias <= 7 && $dias > 3) {
-                            echo '<span class="badge bg-warning" style="font-size:1rem;">' . $dias . ' días</span>';
+                        if ($dias == 0) {
+                            echo '<span class="badge bg-navy" style="font-size:1rem;">Hoy se entrega</span>';
                         } else {
-                            echo '<span class="badge bg-danger" style="font-size:1rem;">' . $dias . ' días</span>';
+                            if (($diff->invert == 1)) :
+
+                                echo '<span class="badge bg-danger" style="font-size:1rem;">' . $dias . ' días de retraso</span>';
+
+                            else :
+
+                                if ($dias > 14) {
+                                    echo '<span class="badge bg-success" style="font-size:1rem;">' . $dias . ' días</span>';
+                                } else if ($dias <= 14 && $dias > 7) {
+                                    echo '<span class="badge bg-info" style="font-size:1rem;">' . $dias . ' días</span>';
+                                } else if ($dias <= 7 && $dias > 3) {
+                                    echo '<span class="badge bg-warning" style="font-size:1rem;">' . $dias . ' días</span>';
+                                } else {
+                                    echo '<span class="badge bg-danger" style="font-size:1rem;">' . $dias . ' días</span>';
+                                }
+
+                            endif;
                         }
 
                     endif;

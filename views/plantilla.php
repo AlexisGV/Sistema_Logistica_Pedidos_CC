@@ -141,6 +141,8 @@
   <script src="views/js/validaciones/validacionEditarPedido.js"></script>
   <script src="views/js/levantarPedidos.js"></script>
   <script src="views/js/administrarPedidos.js"></script>
+  <!-- Logistica -->
+  <script src="views/js/logistica.js"></script>
 
   </body>
 
