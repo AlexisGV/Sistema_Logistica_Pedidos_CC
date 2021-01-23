@@ -323,7 +323,8 @@ class ControladorPedidos
                     "anticipo" => $informacionPedido[0]["anticipo"],
                     "subtotal" => $informacionPedido[0]["subtotal"],
                     "iva" => $informacionPedido[0]["iva"],
-                    "total" => $informacionPedido[0]["total"]
+                    "total" => $informacionPedido[0]["total"],
+                    "avance" => 10
                 );
 
                 /* REGISTRAR PEDIDO

@@ -119,13 +119,21 @@ ACTUALIZAR ESTADO DE PEDIDO
 $(document).on("click", ".btnActualizarEstado", function () {
 
     var idPedido = $(this).attr("idPedido"),
-        numOrden = $(this).attr("ordenEstado");
+        numOrden = $(this).attr("ordenEstado"),
+        avance = $(this).attr("avanceEstado");
 
     var filaPedido = $(this).parent().parent().parent();
 
+    var textModulo = "";
+    if (Number(numOrden) == 1) {
+        textModulo = "Descarga en taller";
+    } else if (Number(numOrden) == 2) {
+        textModulo = "Asignación de pedidos";
+    }
+
     swal({
         title: "¿Recolectar pedido?",
-        text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"Descarga en taller\". ¿Deseas continuar?",
+        text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"" + textModulo + "\". ¿Deseas continuar?",
         icon: "info",
         buttons: {
             cancel: {
@@ -147,6 +155,7 @@ $(document).on("click", ".btnActualizarEstado", function () {
             var datos = new FormData();
             datos.append('idPedido', idPedido);
             datos.append('numOrden', numOrden);
+            datos.append('avance', avance);
 
             $.ajax({
 
@@ -164,10 +173,11 @@ $(document).on("click", ".btnActualizarEstado", function () {
                         filaPedido.remove();
 
                         swal({
-                            title: "Actualización exitosa",
-                            text: "El estado del pedido \"" + idPedido + "\" se actualizo de forma correcta. ¿Deseas agregar un comentario?",
+                            title: "¡Actualización exitosa! ¿Agregar comentario?",
+                            text: "El estado del pedido \"" + idPedido + "\" se actualizó de forma correcta. ¿Deseas agregar un comentario?",
                             icon: "success",
                             closeOnClickOutside: false,
+                            closeOnEsc: false,
                             buttons: {
                                 cancel: {
                                     text: "Cancelar",
@@ -176,7 +186,7 @@ $(document).on("click", ".btnActualizarEstado", function () {
                                     className: "bg-danger",
                                 },
                                 confirm: {
-                                    text: "Confirmar",
+                                    text: "Agregar comentario",
                                     value: true,
                                     visible: true,
                                     className: "bg-primary",
@@ -184,7 +194,10 @@ $(document).on("click", ".btnActualizarEstado", function () {
                             },
                         }).then((result) => {
                             if (result) {
-
+                                $("#viewComIdPedido").html(idPedido);
+                                $("#ingCompedidoID").val(idPedido);
+                                $("#numEstado").val(numOrden);
+                                $("#modalAddComentario").modal("show");
                             }
                         });
                     }
@@ -195,5 +208,63 @@ $(document).on("click", ".btnActualizarEstado", function () {
         }
     });
 
+
+});
+
+/*=============================================
+AGREGAR COMENTARIO DE PEDIDO
+=============================================*/
+$(document).on("click", ".btnAgregarComentario", function () {
+    let expresion = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s]+$/;
+
+    if (!validarExpresion($("#ingComentarioPedido"), expresion)) {
+        return false;
+    }
+
+    $.ajax({
+        url: "ajax/logistica.ajax.php",
+        type: "POST",
+        data: $("#formAgregarComentario").serialize(),
+        dataType: "json",
+        success: function (respuesta) {
+            console.log(respuesta);
+            var idPedido = $("#ingCompedidoID").val();
+            $(".closeModalComentario").trigger("click");
+
+            if(respuesta == "ok"){
+                swal({
+                    title: "¡Comentario añadido!",
+                    text: "El comentario se añadio con exito al pedido \""+idPedido+"\"",
+                    icon: "success",
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                });
+            }else{
+                swal({
+                    title: "¡Error!",
+                    text: "Ocurrió un error al intentar añadir el comentario al pedido \""+idPedido+"\"",
+                    icon: "error",
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                });
+            }
+        }
+    });
+
+
+});
+
+/*=============================================
+LIMPIAR MODAL - AGREGAR COMENTARIO
+=============================================*/
+$(document).on("click", ".closeModalComentario", function () {
+
+    $("#viewComIdPedido").html("");
+    $("#ingCompedidoID").val("");
+    $("#numEstado").val("");
+    $("#ingComentarioPedido").val("");
+    $("#ingComentarioPedido").attr("rows", 1);
+    $("#ingComentarioPedido").attr("style", "overflow: hidden; overflow-wrap: break-word; resize: none;");
+    $("#ingComentarioPedido").removeClass("is-valid is-invalid");
 
 });

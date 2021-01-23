@@ -53,6 +53,7 @@ CONTENEDOR
 
             <?php
             include "views/modules/Pedidos/modalVerPedido.php";
+            include "views/modules/Logistica/modalAddComentario.php";
             ?>
 
         </div>

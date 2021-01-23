@@ -214,7 +214,7 @@ class ModeloPedidos
     =============================================*/
     static public function mdlRegistrarPedido($tabla, $datos)
     {
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Id_Pedido, Fecha_Compromiso, Nombre_Cliente, Telefono_Cliente, Correo_Cliente, Anticipo, Subtotal, IVA, Total) VALUES (:idPedido, :fechaCompromiso, :nombreCliente, :telefonoCliente, :correoCliente, :anticipo, :subtotal, :iva, :total)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Id_Pedido, Fecha_Compromiso, Nombre_Cliente, Telefono_Cliente, Correo_Cliente, Anticipo, Subtotal, IVA, Total, Avance_Estado) VALUES (:idPedido, :fechaCompromiso, :nombreCliente, :telefonoCliente, :correoCliente, :anticipo, :subtotal, :iva, :total, :avance)");
         $stmt->bindParam(":idPedido", $datos["idPedido"], PDO::PARAM_INT);
         $stmt->bindParam(":fechaCompromiso", $datos["fechaCompromiso"], PDO::PARAM_STR);
         $stmt->bindParam(":nombreCliente", $datos["nombreCliente"], PDO::PARAM_STR);
@@ -224,6 +224,7 @@ class ModeloPedidos
         $stmt->bindParam(":subtotal", $datos["subtotal"], PDO::PARAM_STR);
         $stmt->bindParam(":iva", $datos["iva"], PDO::PARAM_INT);
         $stmt->bindParam(":total", $datos["total"], PDO::PARAM_STR);
+        $stmt->bindParam(":avance", $datos["avance"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return "ok";

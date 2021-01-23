@@ -51,6 +51,11 @@ CONTENEDOR
                 </div>
             </div>
 
+            <?php
+            include "views/modules/Pedidos/modalVerPedido.php";
+            include "views/modules/Logistica/modalAddComentario.php";
+            ?>
+
         </div>
     </section>
     <!-- FIN DE CONTENEDOR PRINCIPAL
