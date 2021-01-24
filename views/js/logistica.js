@@ -114,7 +114,7 @@ $(document).on("click", ".btnVerDetallePedidoParaLogistica", function () {
 });
 
 /*=============================================
-ACTUALIZAR ESTADO DE PEDIDO
+ACTUALIZAR ESTADO DE PEDIDO - BOTONES
 =============================================*/
 $(document).on("click", ".btnActualizarEstado", function () {
 
@@ -212,6 +212,103 @@ $(document).on("click", ".btnActualizarEstado", function () {
 });
 
 /*=============================================
+ACTUALIZAR ESTADO DE PEDIDO - ASIGNAR USUARIO
+=============================================*/
+$(document).on("change", ".btnAsignarUsuario", function () {
+    var campo = $(this),
+        idUsuario = $(this).val(),
+        idPedido = $(this).attr("idPedido"),
+        numOrden = $(this).attr("ordenEstado"),
+        avance = $(this).attr("avanceEstado");
+
+    var filaPedido = $(this).parent().parent().parent();
+
+    // Evaluar si el usaurio esta vacio para poder actualizar el estado
+    if (idUsuario != null && idUsuario != "") {
+
+        swal({
+            title: "¿Recolectar pedido?",
+            text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"Producción\". ¿Deseas continuar?",
+            icon: "info",
+            buttons: {
+                cancel: {
+                    text: "Cancelar",
+                    value: null,
+                    visible: true,
+                    className: "bg-danger",
+                },
+                confirm: {
+                    text: "Confirmar",
+                    value: true,
+                    visible: true,
+                    className: "bg-primary",
+                }
+            },
+        }).then((result) => {
+            if (result) {
+
+                var datos = new FormData();
+                datos.append('idUsuario', idUsuario);
+                datos.append('idPedido', idPedido);
+                datos.append('numOrden', numOrden);
+                datos.append('avance', avance);
+
+                $.ajax({
+
+                    url: "ajax/logistica.ajax.php",
+                    method: "POST",
+                    data: datos,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (respuesta) {
+                        // console.log(respuesta);
+
+                        if (respuesta == "ok") {
+                            filaPedido.remove();
+
+                            swal({
+                                title: "¡Actualización exitosa! ¿Agregar comentario?",
+                                text: "El estado del pedido \"" + idPedido + "\" se actualizó de forma correcta. ¿Deseas agregar un comentario?",
+                                icon: "success",
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                                buttons: {
+                                    cancel: {
+                                        text: "Cancelar",
+                                        value: null,
+                                        visible: true,
+                                        className: "bg-danger",
+                                    },
+                                    confirm: {
+                                        text: "Agregar comentario",
+                                        value: true,
+                                        visible: true,
+                                        className: "bg-primary",
+                                    }
+                                },
+                            }).then((result) => {
+                                if (result) {
+                                    $("#viewComIdPedido").html(idPedido);
+                                    $("#ingCompedidoID").val(idPedido);
+                                    $("#numEstado").val(numOrden);
+                                    $("#modalAddComentario").modal("show");
+                                }
+                            });
+                        }
+                    }
+                });
+
+            } else {
+                campo.val(null).trigger("change");
+            }
+        });
+
+    }
+});
+
+/*=============================================
 AGREGAR COMENTARIO DE PEDIDO
 =============================================*/
 $(document).on("click", ".btnAgregarComentario", function () {
@@ -231,18 +328,18 @@ $(document).on("click", ".btnAgregarComentario", function () {
             var idPedido = $("#ingCompedidoID").val();
             $(".closeModalComentario").trigger("click");
 
-            if(respuesta == "ok"){
+            if (respuesta == "ok") {
                 swal({
                     title: "¡Comentario añadido!",
-                    text: "El comentario se añadio con exito al pedido \""+idPedido+"\"",
+                    text: "El comentario se añadio con exito al pedido \"" + idPedido + "\"",
                     icon: "success",
                     closeOnClickOutside: false,
                     closeOnEsc: false,
                 });
-            }else{
+            } else {
                 swal({
                     title: "¡Error!",
-                    text: "Ocurrió un error al intentar añadir el comentario al pedido \""+idPedido+"\"",
+                    text: "Ocurrió un error al intentar añadir el comentario al pedido \"" + idPedido + "\"",
                     icon: "error",
                     closeOnClickOutside: false,
                     closeOnEsc: false,

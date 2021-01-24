@@ -16,7 +16,7 @@ class ControladorLogistica
     /*=============================================
     ACTUALIZAR ESTADO DE PEDIDO
     =============================================*/
-    static public function ctrActualizarEstadoPedido($tabla, $idPedido, $orden, $avance)
+    static public function ctrActualizarEstadoPedido($tabla, $idPedido, $orden, $avance, $usuario)
     {
         #Establecer región para la fecha y hora
         setlocale(LC_ALL, "spanish.utf8");
@@ -25,7 +25,13 @@ class ControladorLogistica
 
         #Obtener fecha actual y futura
         $fechaActual = date('Y-m-d H:i:s');
-        $idUsuario = $_SESSION["idUsuario"];
+
+        if ($usuario != null && $usuario != "") {
+            $idUsuario = $usuario;
+        } else {
+            $idUsuario = $_SESSION["idUsuario"];
+        }
+
         $ordenNuevo = intval($orden) + 1;
         $estado = 1;
 

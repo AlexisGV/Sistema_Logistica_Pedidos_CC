@@ -13,18 +13,20 @@ class AjaxLogistica
     public $idPedido;
     public $ordenEstado;
     public $avanceEstado;
+    public $usuarioPedido = NULL;
 
-    public function ajaxActualizarEstado(){
+    public function ajaxActualizarEstado()
+    {
 
         $tabla = "pedido";
         $pedido = $this->idPedido;
         $orden = $this->ordenEstado;
         $avance = $this->avanceEstado;
+        $usuario = $this->usuarioPedido;
 
-        $respuesta = ControladorLogistica::ctrActualizarEstadoPedido($tabla, $pedido, $orden, $avance);
+        $respuesta = ControladorLogistica::ctrActualizarEstadoPedido($tabla, $pedido, $orden, $avance,$usuario);
 
         echo json_encode($respuesta);
-
     }
 
     /*=============================================
@@ -32,10 +34,11 @@ class AjaxLogistica
     =============================================*/
     public $comentarioPedido;
 
-    public function ajaxActualizarComentario(){
+    public function ajaxActualizarComentario()
+    {
 
         $orden = $this->ordenEstado;
-        $ordenNuevo = intval($orden)+1;
+        $ordenNuevo = intval($orden) + 1;
 
         $tabla = "pedido";
         $datos = array(
@@ -47,9 +50,7 @@ class AjaxLogistica
         $respuesta = ControladorLogistica::ctrActualizarComentarioPedido($tabla, $datos);
 
         echo json_encode($respuesta);
-
     }
-
 }
 
 /*=============================================
@@ -60,6 +61,11 @@ if (isset($_POST["idPedido"])) {
     $actualizarEstado->idPedido = $_POST["idPedido"];
     $actualizarEstado->ordenEstado = $_POST["numOrden"];
     $actualizarEstado->avanceEstado = $_POST["avance"];
+
+    if (isset($_POST["idUsuario"])) {
+        $actualizarEstado->usuarioPedido = $_POST["idUsuario"];
+    }
+
     $actualizarEstado->ajaxActualizarEstado();
 }
 
