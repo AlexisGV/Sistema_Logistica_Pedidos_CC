@@ -200,22 +200,34 @@ class ControladorAcabado
             $item = "Id_Acabado";
             $dato = $_GET["idAcabado"];
 
-            #Pregunta si existe una imagen en la BD
-            if ( $_GET["fotoAcabado"] != "" ){
-                unlink($_GET["fotoAcabado"]);
-            }
-
-            #Borrar el directorio del usuario
-            rmdir("views/img/Acabados/" . $_GET["nombreAcabado"]);
-
+            
             $borrar = ModeloAcabado::mdlEliminarAcabado($tabla, $item, $dato);
-
+            
             if ($borrar == "ok") {
+                #Pregunta si existe una imagen en la BD
+                if ( $_GET["fotoAcabado"] != "" ){
+                    unlink($_GET["fotoAcabado"]);
+                }
+    
+                #Borrar el directorio del usuario
+                rmdir("views/img/Acabados/" . $_GET["nombreAcabado"]);
+                
                 echo '<script>
                         swal({
                             title: "Eliminación exitosa!",
                             text: "El tipo de acabado se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
+                        }).then( (result) => {
+                            window.location = "mainAcabado";
+                        });
+                      </script>';
+            } else if ($borrar == "errorPadres") {
+                echo '<script>
+                        swal({
+                            title: "Error al intentar eliminar!",
+                            text: "No puedes borrar este acabado, ya que tienes productos registrados con este.",
+                            icon: "warning",
                             closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainAcabado";

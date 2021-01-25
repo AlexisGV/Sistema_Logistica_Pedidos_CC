@@ -130,7 +130,12 @@ class ModeloAcabado
         if ( $stmt->execute() ){
             return "ok";
         }else{
-            return "error";
+            $error = $stmt->errorInfo();
+            if ($error[0] == "23000") {
+                return "errorPadres";
+            } else {
+                return "error";
+            }
         }
 
         $stmt->closeCursor();

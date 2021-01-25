@@ -193,22 +193,34 @@ class ControladorMarca
             $item = "Id_Marca";
             $dato = $_GET["idMarca"];
 
-            #Pregunta si existe una imagen en la BD
-            if ($_GET["fotoMarca"] != "") {
-                unlink($_GET["fotoMarca"]);
-            }
-
-            #Borrar el directorio del usuario
-            rmdir("views/img/Marcas/" . $_GET["nombreMarca"]);
-
+            
             $borrar = ModeloMarca::mdlEliminarMarca($tabla, $item, $dato);
-
+            
             if ($borrar == "ok") {
+                #Pregunta si existe una imagen en la BD
+                if ($_GET["fotoMarca"] != "") {
+                    unlink($_GET["fotoMarca"]);
+                }
+    
+                #Borrar el directorio del usuario
+                rmdir("views/img/Marcas/" . $_GET["nombreMarca"]);
+
                 echo '<script>
                         swal({
                             title: "Eliminación exitosa!",
                             text: "La marca se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
+                        }).then( (result) => {
+                            window.location = "mainMarca";
+                        });
+                      </script>';
+            } else if($borrar == "errorPadres"){
+                echo '<script>
+                        swal({
+                            title: "Error al intentar eliminar!",
+                            text: "No puedes borrar esta marca, ya que tienes productos registrados con esta.",
+                            icon: "warning",
                             closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainMarca";

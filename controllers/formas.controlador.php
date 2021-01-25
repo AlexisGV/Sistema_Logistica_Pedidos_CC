@@ -197,22 +197,34 @@ class ControladorForma
             $item = "Id_Forma";
             $dato = $_GET["idForma"];
 
-            #Pregunta si existe una imagen en la BD
-            if ($_GET["fotoForma"] != "") {
-                unlink($_GET["fotoForma"]);
-            }
-
-            #Borrar el directorio del usuario
-            rmdir("views/img/Formas/" . $_GET["nombreForma"]);
-
+            
             $borrar = ModeloForma::mdlEliminarForma($tabla, $item, $dato);
-
+            
             if ($borrar == "ok") {
+                #Pregunta si existe una imagen en la BD
+                if ($_GET["fotoForma"] != "") {
+                    unlink($_GET["fotoForma"]);
+                }
+    
+                #Borrar el directorio del usuario
+                rmdir("views/img/Formas/" . $_GET["nombreForma"]);
+
                 echo '<script>
                         swal({
                             title: "Eliminación exitosa!",
                             text: "La forma se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
+                        }).then( (result) => {
+                            window.location = "mainForma";
+                        });
+                      </script>';
+            } else if($borrar == "errorPadres"){
+                echo '<script>
+                        swal({
+                            title: "Error al intentar eliminar!",
+                            text: "No puedes borrar esta forma, ya que tienes productos registrados con esta.",
+                            icon: "warning",
                             closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainForma";

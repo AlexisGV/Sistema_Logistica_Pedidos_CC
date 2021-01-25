@@ -198,22 +198,34 @@ class ControladorCorte
             $item = "Id_Corte";
             $dato = $_GET["idCorte"];
 
-            #Pregunta si existe una imagen en la BD
-            if ($_GET["fotoCorte"] != "") {
-                unlink($_GET["fotoCorte"]);
-            }
-
-            #Borrar el directorio del usuario
-            rmdir("views/img/Cortes/" . $_GET["nombreCorte"]);
-
+            
             $borrar = ModeloCorte::mdlEliminarCorte($tabla, $item, $dato);
-
+            
             if ($borrar == "ok") {
+                #Pregunta si existe una imagen en la BD
+                if ($_GET["fotoCorte"] != "") {
+                    unlink($_GET["fotoCorte"]);
+                }
+    
+                #Borrar el directorio del usuario
+                rmdir("views/img/Cortes/" . $_GET["nombreCorte"]);
+                
                 echo '<script>
                         swal({
                             title: "Eliminación exitosa!",
                             text: "El tipo de corte se eliminó correctamente.",
                             icon: "success",
+                            closeOnClickOutside: false,
+                        }).then( (result) => {
+                            window.location = "mainCorte";
+                        });
+                      </script>';
+            } else if($borrar == "errorPadres"){
+                echo '<script>
+                        swal({
+                            title: "Error al intentar eliminar!",
+                            text: "No puedes borrar este corte, ya que tienes productos registrados con este.",
+                            icon: "warning",
                             closeOnClickOutside: false,
                         }).then( (result) => {
                             window.location = "mainCorte";
