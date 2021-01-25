@@ -9,12 +9,12 @@ CONTENEDOR
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="d-inline-block mr-2">Recolección de pedidos para enviar a tienda</h1>
+                    <h1 class="d-inline-block mr-2">Producción</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="levantarPedido">Inicio</a></li>
-                        <li class="breadcrumb-item active">Recolección de pedidos para enviar a tienda</li>
+                        <li class="breadcrumb-item active">Producción</li>
                     </ol>
                 </div>
             </div>
@@ -33,7 +33,7 @@ CONTENEDOR
             <div class="row">
                 <div class="col">
                     <div class="alert alert-info">
-                        En esta sección se muestran todos los pedidos ya han sido terminados y que pueden ser recolectados por la camioneta para ser enviados de regreso a tienda.
+                        En esta sección se muestran todos los pedidos que han sido recibidos por el personal de producción y están por ser empezados a producir.
                     </div>
                 </div>
             </div>
@@ -42,10 +42,10 @@ CONTENEDOR
                 <div class="col">
                     <div class="card">
                         <div class="card-header mb-1">
-                            <h1 class="card-title">Pedidos terminados</h1>
+                            <h1 class="card-title">Pedidos en cola</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Logistica/tablaTransporte.php"; ?>
+                            <?php include "views/modules/Logistica/tablaCola.php"; ?>
                         </div>
                     </div>
                 </div>

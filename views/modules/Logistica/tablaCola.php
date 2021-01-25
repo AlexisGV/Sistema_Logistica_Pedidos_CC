@@ -17,8 +17,8 @@ $fechaActual = date('Y-m-d');
         <?php
         $tabla = "pedido";
         $item = "Orden";
-        $ordenEstado = 2;
-        $avance = 20;
+        $ordenEstado = 4;
+        $avance = 40;
 
         $pedidos = ControladorLogistica::ctrTraerPedidosPorEstado($tabla, $item, $ordenEstado, $avance);
         foreach ($pedidos as $key => $value) :
@@ -62,7 +62,7 @@ $fechaActual = date('Y-m-d');
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-success btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado?>" avanceEstado="<?php echo intval($value["Avance_Estado"])+10 ?>">Descargar en taller</button>
+                        <button type="button" class="btn btn-sm btn-warning btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado?>" avanceEstado="<?php echo intval($value["Avance_Estado"])+10 ?>">Empezar a producir</button>
                     </div>
                 </td>
             </tr>

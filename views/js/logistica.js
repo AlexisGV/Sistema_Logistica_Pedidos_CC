@@ -125,15 +125,25 @@ $(document).on("click", ".btnActualizarEstado", function () {
     var filaPedido = $(this).parent().parent().parent();
 
     var textModulo = "";
+    var textComplementario = "";
     if (Number(numOrden) == 1) {
         textModulo = "Descarga en taller";
     } else if (Number(numOrden) == 2) {
         textModulo = "Asignación de pedidos";
+    } else if (Number(numOrden) == 4) {
+        textModulo = "Producción de pedidos";
+    } else if (Number(numOrden) == 5) {
+        textModulo = "Recolección en taller";
+    } else if (Number(numOrden) == 6) {
+        textModulo = "Descarga en tienda";
+    } else if (Number(numOrden) == 7) {
+        textModulo = "Entrega final";
+        textComplementario = ", sección que solo puede ver el encargado de tienda.";
     }
 
     swal({
         title: "¿Recolectar pedido?",
-        text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"" + textModulo + "\". ¿Deseas continuar?",
+        text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"" + textModulo + "\""+ textComplementario +". ¿Deseas continuar?",
         icon: "info",
         buttons: {
             cancel: {
@@ -228,7 +238,7 @@ $(document).on("change", ".btnAsignarUsuario", function () {
 
         swal({
             title: "¿Recolectar pedido?",
-            text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"Producción\". ¿Deseas continuar?",
+            text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"Pedidos en espera\". ¿Deseas continuar?",
             icon: "info",
             buttons: {
                 cancel: {
@@ -307,6 +317,15 @@ $(document).on("change", ".btnAsignarUsuario", function () {
 
     }
 });
+
+/*=============================================
+VALIDAR COMENTARIO
+=============================================*/
+$(document).on("keyup change blur", "#ingComentarioPedido", function () {
+    let expresion = /^[A-Za-z0-9ñÑáÁéÉíÍóÓúÚ,.\s]+$/;
+    validarExpresion($(this), expresion)
+});
+
 
 /*=============================================
 AGREGAR COMENTARIO DE PEDIDO

@@ -1,3 +1,10 @@
+<?php
+setlocale(LC_ALL, "spanish.utf8");
+date_default_timezone_set('UTC');
+date_default_timezone_set("America/Mexico_City");
+$fechaActual = date('Y-m-d');
+?>
+
 <table class="table table-hover table-striped text-center tablas dt-responsive">
     <thead class="thead-dark">
         <tr>
@@ -7,84 +14,60 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td scope="row" style="width: 3px; max-width: 8px;">1</td>
-            <td>
-                <span>000000001</span><br>
-                <button class="btn btn-xs bg-indigo">Ver detalles</button></td>
-            <td>
-                <div class="form-group">
-                    <select name="ingEstadoProduccion" id="ingEstadoProduccion" class="form-control select2" data-placeholder="Seleccione el estado de producción">
-                        <option></option>
-                        <option value="En producción">En producción</option>
-                        <option value="Terminado">Terminado</option>
-                    </select>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row" style="width: 3px; max-width: 8px;">2</td>
-            <td>
-                <span>000000002</span><br>
-                <button class="btn btn-xs bg-indigo">Ver detalles</button></td>
-            </td>
-            <td>
-                <div class="form-group">
-                    <select name="ingEstadoProduccion2" id="ingEstadoProduccion2" class="form-control select2" data-placeholder="Seleccione el estado de producción">
-                        <option></option>
-                        <option value="En producción">En producción</option>
-                        <option value="Terminado">Terminado</option>
-                    </select>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row" style="width: 3px; max-width: 8px;">3</td>
-            <td>
-                <span>000000003</span><br>
-                <button class="btn btn-xs bg-indigo">Ver detalles</button></td>
-            </td>
-            <td>
-                <div class="form-group">
-                    <select name="ingEstadoProduccion3" id="ingEstadoProduccion3" class="form-control select2" data-placeholder="Seleccione el estado de producción">
-                        <option></option>
-                        <option value="En producción">En producción</option>
-                        <option value="Terminado">Terminado</option>
-                    </select>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row" style="width: 3px; max-width: 8px;">4</td>
-            <td>
-                <span>000000004</span><br>
-                <button class="btn btn-xs bg-indigo">Ver detalles</button></td>
-            </td>
-            <td>
-                <div class="form-group">
-                    <select name="ingEstadoProduccion4" id="ingEstadoProduccion4" class="form-control select2" data-placeholder="Seleccione el estado de producción">
-                        <option></option>
-                        <option value="En producción">En producción</option>
-                        <option value="Terminado">Terminado</option>
-                    </select>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row" style="width: 3px; max-width: 8px;">5</td>
-            <td>
-                <span>000000005</span><br>
-                <button class="btn btn-xs bg-indigo">Ver detalles</button></td>
-            </td>
-            <td>
-                <div class="form-group">
-                    <select name="ingEstadoProduccion5" id="ingEstadoProduccion5" class="form-control select2" data-placeholder="Seleccione el estado de producción">
-                        <option></option>
-                        <option value="En producción">En producción</option>
-                        <option value="Terminado">Terminado</option>
-                    </select>
-                </div>
-            </td>
-        </tr>
+        <?php
+        $tabla = "pedido";
+        $item = "Orden";
+        $ordenEstado = 5;
+        $avance = 50;
+
+        $pedidos = ControladorLogistica::ctrTraerPedidosPorEstado($tabla, $item, $ordenEstado, $avance);
+        foreach ($pedidos as $key => $value) :
+        ?>
+            <tr>
+                <td scope="row" style="width: 3px; max-width: 8px;">1</td>
+                <td>
+                    <span><?php echo $value["Id_Pedido"]; ?></span><br>
+                    <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $value["Id_Pedido"]; ?>"  data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
+
+                    <?php
+
+                    $date1 = new DateTime($fechaActual);
+                    $date2 = new DateTime($value["Fecha_Compromiso"]);
+                    $diff = $date1->diff($date2);
+                    $dias = $diff->days;
+
+                    if ($dias == 0) {
+                        echo '<span class="badge bg-navy" style="font-size:1rem;">Hoy se entrega</span>';
+                    } else {
+                        if (($diff->invert == 1)) :
+
+                            echo '<span class="badge bg-danger" style="font-size:1rem;">' . $dias . ' días de retraso</span>';
+
+                        else :
+
+                            if ($dias > 14) {
+                                echo '<span class="badge bg-success" style="font-size:1rem;">' . $dias . ' días</span>';
+                            } else if ($dias <= 14 && $dias > 7) {
+                                echo '<span class="badge bg-info" style="font-size:1rem;">' . $dias . ' días</span>';
+                            } else if ($dias <= 7 && $dias > 3) {
+                                echo '<span class="badge bg-warning" style="font-size:1rem;">' . $dias . ' días</span>';
+                            } else {
+                                echo '<span class="badge bg-danger" style="font-size:1rem;">' . $dias . ' días</span>';
+                            }
+
+                        endif;
+                    }
+
+                    ?>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-danger btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado?>" avanceEstado="<?php echo intval($value["Avance_Estado"])+10 ?>">Finalizar producción</button>
+                    </div>
+                </td>
+            </tr>
+        <?php
+        endforeach;
+        ?>
     </tbody>
 </table>

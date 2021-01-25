@@ -6,8 +6,8 @@ class ModeloLogistica
 {
 
     /*=============================================
-        TRAER PEDIDOS POR ESTADO
-        =============================================*/
+    TRAER PEDIDOS POR ESTADO
+    =============================================*/
     static public function mdlTraerPedidosPorEstado($tabla, $item, $orden, $avance)
     {
         #Estado desactivo

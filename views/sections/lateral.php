@@ -117,7 +117,7 @@
                     <!-- LOGISTICA DE PEDIDOS -->
                     <li class="nav-item has-treeview">
 
-                        <?php if ($_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "descargaTaller" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos" || $_GET["pagina"] == "descargaTienda") : ?>
+                        <?php if ($_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "descargaTaller" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "pedidosEnCola" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos" || $_GET["pagina"] == "descargaTienda") : ?>
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-shipping-fast"></i>
                                 <p>
@@ -185,6 +185,21 @@
                             </li>
                             <li class="nav-item">
 
+                                <?php if ($_GET["pagina"] == "pedidosEnCola") : ?>
+                                    <a href="pedidosEnCola" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Pedidos en espera</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="pedidosEnCola" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Pedidos en espera</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                            <li class="nav-item">
+
                                 <?php if ($_GET["pagina"] == "produccionPedidos") : ?>
                                     <a href="produccionPedidos" class="nav-link active">
                                         <i class="nav-icon far fa-circle"></i>
@@ -203,12 +218,12 @@
                                 <?php if ($_GET["pagina"] == "transportarPedidos") : ?>
                                     <a href="transportarPedidos" class="nav-link active">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Entrega de pedidos</p>
+                                        <p>Recolección en taller</p>
                                     </a>
                                 <?php else : ?>
                                     <a href="transportarPedidos" class="nav-link">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Entrega de pedidos</p>
+                                        <p>Recolección en taller</p>
                                     </a>
                                 <?php endif ?>
 
@@ -425,13 +440,17 @@
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Asignación de pedidos</p>
                                 </a>
+                                <a href="pedidosEnCola" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Pedidos en espera</p>
+                                </a>
                                 <a href="produccionPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Producción de pedidos</p>
                                 </a>
                                 <a href="transportarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
-                                    <p>Entrega de pedidos</p>
+                                    <p>Recolección en taller</p>
                                 </a>
                                 <a href="descargaTienda" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>

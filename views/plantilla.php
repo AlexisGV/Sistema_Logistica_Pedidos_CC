@@ -53,6 +53,7 @@
           $_GET["pagina"] == "recolectarPedidos" ||
           $_GET["pagina"] == "descargaTaller" ||
           $_GET["pagina"] == "asignarPedidos" ||
+          $_GET["pagina"] == "pedidosEnCola" ||
           $_GET["pagina"] == "produccionPedidos" ||
           $_GET["pagina"] == "transportarPedidos" ||
           $_GET["pagina"] == "descargaTienda" ||

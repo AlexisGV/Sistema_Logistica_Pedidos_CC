@@ -33,7 +33,7 @@ CONTENEDOR
             <div class="row">
                 <div class="col">
                     <div class="alert alert-info">
-                        En esta sección se muestran todos los pedidos que han sido recibidos por el personal de producción o bien los que ya están en producción.
+                        En esta sección se muestran todos los pedidos que ya están en producción.
                     </div>
                 </div>
             </div>
@@ -50,6 +50,11 @@ CONTENEDOR
                     </div>
                 </div>
             </div>
+
+            <?php
+            include "views/modules/Pedidos/modalVerPedido.php";
+            include "views/modules/Logistica/modalAddComentario.php";
+            ?>
 
         </div>
     </section>

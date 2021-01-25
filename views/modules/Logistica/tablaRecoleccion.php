@@ -62,7 +62,7 @@ $fechaActual = date('Y-m-d');
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-primary btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado?>" avanceEstado="<?php echo intval($value["Avance_Estado"])+10 ?>">En tienda</button>
+                        <button type="button" class="btn btn-sm btn-primary btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado?>" avanceEstado="<?php echo intval($value["Avance_Estado"])+10 ?>">Recolectar</button>
                     </div>
                 </td>
             </tr>
