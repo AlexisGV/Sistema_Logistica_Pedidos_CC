@@ -1,7 +1,0 @@
-SELECT Id_Pedido, Fecha_Inicio, Fecha_Compromiso, Descripcion, Precio_Uni, Cantidad, Descuento, Importe, Marca, Otra_Marca, Forma, Otra_Forma, Corte, Otro_Corte, Acabado, Otro_Acabado FROM `pedido` INNER JOIN `detalle_pedido` ON Id_Pedido=Id_Pedido1
-INNER JOIN `corte_dpedido` ON Id_Detalle_Pedido=Id_Detalle_Pedido2
-INNER JOIN `corte` ON Id_Corte=Id_Corte1
-INNER JOIN `acabado_dpedido` ON Id_Detalle_Pedido=Id_Detalle_Pedido1
-INNER JOIN `acabado` ON Id_Acabado=Id_Acabado1
-INNER JOIN `forma` ON Id_Forma=Id_Forma1
-INNER JOIN `marca` ON Id_Marca=Id_Marca1
