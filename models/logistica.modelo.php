@@ -15,7 +15,7 @@ class ModeloLogistica
 
         #Mostrar pedido del estado siguiente
         $ordenNuevo = intval($orden)+1;
-        var_dump($ordenNuevo);
+        // var_dump($ordenNuevo);
 
         $stmt = Conexion::conectar()->prepare(
             "SELECT * FROM $tabla
