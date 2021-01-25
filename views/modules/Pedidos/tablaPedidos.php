@@ -40,7 +40,7 @@ $fechaActual = date('Y-m-d');
                 <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $key + 1; ?></td>
                 <td><?php echo $value["Id_Pedido"]; ?></td>
                 <td><?php echo strftime("%A, %d de %B del %Y a las %r", strtotime($value["Fecha_Inicio"])); ?></td>
-                <td><?php echo strftime("%A, %d de %B del %Y a las %r", strtotime($value["Fecha_Compromiso"])); ?></td>
+                <td><?php echo strftime("%A, %d de %B del %Y", strtotime($value["Fecha_Compromiso"])); ?></td>
                 <td>
                     <?php
                     if ($fechaEntrega != null && $fechaEntrega != "") :
@@ -98,6 +98,7 @@ $fechaActual = date('Y-m-d');
                 </td>
                 <td>
                     <div class="btn-group">
+                        <button class="btn bg-navy btnVerLogisticaPedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerLogisticaPedido"><i class="fas fa-shipping-fast"></i></button>
                         <button class="btn btn-success btnVerDetallePedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerDetallePedido"><i class="fas fa-eye text-white"></i></button>
                         <button class="btn btn-warning btnEditarPedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalEditPedido"><i class="fas fa-edit text-white"></i></button>
                         <button class="btn btn-danger btnEliminarPedido" idPedido="<?php echo $idPedido; ?>"><i class="fas fa-trash-alt text-white"></i></button>

@@ -114,6 +114,85 @@ $(document).on("click", ".btnVerDetallePedidoParaLogistica", function () {
 });
 
 /*=============================================
+VER LOGISTICA DEL PEDIDO
+=============================================*/
+$(document).on("click", ".btnVerLogisticaPedido", function () {
+
+    var idPedido = $(this).attr("idPedido");
+
+    var datos = new FormData();
+    datos.append('verLogisticaPorId', idPedido);
+
+    $("#viewNumPedido").html(idPedido);
+
+    $.ajax({
+
+        url: "ajax/logistica.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (respuesta) {
+            // console.log(respuesta);
+
+            for (var i = 0; i < respuesta.length; i++) {
+
+                var fechaInicio = new Date(respuesta[i]["Fecha_Actualizacion"]);
+                var options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                    hour12: "false"
+                };
+
+                // COMENTARIO
+                let comentario = "";
+
+                if (respuesta[i]["Comentario"] != "" && respuesta[i]["Comentario"] != null) {
+                    comentario = respuesta[i]["Comentario"];
+                } else {
+                    comentario = "Sin comentarios asignados al pedido";
+                }
+
+                $("#contenedorEstadosPedido").append(
+                    '<!-- TITULO -->' +
+                    '    <div class="time-label">' +
+                    '        <span class="bg-red">' + respuesta[i]["Nombre_Estatus"] + '</span>' +
+                    '    </div>' +
+
+                    '    <!-- USUARIO - ELEMENTO DE LINEA DEL TIEMPO -->' +
+                    '    <div>' +
+                    '        <i class="fas fa-user bg-blue"></i>' +
+                    '        <div class="timeline-item">' +
+                    '            <span class="time"><i class="fas fa-clock"></i> ' + fechaInicio.toLocaleDateString("es-MX", options) + '</span>' +
+                    '            <h3 class="timeline-header"><span class="font-weight-bold text-blue">' + respuesta[i]["Nombre_Usuario"] + '</span> ' + respuesta[i]["Tipo_User"] + '</h3>' +
+
+                    '            <div class="timeline-body">' + comentario + '</div>' +
+                    '        </div>' +
+                    '    </div>' +
+
+                    '    <!-- TIEMPO DE DIFERENCIA - ELEMENTO DE LINEA DEL TIEMPO -->' +
+                    '    <div>' +
+                    '        <i class="fas fa-clock bg-navy"></i>' +
+                    '        <div class="timeline-item">' +
+                    '            <h3 class="timeline-header"><span class="font-weight-bold text-navy">Diferencia de </span> 4 días con 2 horas</h3>' +
+                    '        </div>' +
+                    '    </div>'
+                );
+
+            }
+        }
+    });
+
+});
+
+/*=============================================
 ACTUALIZAR ESTADO DE PEDIDO - BOTONES
 =============================================*/
 $(document).on("click", ".btnActualizarEstado", function () {
@@ -125,25 +204,32 @@ $(document).on("click", ".btnActualizarEstado", function () {
     var filaPedido = $(this).parent().parent().parent();
 
     var textModulo = "";
+    var titulo = "";
     var textComplementario = "";
     if (Number(numOrden) == 1) {
+        titulo = "Recolectar pedido";
         textModulo = "Descarga en taller";
     } else if (Number(numOrden) == 2) {
+        titulo = "Descargar pedido en taller";
         textModulo = "Asignación de pedidos";
     } else if (Number(numOrden) == 4) {
+        titulo = "Empezar a producir";
         textModulo = "Producción de pedidos";
     } else if (Number(numOrden) == 5) {
+        titulo = "Finalizar pedido";
         textModulo = "Recolección en taller";
     } else if (Number(numOrden) == 6) {
+        titulo = "Recoger pedido para enviar a tienda";
         textModulo = "Descarga en tienda";
     } else if (Number(numOrden) == 7) {
+        titulo = "Descargar pedido en tienda";
         textModulo = "Entrega final";
         textComplementario = ", sección que solo puede ver el encargado de tienda.";
     }
 
     swal({
-        title: "¿Recolectar pedido?",
-        text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"" + textModulo + "\""+ textComplementario +". ¿Deseas continuar?",
+        title: "¿"+titulo+"?",
+        text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"" + textModulo + "\"" + textComplementario + ". ¿Deseas continuar?",
         icon: "info",
         buttons: {
             cancel: {
@@ -227,6 +313,7 @@ ACTUALIZAR ESTADO DE PEDIDO - ASIGNAR USUARIO
 $(document).on("change", ".btnAsignarUsuario", function () {
     var campo = $(this),
         idUsuario = $(this).val(),
+        usuario = $(this).text(),
         idPedido = $(this).attr("idPedido"),
         numOrden = $(this).attr("ordenEstado"),
         avance = $(this).attr("avanceEstado");
@@ -237,7 +324,7 @@ $(document).on("change", ".btnAsignarUsuario", function () {
     if (idUsuario != null && idUsuario != "") {
 
         swal({
-            title: "¿Recolectar pedido?",
+            title: "¿Asignar pedido a"+usuario+"?",
             text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"Pedidos en espera\". ¿Deseas continuar?",
             icon: "info",
             buttons: {

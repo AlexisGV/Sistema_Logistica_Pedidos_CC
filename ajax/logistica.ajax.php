@@ -24,7 +24,21 @@ class AjaxLogistica
         $avance = $this->avanceEstado;
         $usuario = $this->usuarioPedido;
 
-        $respuesta = ControladorLogistica::ctrActualizarEstadoPedido($tabla, $pedido, $orden, $avance,$usuario);
+        $respuesta = ControladorLogistica::ctrActualizarEstadoPedido($tabla, $pedido, $orden, $avance, $usuario);
+
+        echo json_encode($respuesta);
+    }
+
+    /*=============================================
+    VER LOGISTICA DE PEDIDO
+    =============================================*/
+    public function ajaxVerLogisticaPedido()
+    {
+
+        $item = "Id_Pedido";
+        $pedido = $this->idPedido;
+
+        $respuesta = ControladorLogistica::ctrVerLogisticaDePedido($item, $pedido);
 
         echo json_encode($respuesta);
     }
@@ -51,6 +65,15 @@ class AjaxLogistica
 
         echo json_encode($respuesta);
     }
+}
+
+/*=============================================
+VER LOGISTICA DE PEDIDO
+=============================================*/
+if (isset($_POST["verLogisticaPorId"])) {
+    $actualizarEstado = new AjaxLogistica();
+    $actualizarEstado->idPedido = $_POST["verLogisticaPorId"];
+    $actualizarEstado->ajaxVerLogisticaPedido();
 }
 
 /*=============================================

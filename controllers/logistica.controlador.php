@@ -14,6 +14,16 @@ class ControladorLogistica
     }
 
     /*=============================================
+    VER LOGISTICA DEL PEDIDO
+    =============================================*/
+    static public function ctrVerLogisticaDePedido($item, $idPedido)
+    {
+        $pedidos = ModeloLogistica::mdlVerLogisticaDePedido($item, $idPedido);
+
+        return $pedidos;
+    }
+
+    /*=============================================
     ACTUALIZAR ESTADO DE PEDIDO
     =============================================*/
     static public function ctrActualizarEstadoPedido($tabla, $idPedido, $orden, $avance, $usuario)

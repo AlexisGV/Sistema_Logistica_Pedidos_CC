@@ -38,6 +38,30 @@ class ModeloLogistica
     }
 
     /*=============================================
+    VER LOGISTICA DEL PEDIDO
+    =============================================*/
+    static public function mdlVerLogisticaDePedido($item, $idPedido)
+    {
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT * FROM pedido
+             INNER JOIN actualizaciones_pedido ON Id_Pedido=Id_Pedido2
+             INNER JOIN estatus_pedido ON Id_Estatus=Id_Estatus1
+             INNER JOIN usuario ON Id_Usuario=Id_Usuario1
+             INNER JOIN tipo_usuario ON Id_Tipo_User=Id_Tipo_User1
+             WHERE $item=:$item
+             ORDER BY Orden ASC"
+        );
+        $stmt->bindParam(":".$item, $idPedido, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
     ACTUALIZAR ESTADO DE PEDIDO
     =============================================*/
     static public function mdlActualizarEstadoPedido($tabla, $datos)
