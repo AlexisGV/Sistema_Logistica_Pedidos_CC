@@ -15,61 +15,6 @@ TITULO O DESCRIPCION DEL PRODUCTO
 </div>
 
 <!--=============================================
-VALORES NUMERICOS
-=============================================-->
-<div class="row">
-    <div class="form-group col-12 col-sm-3">
-        <label for="ingPrecioInicial">Precio inicial</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
-            </div>
-            <input type="text" class="form-control" name="ingPrecioInicial" id="ingPrecioInicial" placeholder="Precio inicial" autocomplete="off" required>
-            <div class="invalid-feedback" id="errorIngPrecioInicial">
-                El valor debe tener 2 decimales.
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group col-12 col-sm-3">
-        <label for="ingCantidad">Cantidad</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></div>
-            </div>
-            <input type="number" min="1" step="1" class="form-control" name="ingCantidad" id="ingCantidad" autocomplete="off" placeholder="Cantidad" value="1" required>
-            <div class="invalid-feedback">
-                Este campo no puede tener decimales y mucho menos puede quedar vacío.
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group col-12 col-sm-3">
-        <label for="ingDescuento">Descuento</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fas fa-percentage"></i></div>
-            </div>
-            <input type="number" min="0" step="1" class="form-control" name="ingDescuento" id="ingDescuento" autocomplete="off" placeholder="Descuento" value="0" required>
-            <div class="invalid-feedback">
-                Este campo no puede tener decimales y mucho menos puede quedar vacío.
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group col-12 col-sm-3">
-        <label for="ingPrecioFinal">Precio final</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fas fa-money-check-alt"></i></div>
-            </div>
-            <input type="text" class="form-control" name="ingPrecioFinal" id="ingPrecioFinal" autocomplete="off" placeholder="Precio final" required readonly>
-            <div class="invalid-feedback" id="errorIngPrecioFinal"></div>
-        </div>
-    </div>
-</div>
-
-<!--=============================================
 CARACTERISTICAS DEL PRODUCTO
 =============================================-->
 <div class="row">
@@ -196,6 +141,61 @@ CARACTERISTICAS DEL PRODUCTO
         </div>
         <div class="invalid-feedback" id="errorNingunAcabado">
             Debes seleccionar al menos un acabado de la lista o bien, puedes ingresar uno que no este en la lista dando clic en la casilla para "Ingresar otro acabado".
+        </div>
+    </div>
+</div>
+
+<!--=============================================
+VALORES NUMERICOS
+=============================================-->
+<div class="row">
+    <div class="form-group col-12 col-sm-3">
+        <label for="ingPrecioInicial">Precio inicial</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+            </div>
+            <input type="text" class="form-control" name="ingPrecioInicial" id="ingPrecioInicial" placeholder="Precio inicial" autocomplete="off" required>
+            <div class="invalid-feedback" id="errorIngPrecioInicial">
+                El valor debe tener 2 decimales.
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group col-12 col-sm-3">
+        <label for="ingCantidad">Cantidad</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></div>
+            </div>
+            <input type="number" min="1" step="1" class="form-control" name="ingCantidad" id="ingCantidad" autocomplete="off" placeholder="Cantidad" value="1" required>
+            <div class="invalid-feedback">
+                Este campo no puede tener decimales y mucho menos puede quedar vacío.
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group col-12 col-sm-3">
+        <label for="ingDescuento">Descuento</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fas fa-percentage"></i></div>
+            </div>
+            <input type="number" min="0" step="1" class="form-control" name="ingDescuento" id="ingDescuento" autocomplete="off" placeholder="Descuento" value="0" required>
+            <div class="invalid-feedback">
+                Este campo no puede tener decimales y mucho menos puede quedar vacío.
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group col-12 col-sm-3">
+        <label for="ingPrecioFinal">Precio final</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fas fa-money-check-alt"></i></div>
+            </div>
+            <input type="text" class="form-control" name="ingPrecioFinal" id="ingPrecioFinal" autocomplete="off" placeholder="Precio final" required readonly>
+            <div class="invalid-feedback" id="errorIngPrecioFinal"></div>
         </div>
     </div>
 </div>

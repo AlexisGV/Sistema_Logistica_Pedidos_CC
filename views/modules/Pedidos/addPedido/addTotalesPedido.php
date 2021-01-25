@@ -23,7 +23,7 @@ TITULO TOTALES DEL PEDIDO
                 <div class="input-group-prepend">
                     <div class="input-group-text">IVA<i class="fas fa-percentage ml-2 d-none d-sm-block"></i></div>
                 </div>
-                <input type="number" min="0" value="0" class="form-control" name="ingIVAPedido" id="ingIVAPedido" placeholder="0" autocomplete="off" required>
+                <input type="number" min="0" max="16" value="0" step="16" class="form-control" name="ingIVAPedido" id="ingIVAPedido" placeholder="0" autocomplete="off" required>
             </div>
         </div>
     </div>

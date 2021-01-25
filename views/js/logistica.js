@@ -135,10 +135,11 @@ $(document).on("click", ".btnVerLogisticaPedido", function () {
         processData: false,
         dataType: "json",
         success: function (respuesta) {
-            // console.log(respuesta);
+            console.log(respuesta);
 
             for (var i = 0; i < respuesta.length; i++) {
 
+                // FECHA DE ACTUALIZACION
                 var fechaInicio = new Date(respuesta[i]["Fecha_Actualizacion"]);
                 var options = {
                     weekday: 'long',
@@ -151,39 +152,87 @@ $(document).on("click", ".btnVerLogisticaPedido", function () {
                     hour12: "false"
                 };
 
-                // COMENTARIO
-                let comentario = "";
+                // FONDO DE LOS TITULOS
+                var background = "";
+                if (respuesta[i]["Orden"] == 1 || respuesta[i]["Orden"] == 8) background = "bg-blue";
+                else if (respuesta[i]["Orden"] == 2 || respuesta[i]["Orden"] == 7) background = "bg-green";
+                else if (respuesta[i]["Orden"] == 3 || respuesta[i]["Orden"] == 6) background = "bg-red";
+                else if (respuesta[i]["Orden"] == 4) background = "bg-indigo";
+                else if (respuesta[i]["Orden"] == 5) background = "bg-navy";
+                else if (respuesta[i]["Orden"] == 9) background = "bg-maroon";
 
-                if (respuesta[i]["Comentario"] != "" && respuesta[i]["Comentario"] != null) {
-                    comentario = respuesta[i]["Comentario"];
+                /* CUERPO DE LA LINEA DEL TIEMPO
+                -------------------------------------------------- */
+                let cuerpo = "";
+                if (respuesta[i]["Estado"] == 0) {
+                    cuerpo =
+                        '    <!-- TIEMPO DE DIFERENCIA - ELEMENTO DE LINEA DEL TIEMPO -->' +
+                        '    <div>' +
+                        '        <i class="fas fa-exclamation-triangle bg-warning"></i>' +
+                        '        <div class="timeline-item">' +
+                        '            <h3 class="timeline-header"><span class="font-weight-bold text-black">Información no disponible</span> El pedido aun no llega a este estado</h3>' +
+                        '        </div>' +
+                        '    </div>';
                 } else {
-                    comentario = "Sin comentarios asignados al pedido";
+
+                    // COMENTARIO
+                    let comentario = "";
+
+                    if (respuesta[i]["Comentario"] != "" && respuesta[i]["Comentario"] != null) {
+                        comentario = '<div class="timeline-body">' + respuesta[i]["Comentario"] + '</div>';
+                    } else {
+                        if (respuesta[i]["Orden"] != 1)
+                            comentario = '<div class="timeline-body">Sin comentarios asignados al pedido</div>';
+                    }
+
+                    var diferencia;
+
+                    if (respuesta[i]["Orden"] != 9) {
+                        // DIFERENCIA DE DIAS
+                        if (respuesta[i + 1]["Estado"] != 0) {
+                            moment.locale('es');
+                            var fechaC1 = moment(respuesta[i]["Fecha_Actualizacion"], "MMM-DD-YYYY HH:mm:ss");
+                            var fechaC2 = moment(respuesta[i + 1]["Fecha_Actualizacion"], "MMM-DD-YYYY HH:mm:ss");
+                            diferencia = moment.duration(fechaC2 - fechaC1).humanize() + '. Entre "' + respuesta[i]["Nombre_Estatus"] + '" y "' + respuesta[i + 1]["Nombre_Estatus"] + '"';
+                        } else {
+                            diferencia = "Aun no es posible calcularlo";
+                        }
+
+                    } else {
+                        moment.locale('es');
+                        var fechaC1 = moment(respuesta[i]["Fecha_Actualizacion"], "YYYY-MM-DD hh:mm:ss");
+                        var fechaC2 = moment(respuesta[i]["Fecha_Compromiso"], "YYYY-MM-DD hh:mm:ss");
+                        diferencia = moment.duration(fechaC2 - fechaC1).humanize() + '. Entre la fecha de entrega y la fecha compromiso';
+                    }
+
+                    cuerpo =
+                        '    <!-- USUARIO - ELEMENTO DE LINEA DEL TIEMPO -->' +
+                        '    <div>' +
+                        '        <i class="fas fa-user bg-lightblue"></i>' +
+                        '        <div class="timeline-item">' +
+                        '            <span class="time"><i class="fas fa-clock"></i> ' + fechaInicio.toLocaleDateString("es-MX", options) + '</span>' +
+                        '            <h3 class="timeline-header"><span class="font-weight-bold text-blue">' + respuesta[i]["Nombre_Usuario"] + '</span> ' + respuesta[i]["Tipo_User"] + '</h3>' +
+
+                        '            ' + comentario +
+                        '        </div>' +
+                        '    </div>' +
+
+                        '    <!-- TIEMPO DE DIFERENCIA - ELEMENTO DE LINEA DEL TIEMPO -->' +
+                        '    <div>' +
+                        '        <i class="fas fa-clock bg-navy"></i>' +
+                        '        <div class="timeline-item">' +
+                        '            <h3 class="timeline-header"><span class="font-weight-bold text-navy">Diferencia de </span> ' + diferencia + '</h3>' +
+                        '        </div>' +
+                        '    </div>';
+
                 }
 
                 $("#contenedorEstadosPedido").append(
                     '<!-- TITULO -->' +
                     '    <div class="time-label">' +
-                    '        <span class="bg-red">' + respuesta[i]["Nombre_Estatus"] + '</span>' +
+                    '        <span class="' + background + '">' + respuesta[i]["Nombre_Estatus"] + '</span>' +
                     '    </div>' +
-
-                    '    <!-- USUARIO - ELEMENTO DE LINEA DEL TIEMPO -->' +
-                    '    <div>' +
-                    '        <i class="fas fa-user bg-blue"></i>' +
-                    '        <div class="timeline-item">' +
-                    '            <span class="time"><i class="fas fa-clock"></i> ' + fechaInicio.toLocaleDateString("es-MX", options) + '</span>' +
-                    '            <h3 class="timeline-header"><span class="font-weight-bold text-blue">' + respuesta[i]["Nombre_Usuario"] + '</span> ' + respuesta[i]["Tipo_User"] + '</h3>' +
-
-                    '            <div class="timeline-body">' + comentario + '</div>' +
-                    '        </div>' +
-                    '    </div>' +
-
-                    '    <!-- TIEMPO DE DIFERENCIA - ELEMENTO DE LINEA DEL TIEMPO -->' +
-                    '    <div>' +
-                    '        <i class="fas fa-clock bg-navy"></i>' +
-                    '        <div class="timeline-item">' +
-                    '            <h3 class="timeline-header"><span class="font-weight-bold text-navy">Diferencia de </span> 4 días con 2 horas</h3>' +
-                    '        </div>' +
-                    '    </div>'
+                    cuerpo
                 );
 
             }
@@ -225,10 +274,13 @@ $(document).on("click", ".btnActualizarEstado", function () {
         titulo = "Descargar pedido en tienda";
         textModulo = "Entrega final";
         textComplementario = ", sección que solo puede ver el encargado de tienda.";
+    } else if (Number(numOrden) == 8) {
+        titulo = "Entregar pedido";
+        textModulo = "Administrar pedidos";
     }
 
     swal({
-        title: "¿"+titulo+"?",
+        title: "¿" + titulo + "?",
         text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"" + textModulo + "\"" + textComplementario + ". ¿Deseas continuar?",
         icon: "info",
         buttons: {
@@ -324,7 +376,7 @@ $(document).on("change", ".btnAsignarUsuario", function () {
     if (idUsuario != null && idUsuario != "") {
 
         swal({
-            title: "¿Asignar pedido a"+usuario+"?",
+            title: "¿Asignar pedido a" + usuario + "?",
             text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"Pedidos en espera\". ¿Deseas continuar?",
             icon: "info",
             buttons: {
@@ -470,4 +522,12 @@ $(document).on("click", ".closeModalComentario", function () {
     $("#ingComentarioPedido").attr("style", "overflow: hidden; overflow-wrap: break-word; resize: none;");
     $("#ingComentarioPedido").removeClass("is-valid is-invalid");
 
+});
+
+/*=============================================
+LIMPIAR MODAL - LOGISTICA DE PRODUCTO
+=============================================*/
+$(document).on("click", ".closeModalVerLogisticaPedido", function () {
+    $("#viewNumPedido").html("");
+    $("#contenedorEstadosPedido").html("");
 });
