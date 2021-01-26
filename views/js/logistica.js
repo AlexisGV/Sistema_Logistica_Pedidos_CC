@@ -193,7 +193,14 @@ $(document).on("click", ".btnVerLogisticaPedido", function () {
                             moment.locale('es');
                             var fechaC1 = moment(respuesta[i]["Fecha_Actualizacion"], "YYYY-MM-DD hh:mm:ss");
                             var fechaC2 = moment(respuesta[i + 1]["Fecha_Actualizacion"], "YYYY-MM-DD hh:mm:ss");
-                            diferencia = '<span class="font-weight-bold text-black-50">' + moment.duration(fechaC2 - fechaC1).humanize() + '.</span> Entre "' + respuesta[i]["Nombre_Estatus"] + '" y "' + respuesta[i + 1]["Nombre_Estatus"] + '"';
+                            var fechaC3 = moment(respuesta[i]["Fecha_Compromiso"], "YYYY-MM-DD hh:mm:ss");
+
+                            if ( fechaC3 > fechaC2 ) {
+                                diferencia = '<span class="font-weight-bold text-black-50">' + moment.duration(fechaC2 - fechaC1).humanize() + '.</span> Entre "' + respuesta[i]["Nombre_Estatus"] + '" y "' + respuesta[i + 1]["Nombre_Estatus"] + '"';
+                            } else {
+                                diferencia = '<span class="font-weight-bold text-red">' + moment.duration(fechaC2 - fechaC1).humanize() + '.</span> Entre "' + respuesta[i]["Nombre_Estatus"] + '" y "' + respuesta[i + 1]["Nombre_Estatus"] + '"';
+                            }
+
                         } else {
                             diferencia = '<span class="font-weight-bold text-black-50">Aun no es posible calcularlo</span>';
                         }
