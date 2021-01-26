@@ -29,6 +29,12 @@ CONTENEDOR
     <section class="content">
 
         <div class="container-fluid">
+        
+            <div class="row">
+                <div class="col">
+                    <button type="button">Obtener reporte de logistica</button>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col">
