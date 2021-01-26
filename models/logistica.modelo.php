@@ -14,7 +14,7 @@ class ModeloLogistica
         $estado = 0;
 
         #Mostrar pedido del estado siguiente
-        $ordenNuevo = intval($orden)+1;
+        $ordenNuevo = intval($orden) + 1;
         // var_dump($ordenNuevo);
 
         $stmt = Conexion::conectar()->prepare(
@@ -51,7 +51,7 @@ class ModeloLogistica
              WHERE $item=:$item
              ORDER BY Orden ASC"
         );
-        $stmt->bindParam(":".$item, $idPedido, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $idPedido, PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -84,7 +84,27 @@ class ModeloLogistica
         $stmt->bindParam(":orden", $datos["orden"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            return "ok";
+
+            if ($datos["orden"] == 9) :
+                
+                $actualizarFechaPedido = Conexion::conectar()->prepare(
+                    "UPDATE $tabla
+                     SET Fecha_Entrega=:fecha
+                     WHERE Id_Pedido=:idPedido"
+                );
+                $actualizarFechaPedido->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
+                $actualizarFechaPedido->bindParam(":idPedido", $datos["idPedido"], PDO::PARAM_INT);
+
+                if ($actualizarFechaPedido->execute()) {
+                    return "ok";
+                } else {
+                    $actualizarFechaPedido->errorInfo();
+                    return "error";
+                }
+
+            else :
+                return "ok";
+            endif;
         } else {
             $stmt->errorInfo();
             return "error";

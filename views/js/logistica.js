@@ -191,8 +191,8 @@ $(document).on("click", ".btnVerLogisticaPedido", function () {
                         // DIFERENCIA DE DIAS
                         if (respuesta[i + 1]["Estado"] != 0) {
                             moment.locale('es');
-                            var fechaC1 = moment(respuesta[i]["Fecha_Actualizacion"], "MMM-DD-YYYY HH:mm:ss");
-                            var fechaC2 = moment(respuesta[i + 1]["Fecha_Actualizacion"], "MMM-DD-YYYY HH:mm:ss");
+                            var fechaC1 = moment(respuesta[i]["Fecha_Actualizacion"], "YYYY-MM-DD hh:mm:ss");
+                            var fechaC2 = moment(respuesta[i + 1]["Fecha_Actualizacion"], "YYYY-MM-DD hh:mm:ss");
                             diferencia = moment.duration(fechaC2 - fechaC1).humanize() + '. Entre "' + respuesta[i]["Nombre_Estatus"] + '" y "' + respuesta[i + 1]["Nombre_Estatus"] + '"';
                         } else {
                             diferencia = "Aun no es posible calcularlo";
