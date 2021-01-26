@@ -203,12 +203,12 @@ $(document).on("click", ".btnVerLogisticaPedido", function () {
                         var fechaC1 = moment(respuesta[i]["Fecha_Actualizacion"], "YYYY-MM-DD hh:mm:ss");
                         var fechaC2 = moment(respuesta[i]["Fecha_Compromiso"], "YYYY-MM-DD hh:mm:ss");
 
-                        diferencia = '<span class="font-weight-bold text-black-50">'+ moment.duration(fechaC2 - fechaC1).humanize();
+                        diferencia = moment.duration(fechaC2 - fechaC1).humanize();
 
                         if ( fechaC1 < fechaC2 ) {
-                            diferencia += " a favor.</span> Entre la fecha de entrega y la fecha compromiso";
+                            diferencia = '<span class="font-weight-bold text-black-50">' + diferencia + ' a favor.</span> Entre la fecha de entrega y la fecha compromiso';
                         } else {
-                            diferencia += " de retraso.</span> Entre la fecha de entrega y la fecha compromiso";
+                            diferencia = '<span class="font-weight-bold text-red">' + diferencia + ' de retraso.</span> Entre la fecha de entrega y la fecha compromiso';
                         }
 
                     }
