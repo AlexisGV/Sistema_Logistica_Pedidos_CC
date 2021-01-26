@@ -135,7 +135,7 @@ $(document).on("click", ".btnVerLogisticaPedido", function () {
         processData: false,
         dataType: "json",
         success: function (respuesta) {
-            console.log(respuesta);
+            // console.log(respuesta);
 
             for (var i = 0; i < respuesta.length; i++) {
 
@@ -193,16 +193,24 @@ $(document).on("click", ".btnVerLogisticaPedido", function () {
                             moment.locale('es');
                             var fechaC1 = moment(respuesta[i]["Fecha_Actualizacion"], "YYYY-MM-DD hh:mm:ss");
                             var fechaC2 = moment(respuesta[i + 1]["Fecha_Actualizacion"], "YYYY-MM-DD hh:mm:ss");
-                            diferencia = moment.duration(fechaC2 - fechaC1).humanize() + '. Entre "' + respuesta[i]["Nombre_Estatus"] + '" y "' + respuesta[i + 1]["Nombre_Estatus"] + '"';
+                            diferencia = '<span class="font-weight-bold text-black-50">' + moment.duration(fechaC2 - fechaC1).humanize() + '.</span> Entre "' + respuesta[i]["Nombre_Estatus"] + '" y "' + respuesta[i + 1]["Nombre_Estatus"] + '"';
                         } else {
-                            diferencia = "Aun no es posible calcularlo";
+                            diferencia = '<span class="font-weight-bold text-black-50">Aun no es posible calcularlo</span>';
                         }
 
                     } else {
                         moment.locale('es');
                         var fechaC1 = moment(respuesta[i]["Fecha_Actualizacion"], "YYYY-MM-DD hh:mm:ss");
                         var fechaC2 = moment(respuesta[i]["Fecha_Compromiso"], "YYYY-MM-DD hh:mm:ss");
-                        diferencia = moment.duration(fechaC2 - fechaC1).humanize() + '. Entre la fecha de entrega y la fecha compromiso';
+
+                        diferencia = '<span class="font-weight-bold text-black-50">'+ moment.duration(fechaC2 - fechaC1).humanize();
+
+                        if ( fechaC1 < fechaC2 ) {
+                            diferencia += " a favor.</span> Entre la fecha de entrega y la fecha compromiso";
+                        } else {
+                            diferencia += " de retraso.</span> Entre la fecha de entrega y la fecha compromiso";
+                        }
+
                     }
 
                     cuerpo =
