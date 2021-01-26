@@ -380,7 +380,8 @@ ACTUALIZAR ESTADO DE PEDIDO - ASIGNAR USUARIO
 $(document).on("change", ".btnAsignarUsuario", function () {
     var campo = $(this),
         idUsuario = $(this).val(),
-        usuario = $(this).text(),
+        data = $(this).select2('data');
+        usuario = data[0].text,
         idPedido = $(this).attr("idPedido"),
         numOrden = $(this).attr("ordenEstado"),
         avance = $(this).attr("avanceEstado");
@@ -391,7 +392,7 @@ $(document).on("change", ".btnAsignarUsuario", function () {
     if (idUsuario != null && idUsuario != "") {
 
         swal({
-            title: "¿Asignar pedido a" + usuario + "?",
+            title: "¿Asignar pedido a " + usuario + "?",
             text: "El estado del pedido \"" + idPedido + "\" se actualizará y cuando esto pase se eliminara de esta ventana y aparecerá en la sección \"Pedidos en espera\". ¿Deseas continuar?",
             icon: "info",
             buttons: {

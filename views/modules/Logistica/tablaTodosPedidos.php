@@ -10,7 +10,7 @@ $fechaActual = date('Y-m-d');
         <tr>
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">N° Pedido</th>
-            <th scope="col">Estado</th>
+            <th scope="col">Responsable</th>
         </tr>
     </thead>
     <tbody>
@@ -19,17 +19,15 @@ $fechaActual = date('Y-m-d');
         $item = "Orden";
         $ordenEstado = 5;
         $avance = 50;
-        $idUsuario = $_SESSION["idUsuario"];
 
-        $pedidos = ControladorLogistica::ctrTraerPedidosPorUsuario($tabla, $item, $ordenEstado, $avance, $idUsuario);
+        $pedidos = ControladorLogistica::ctrTraerPedidosPorEstado($tabla, $item, $ordenEstado, $avance);
         foreach ($pedidos as $key => $value) :
         ?>
             <tr>
                 <td scope="row" style="width: 3px; max-width: 8px;">1</td>
                 <td>
                     <span><?php echo $value["Id_Pedido"]; ?></span><br>
-                    <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $value["Id_Pedido"]; ?>"  data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
-
+                    <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $value["Id_Pedido"]; ?>" data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
                     <?php
 
                     $date1 = new DateTime($fechaActual);
@@ -62,9 +60,9 @@ $fechaActual = date('Y-m-d');
                     ?>
                 </td>
                 <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-danger btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado?>" avanceEstado="<?php echo intval($value["Avance_Estado"])+10 ?>">Finalizar producción</button>
-                    </div>
+                    <?php
+                    echo '<span class="badge bg-navy" style="font-size:1rem;">' . $value["Nombre_Usuario"] . '</span>';
+                    ?>
                 </td>
             </tr>
         <?php

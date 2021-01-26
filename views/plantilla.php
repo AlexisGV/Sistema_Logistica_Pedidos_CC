@@ -50,6 +50,7 @@
           $_GET["pagina"] == "mainCorte" ||
           $_GET["pagina"] == "mainForma" ||
           $_GET["pagina"] == "mainMarca" ||
+          $_GET["pagina"] == "verPedidosEnProduccion" ||
           $_GET["pagina"] == "recolectarPedidos" ||
           $_GET["pagina"] == "descargaTaller" ||
           $_GET["pagina"] == "asignarPedidos" ||

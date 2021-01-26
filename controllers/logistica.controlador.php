@@ -8,7 +8,17 @@ class ControladorLogistica
     =============================================*/
     static public function ctrTraerPedidosPorEstado($tabla, $item, $orden, $avance)
     {
-        $pedidos = ModeloLogistica::mdlTraerPedidosPorEstado($tabla, $item, $orden, $avance);
+        $pedidos = ModeloLogistica::mdlTraerPedidosPorEstado($tabla, $item, $orden, $avance, null);
+
+        return $pedidos;
+    }
+
+    /*=============================================
+    TRAER PEDIDOS POR ESTADO Y USUARIO
+    =============================================*/
+    static public function ctrTraerPedidosPorUsuario($tabla, $item, $orden, $avance, $idUsuario)
+    {
+        $pedidos = ModeloLogistica::mdlTraerPedidosPorEstado($tabla, $item, $orden, $avance, $idUsuario);
 
         return $pedidos;
     }

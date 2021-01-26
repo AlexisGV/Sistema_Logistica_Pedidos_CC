@@ -19,8 +19,9 @@ $fechaActual = date('Y-m-d');
         $item = "Orden";
         $ordenEstado = 4;
         $avance = 40;
+        $idUsuario = $_SESSION["idUsuario"];
 
-        $pedidos = ControladorLogistica::ctrTraerPedidosPorEstado($tabla, $item, $ordenEstado, $avance);
+        $pedidos = ControladorLogistica::ctrTraerPedidosPorUsuario($tabla, $item, $ordenEstado, $avance, $idUsuario);
         foreach ($pedidos as $key => $value) :
         ?>
             <tr>

@@ -26,6 +26,7 @@ $fechaActual = date('Y-m-d');
         foreach ($pedidos as $key => $value) :
 
             $fechaEntrega = $value["Fecha_Entrega"];
+            $fechaCompromiso = $value["Fecha_Compromiso"];
 
             $tabla = "actualizaciones_pedido";
             $idPedido = $value["Id_Pedido"];
@@ -45,7 +46,17 @@ $fechaActual = date('Y-m-d');
                     <?php
                     if ($fechaEntrega != null && $fechaEntrega != "") :
 
-                        echo '<span class="badge bg-danger" style="font-size:1rem;">Entregado</span>';
+                        $date1 = new DateTime($fechaEntrega);
+                        $date2 = new DateTime($fechaCompromiso);
+
+                        if ( $date1 > $date2 ) :
+                            # Entregado con dias de retraso
+                            echo '<span class="badge bg-warning" style="font-size:1rem;">Entregado</span>';
+                        else:
+                            # Entregado en tiempo
+                            echo '<span class="badge bg-maroon" style="font-size:1rem;">Entregado</span>';
+                        endif;
+
 
                     else :
 

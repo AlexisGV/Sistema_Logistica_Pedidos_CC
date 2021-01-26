@@ -10,7 +10,6 @@
         <ul>
             <li>La primera letra del nombre debe ser una mayúscula y el resto minusculas.</li>
             <li>El nombre no puede contener números ni caracteres especiales.</li>
-            <li>El nombre no puede contener mas de una palabra.</li>
         </ul>
     </div>
 </div>

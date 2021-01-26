@@ -26,7 +26,7 @@ $(document).on("change", "#ingAbreviacionEspecial", function () {
 });
 
 $(document).on("keyup", "#ingNomAcabado", function () {
-    var expresion = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ\s]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/;
 
 
@@ -60,7 +60,7 @@ $(document).on("change", "#ingPrecioAcabado", function () {
 });
 
 $(document).on("submit", "#formAgregarAcabado", function (e) {
-    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ\s]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 
@@ -91,7 +91,7 @@ $(document).on("change", "#editAbreviacionEspecial", function () {
 });
 
 $(document).on("keyup", "#editNomAcabado", function () {
-    var expresion = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ\s]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/;
 
 
@@ -125,7 +125,7 @@ $(document).on("change", "#editPrecioAcabado", function () {
 });
 
 $(document).on("submit", "#formEditarAcabado", function (e) {
-    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ\s]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/,
         expresion3 = /^[0-9]+([.][0-9]{0,2})?$/;
 

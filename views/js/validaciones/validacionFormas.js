@@ -26,9 +26,8 @@ $(document).on("change", "#ingAbreviacionEspecialForma", function () {
 });
 
 $(document).on("keyup", "#ingNomForma", function () {
-    var expresion = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ\s]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/;
-
 
     if ( validarExpresion($(this), expresion) ) {
         $("#errorIngNomForma").hide();
@@ -54,7 +53,7 @@ $(document).on("keyup", "#ingAbvForma", function () {
 });
 
 $(document).on("submit", "#formAgregarForma", function (e) {
-    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ\s]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/;
 
     if ( !validarExpresion($("#ingNomForma"), expresion1) && $("#ingNomForma").val() != "" ){ 
@@ -83,7 +82,7 @@ $(document).on("change", "#editAbreviacionEspecialForma", function () {
 });
 
 $(document).on("keyup", "#editNomForma", function () {
-    var expresion = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ\s]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/;
 
 
@@ -111,7 +110,7 @@ $(document).on("keyup", "#editAbvForma", function () {
 });
 
 $(document).on("submit", "#formEditarForma", function (e) {
-    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ]+$/,
+    var expresion1 = /^[A-Z]+[a-zñÑáÁéÉíÍóÓúÚ\s]+$/,
         expresion2 = /^[A-ZÑÁÉÍÓÚ]+$/;
 
     if ( !validarExpresion($("#editNomForma"), expresion1) && $("#editNomForma").val() != "" ){ 

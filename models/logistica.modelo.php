@@ -8,7 +8,7 @@ class ModeloLogistica
     /*=============================================
     TRAER PEDIDOS POR ESTADO
     =============================================*/
-    static public function mdlTraerPedidosPorEstado($tabla, $item, $orden, $avance)
+    static public function mdlTraerPedidosPorEstado($tabla, $item, $orden, $avance, $idUsuario)
     {
         #Estado desactivo
         $estado = 0;
@@ -17,17 +17,36 @@ class ModeloLogistica
         $ordenNuevo = intval($orden) + 1;
         // var_dump($ordenNuevo);
 
-        $stmt = Conexion::conectar()->prepare(
-            "SELECT * FROM $tabla
+        if ($idUsuario == null) :
+
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT * FROM $tabla
              INNER JOIN actualizaciones_pedido ON Id_Pedido=Id_Pedido2
              INNER JOIN estatus_pedido ON Id_Estatus=Id_Estatus1
              INNER JOIN usuario ON Id_Usuario=Id_Usuario1
              WHERE $item=:$item AND Estado=:estado AND Avance_Estado=:avance
              ORDER BY Fecha_Compromiso ASC"
-        );
-        $stmt->bindParam(":" . $item, $ordenNuevo, PDO::PARAM_INT);
-        $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
-        $stmt->bindParam(":avance", $avance, PDO::PARAM_INT);
+            );
+            $stmt->bindParam(":" . $item, $ordenNuevo, PDO::PARAM_INT);
+            $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
+            $stmt->bindParam(":avance", $avance, PDO::PARAM_INT);
+
+        else :
+
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT * FROM $tabla
+                 INNER JOIN actualizaciones_pedido ON Id_Pedido=Id_Pedido2
+                 INNER JOIN estatus_pedido ON Id_Estatus=Id_Estatus1
+                 INNER JOIN usuario ON Id_Usuario=Id_Usuario1
+                 WHERE $item=:$item AND Estado=:estado AND Avance_Estado=:avance AND Id_Usuario=:idUsuario
+                 ORDER BY Fecha_Compromiso ASC"
+            );
+            $stmt->bindParam(":" . $item, $ordenNuevo, PDO::PARAM_INT);
+            $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
+            $stmt->bindParam(":avance", $avance, PDO::PARAM_INT);
+            $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+
+        endif;
 
         $stmt->execute();
 
@@ -86,7 +105,7 @@ class ModeloLogistica
         if ($stmt->execute()) {
 
             if ($datos["orden"] == 9) :
-                
+
                 $actualizarFechaPedido = Conexion::conectar()->prepare(
                     "UPDATE $tabla
                      SET Fecha_Entrega=:fecha
@@ -100,6 +119,34 @@ class ModeloLogistica
                 } else {
                     $actualizarFechaPedido->errorInfo();
                     return "error";
+                }
+
+            elseif ($datos["orden"] == 4) :
+
+                $errores = 0;
+
+                for ($i = 5; $i < 7; $i++) {
+                    $actualizarUsuario = Conexion::conectar()->prepare(
+                        "UPDATE actualizaciones_pedido
+                         INNER JOIN estatus_pedido ON Id_Estatus=Id_Estatus1
+                         SET Id_Usuario1=:idUsuario
+                         WHERE Id_Pedido2=:idPedido AND Orden=:orden"
+                    );
+                    $actualizarUsuario->bindParam(":idUsuario", $datos["idUsuario"], PDO::PARAM_INT);
+                    $actualizarUsuario->bindParam(":orden", $i, PDO::PARAM_INT);
+                    $actualizarUsuario->bindParam(":idPedido", $datos["idPedido"], PDO::PARAM_INT);
+
+                    if ($actualizarUsuario->execute()) {
+                    } else {
+                        $actualizarUsuario->errorInfo();
+                        $errores++;
+                    }
+                }
+
+                if ($errores == 0) {
+                    return "ok";
+                } else {
+                    return "false";
                 }
 
             else :

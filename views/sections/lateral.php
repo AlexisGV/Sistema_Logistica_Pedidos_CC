@@ -1,7 +1,7 @@
 <!-- INICIO DE LA BARRA LATERAL -->
 <aside class="main-sidebar sidebar-dark-lightblue elevation-4">
     <!-- LOGO DE LA ASOCIACION -->
-    <a href="mainInventario" class="brand-link">
+    <a href="levantarPedido" class="brand-link">
         <img src="views/dist/img/Logo-CC-Corto.png" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-normal">Cerrando el Ciclo A.C</span>
     </a>
@@ -117,7 +117,7 @@
                     <!-- LOGISTICA DE PEDIDOS -->
                     <li class="nav-item has-treeview">
 
-                        <?php if ($_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "descargaTaller" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "pedidosEnCola" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos" || $_GET["pagina"] == "descargaTienda") : ?>
+                        <?php if ($_GET["pagina"] == "verPedidosEnProduccion" || $_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "descargaTaller" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "pedidosEnCola" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos" || $_GET["pagina"] == "descargaTienda") : ?>
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-shipping-fast"></i>
                                 <p>
@@ -138,6 +138,21 @@
                         <?php endif ?>
 
                         <ul class="nav nav-treeview">
+                            <li class="nav-item">
+
+                                <?php if ($_GET["pagina"] == "verPedidosEnProduccion") : ?>
+                                    <a href="verPedidosEnProduccion" class="nav-link active">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Ver todos los pedidos</p>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="verPedidosEnProduccion" class="nav-link">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Ver todos los pedidos</p>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
                             <li class="nav-item">
 
                                 <?php if ($_GET["pagina"] == "recolectarPedidos") : ?>
@@ -428,6 +443,10 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
+                                <a href="verPedidosEnProduccion" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Ver todos los pedidos</p>
+                                </a>
                                 <a href="recolectarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Recolección de pedidos</p>
