@@ -252,17 +252,19 @@ class ControladorUsuarios
             $item = "Id_Usuario";
             $dato = $_GET["idUser"];
 
-            #Pregunta si existe una imagen en la BD
-            if ( $_GET["fotoUser"] != "" ){
-                unlink($_GET["fotoUser"]);
-            }
-
-            #Borrar el directorio del usuario
-            rmdir("views/img/Usuarios/" . $_GET["apodoUser"]);
-
+            
             $borrar = ModeloUsuarios::mdlEliminarUsuario($tabla, $item, $dato);
-
+            
             if ($borrar == "ok") {
+
+                #Pregunta si existe una imagen en la BD
+                if ( $_GET["fotoUser"] != "" ){
+                    unlink($_GET["fotoUser"]);
+                }
+    
+                #Borrar el directorio del usuario
+                rmdir("views/img/Usuarios/" . $_GET["apodoUser"]);
+                
                 echo '<script>
                         swal({
                             title: "Eliminación exitosa!",

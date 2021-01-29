@@ -32,33 +32,34 @@ class ModeloUsuarios
             "SELECT * FROM usuario
              INNER JOIN tipo_usuario ON Id_Tipo_User=Id_Tipo_User1
              WHERE Tipo_User != 'Usuario eliminado' AND Tipo_User != 'Usuario no asignado'
-             ORDER BY Nombre_Usuario ASC");
+             ORDER BY Nombre_Usuario ASC"
+        );
         $stmt->execute();
 
         return $stmt->fetchAll();
 
         $stmt->closeCursor();
         $stmt = null;
-
     }
 
     /*=============================================
     BUSCAR UN USUARIO EN ESPECIFICO
     =============================================*/
-    static public function mdlBuscarUsuario($tabla, $item, $valor){
+    static public function mdlBuscarUsuario($tabla, $item, $valor)
+    {
 
         $stmt = Conexion::conectar()->prepare(
             "SELECT * FROM $tabla 
              INNER JOIN tipo_usuario ON Id_Tipo_User=Id_Tipo_User1
-             WHERE $item=:$item");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+             WHERE $item=:$item"
+        );
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch();
 
         $stmt->closeCursor();
         $stmt = null;
-
     }
 
     /*=============================================
@@ -117,7 +118,8 @@ class ModeloUsuarios
     /*=============================================
     ACTUALIZAR USAURIO
     =============================================*/
-    static public function mdlActualizarUsuario($tabla, $datos){
+    static public function mdlActualizarUsuario($tabla, $datos)
+    {
 
         #Consulta para obtener la clave
         $obtenerClave = Conexion::conectar()->prepare("SELECT * FROM tipo_usuario WHERE Tipo_User=:tipoUser");
@@ -139,7 +141,8 @@ class ModeloUsuarios
                  Apodo=:apodo,
                  Password=:contrasenia,
                  Id_Tipo_User1=:tipoUsuario
-             WHERE Id_Usuario=:idUsuario");
+             WHERE Id_Usuario=:idUsuario"
+        );
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":correo", $datos["correo"], PDO::PARAM_STR);
@@ -148,34 +151,57 @@ class ModeloUsuarios
         $stmt->bindParam(":tipoUsuario", $claveTipoUser, PDO::PARAM_INT);
         $stmt->bindParam(":idUsuario", $datos["idUsuario"], PDO::PARAM_INT);
 
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
-        }else{
+        } else {
             $stmt->errorInfo();
             return "error";
         }
 
         $stmt->closeCursor();
-        $stmt=null;
-
+        $stmt = null;
     }
 
     /*=============================================
-    BORRAR USAURIO
+    ACTUALIZAR USUARIO ELIMINADO
     =============================================*/
-    static public function mdlEliminarUsuario($tabla, $item, $valor){
+    static public function mdlActualizarUsuarioEliminado($tabla, $item, $valor)
+    {
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla
+             SET $item=:$item
+             WHERE $item=NULL"
+        );
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
-        $stmt =  Conexion::conectar()->prepare("DELETE FROM $tabla WHERE $item=:$item");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
-
-        if ( $stmt->execute() ){
+        if ($stmt->execute()) {
             return "ok";
-        }else{
+        } else {
+            $stmt->errorInfo();
             return "error";
         }
 
         $stmt->closeCursor();
         $stmt = null;
+    }
 
+
+    /*=============================================
+    BORRAR USAURIO
+    =============================================*/
+    static public function mdlEliminarUsuario($tabla, $item, $valor)
+    {
+
+        $stmt =  Conexion::conectar()->prepare("DELETE FROM $tabla WHERE $item=:$item");
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 }
