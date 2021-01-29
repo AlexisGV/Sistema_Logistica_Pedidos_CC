@@ -14,36 +14,86 @@ class ControladorRoles
         $consulta = ModeloRoles::mdlObtenerRoles($tabla, $item, $valor);
 
         return $consulta;
-
     }
 
     /*=============================================
     AGREGAR ROL DE USUARIO
     =============================================*/
-    static public function ctrCrearRol(){
+    static public function ctrCrearRol()
+    {
 
-        if ( isset($_POST["nomRol"]) ){
+        if (isset($_POST["nomRol"])) {
 
+            /* OBTENER SIGUIENTE ID
+            -------------------------------------------------- */
+            $tabla = "tipo_usuario";
+            $item = "Id_Tipo_User";
+
+            $idRol = ModeloPedidos::mdlObtenerSiguienteId($tabla, $item);
+
+            if ($idRol) {
+                $idRolNuevo = intval($idRol["Id_Tipo_User"]) + 1;
+            } else {
+                $idRolNuevo = 1;
+            }
+
+            /* INSERTAR ROL
+            -------------------------------------------------- */
             $tabla = "tipo_usuario";
             $datos = array(
+                "id" => $idRolNuevo,
                 "nombre" => $_POST["nomRol"],
                 "descripcion" => $_POST["ingDescripcionRol"]
             );
 
             $ingreso = ModeloRoles::mdlCrearRol($tabla, $datos);
 
-            return $ingreso;
+            if ($ingreso == "ok") :
 
+                /* INSERTAR PERMISOS DEL ROL
+            -------------------------------------------------- */
+                $modulos = ModeloRoles::mdlObtenerModulos();
+
+                $tabla = "permisos";
+                $errores = 0;
+                
+                foreach ($modulos as $key => $value) {
+
+                    $idModulo = $value["Id_Modulo"];
+                    $registrarPermisos = ModeloRoles::mdlRegistrarPermisos($tabla, $idModulo, $idRolNuevo);
+
+                    if ( $registrarPermisos == "error" ) {
+                        $errores++;
+                    }
+
+                }
+
+                if ( $errores == 0 ) {
+                    return $ingreso;
+                } else {
+
+                    $tabla = "tipo_usuario";
+                    $item = "Id_Tipo_User";
+                    $eliminarRol = ModeloRoles::mdlEliminarRol($tabla, $item, $idRolNuevo);
+                    
+                    return "erroresModulos";
+                }
+
+            else :
+
+                return $ingreso;
+
+            endif;
         }
-
     }
 
     /*=============================================
     ACTUALIZAR ROL DE USUARIO
     =============================================*/
-    static public function ctrAztualizarRol(){
+    static public function ctrAztualizarRol()
+    {
 
-        if ( isset($_POST["nomEditRol"]) ){
+        if (isset($_POST["nomEditRol"])) {
 
             $tabla = "tipo_usuario";
             $item = "Id_Tipo_User";
@@ -56,17 +106,16 @@ class ControladorRoles
             $actualizar = ModeloRoles::mdlActualizarRol($tabla, $item, $datos);
 
             return $actualizar;
-
         }
-
     }
 
     /*=============================================
     ELIMINAR ROL DE USUARIO
     =============================================*/
-    static public function ctrEliminarRol(){
+    static public function ctrEliminarRol()
+    {
 
-        if ( isset($_GET["idRol"]) ){
+        if (isset($_GET["idRol"])) {
 
             $tabla = "tipo_usuario";
             $item = "Id_Tipo_User";
@@ -85,7 +134,7 @@ class ControladorRoles
                             window.location = "mainRoles";
                         });
                       </script>';
-            } else if( $eliminar == "errorPadres" ){
+            } else if ($eliminar == "errorPadres") {
                 echo '<script>
                         swal({
                             title: "Error al intentar eliminar!",
@@ -108,11 +157,6 @@ class ControladorRoles
                         });
                       </script>';
             }
-
         }
-
     }
-
 }
-
-?>

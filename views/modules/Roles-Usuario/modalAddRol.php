@@ -68,6 +68,16 @@
                                         window.location = "mainRoles";
                                     });
                                   </script>';
+                } else if ($respuesta == "erroresModulos") {
+                    echo '<script>
+                                    swal({
+                                        title: "Opps, al parecer hubo errores!",
+                                        text: "Hubieron algunos errores al intentar registrar el rol, intenta de nuevo.",
+                                        icon: "warning",
+                                    }).then( (result) => {
+                                        window.location = "mainRoles";
+                                    });
+                                  </script>';
                 }
                 ?>
             </div>

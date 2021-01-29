@@ -6,6 +6,21 @@ class ModeloRoles
 {
 
     /*=============================================
+    OBTENER SIGUIENTE ID DEL ROL
+    =============================================*/
+    static public function mdlObtenerSiguienteId($tabla, $item)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY $item DESC LIMIT 1");
+        $stmt->execute();
+
+        return $stmt->fetch();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
     CONSULTA Y BUSQUEDA DE ROLES
     =============================================*/
     static public function mdlObtenerRoles($tabla, $item, $valor)
@@ -37,6 +52,25 @@ class ModeloRoles
     }
 
     /*=============================================
+    TRAER TODOS LOS MODULOS
+    =============================================*/
+    static public function mdlObtenerModulos()
+    {
+        $tabla = "modulo";
+        $orderItem = "Id_Modulo";
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY $orderItem ASC");
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        #Cerrar la conexion
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+
+    /*=============================================
     AGREGAR ROL DE USUARIO
     =============================================*/
     static public function mdlCrearRol($tabla, $datos)
@@ -50,13 +84,15 @@ class ModeloRoles
         if ($duplicado->fetch()) {
             return "duplicado";
         } else {
-            $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Tipo_User, Descripcion_Tipo_User) VALUES (:nombre, :descripcion)");
+            $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Id_Tipo_User, Tipo_User, Descripcion_Tipo_User) VALUES (:id, :nombre, :descripcion)");
+            $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
             $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
             $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
 
             if ($stmt->execute()) {
                 return "ok";
             } else {
+                $stmt->errorInfo();
                 return "error";
             }
 
@@ -66,6 +102,23 @@ class ModeloRoles
 
         $duplicado->closeCursor();
         $duplicado = null;
+    }
+
+    static public function mdlRegistrarPermisos($tabla, $modulo, $rol)
+    {
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Id_Tipo_User2, Id_Modulo1) VALUES (:rol, :modulo)");
+        $stmt->bindParam(":modulo", $modulo, PDO::PARAM_INT);
+        $stmt->bindParam(":rol", $rol, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            $stmt->errorInfo();
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
     /*=============================================
@@ -87,6 +140,7 @@ class ModeloRoles
         if ($stmt->execute()) {
             return "ok";
         } else {
+            $stmt->errorInfo();
             return "error";
         }
 
