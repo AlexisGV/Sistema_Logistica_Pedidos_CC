@@ -32,7 +32,7 @@ CONTENEDOR
         
             <div class="row">
                 <div class="col">
-                    <button type="button">Obtener reporte de logistica</button>
+                    <button type="button" class="btn bg-navy mb-3" data-toggle="modal" data-target="#modalReportesLogistica">Obtener reporte de logistica</button>
                 </div>
             </div>
 
@@ -52,6 +52,7 @@ CONTENEDOR
             <?php
             include "views/modules/Pedidos/modalVerPedido.php";
             include "views/modules/Pedidos/modalVerLogisticaPedido.php";
+            include "views/modules/Pedidos/modalOpcionesReportes.php";
             include "views/modules/Pedidos/editPedido/modalEditPedido.php";
             include "views/modules/Pedidos/editPedido/modalAddProducto.php";
             ?>

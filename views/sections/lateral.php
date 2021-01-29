@@ -117,7 +117,7 @@
                     <!-- LOGISTICA DE PEDIDOS -->
                     <li class="nav-item has-treeview">
 
-                        <?php if ($_GET["pagina"] == "verPedidosEnProduccion" || $_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "descargaTaller" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "pedidosEnCola" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos" || $_GET["pagina"] == "descargaTienda") : ?>
+                        <?php if ($_GET["pagina"] == "verPedidosEnTaller" || $_GET["pagina"] == "verPedidosEnEspera" || $_GET["pagina"] == "verPedidosEnProduccion" || $_GET["pagina"] == "recolectarPedidos" || $_GET["pagina"] == "descargaTaller" || $_GET["pagina"] == "asignarPedidos" || $_GET["pagina"] == "pedidosEnCola" || $_GET["pagina"] == "produccionPedidos" || $_GET["pagina"] == "transportarPedidos" || $_GET["pagina"] == "descargaTienda") : ?>
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-shipping-fast"></i>
                                 <p>
@@ -138,19 +138,69 @@
                         <?php endif ?>
 
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
+                            <li class="nav-item has-treeview">
 
-                                <?php if ($_GET["pagina"] == "verPedidosEnProduccion") : ?>
-                                    <a href="verPedidosEnProduccion" class="nav-link active">
-                                        <i class="nav-icon far fa-circle"></i>
-                                        <p>Ver todos los pedidos</p>
+                                <?php if ($_GET["pagina"] == "verPedidosEnTaller" || $_GET["pagina"] == "verPedidosEnEspera" || $_GET["pagina"] == "verPedidosEnProduccion") : ?>
+                                    <a href="#" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Ver todos los pedidos
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
                                     </a>
                                 <?php else : ?>
-                                    <a href="verPedidosEnProduccion" class="nav-link">
-                                        <i class="nav-icon far fa-circle"></i>
-                                        <p>Ver todos los pedidos</p>
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Ver todos los pedidos
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
                                     </a>
                                 <?php endif ?>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+
+                                        <?php if ($_GET["pagina"] == "verPedidosEnTaller") : ?>
+                                            <a href="verPedidosEnEspera" class="nav-link active">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>En taller</p>
+                                            </a>
+                                        <?php else : ?>
+                                            <a href="verPedidosEnTaller" class="nav-link">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>En taller</p>
+                                            </a>
+                                        <?php endif ?>
+                                    </li>
+                                    <li class="nav-item">
+
+                                        <?php if ($_GET["pagina"] == "verPedidosEnEspera") : ?>
+                                            <a href="verPedidosEnEspera" class="nav-link active">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>En espera</p>
+                                            </a>
+                                        <?php else : ?>
+                                            <a href="verPedidosEnEspera" class="nav-link">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>En espera</p>
+                                            </a>
+                                        <?php endif ?>
+                                    </li>
+                                    <li class="nav-item">
+
+                                        <?php if ($_GET["pagina"] == "verPedidosEnProduccion") : ?>
+                                            <a href="verPedidosEnProduccion" class="nav-link active">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>En producción</p>
+                                            </a>
+                                        <?php else : ?>
+                                            <a href="verPedidosEnProduccion" class="nav-link">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>En producción</p>
+                                            </a>
+                                        <?php endif ?>
+                                    </li>
+                                </ul>
 
                             </li>
                             <li class="nav-item">
@@ -442,11 +492,36 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="verPedidosEnProduccion" class="nav-link">
-                                    <i class="nav-icon far fa-circle"></i>
-                                    <p>Ver todos los pedidos</p>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Ver todos los pedidos
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="verPedidosEnTaller" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>En taller</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="verPedidosEnEspera" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>En espera</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="verPedidosEnProduccion" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>En producción</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
                                 <a href="recolectarPedidos" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
                                     <p>Recolección de pedidos</p>

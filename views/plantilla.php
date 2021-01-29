@@ -76,20 +76,20 @@
     </div>
 
   <?php
-    else :
+else :
 
-      if (isset($_GET["pagina"])) {
+  if (isset($_GET["pagina"])) {
 
-        if ($_GET["pagina"] == "ingreso") {
-          include "pages/" . $_GET["pagina"] . ".php";
-        } else {
-          include "pages/error404.php";
-        }
-      } else {
-        include "pages/ingreso.php";
-      }
+    if ($_GET["pagina"] == "ingreso") {
+      include "pages/" . $_GET["pagina"] . ".php";
+    } else {
+      include "pages/error404.php";
+    }
+  } else {
+    include "pages/ingreso.php";
+  }
 
-    endif
+endif
   ?>
 
   <!--=============================================
@@ -108,6 +108,9 @@
   <script src="views/plugins/autosize/autosize.min.js"></script>
   <!-- Moment -->
   <script src="views/plugins/moment/moment-with-locales.min.js"></script>
+  <!-- InputMask -->
+  <script src="views/plugins/moment/moment.min.js"></script>
+  <script src="views/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- DataTables -->

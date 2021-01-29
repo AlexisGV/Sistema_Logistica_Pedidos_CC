@@ -65,3 +65,12 @@ $.widget.bridge('uibutton', $.ui.button)
 ALTO AUTOMATICO PARA TEXTAREAS
 =============================================*/
 autosize($('textarea'));
+
+/*=============================================
+FECHAS
+=============================================*/
+
+//Datemask dd/mm/yyyy
+$('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+//Money Euro
+$('[data-mask]').inputmask()
