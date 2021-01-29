@@ -1,7 +1,7 @@
 /*=============================================
 EDICION DE SUBCATEGORIA
 =============================================*/
-$(document).on('click', '.btnEditarRol', function(){
+$(document).on('click', '.btnEditarRol', function () {
 
     var idRol = $(this).attr('idRol');
 
@@ -19,16 +19,19 @@ $(document).on('click', '.btnEditarRol', function(){
         success: function (respuesta) {
             $("#idEditRol").val(respuesta["Id_Tipo_User"]);
             $("#nomEditRol").val(respuesta["Tipo_User"]);
+            $("#editDescripcionRol").val(respuesta["Descripcion_Tipo_User"]);
         }
-
+        
     });
+    
+    autosize($('#editDescripcionRol'));
 
 });
 
 /*=============================================
 ELIMINAR ROL
 =============================================*/
-$(document).on('click', '.btnEliminarRol', function(){
+$(document).on('click', '.btnEliminarRol', function () {
 
     var idRol = $(this).attr('idRol');
 
@@ -61,6 +64,17 @@ $(document).on('click', '.btnEliminarRol', function(){
 /*=============================================
 Limpiar Modals
 =============================================*/
-$(document).on('click', '.closeModalRol', function(){
+$(document).on('click', '.closeModalRol', function () {
     $("#nomRol").val("");
+    $("#ingDescripcionRol").val("");
+    $("#ingDescripcionRol").attr("style", "overflow: hidden; overflow-wrap: break-word; resize: none;");
+    $("#ingDescripcionRol").attr("rows", 2);
+});
+
+$(document).on('click', '.closeModalEditRol', function () {
+    $("#idEditRol").val("");
+    $("#nomEditRol").val("");
+    $("#editDescripcionRol").val("");
+    $("#editDescripcionRol").attr("style", "overflow: hidden; overflow-wrap: break-word; resize: none;");
+    $("#editDescripcionRol").attr("rows", 3);
 });

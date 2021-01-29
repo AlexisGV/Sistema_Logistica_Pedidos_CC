@@ -39,7 +39,7 @@ class ModeloRoles
     /*=============================================
     AGREGAR ROL DE USUARIO
     =============================================*/
-    static public function mdlCrearRol($tabla, $valor)
+    static public function mdlCrearRol($tabla, $datos)
     {
 
         #Verificar duplicado
@@ -50,8 +50,9 @@ class ModeloRoles
         if ($duplicado->fetch()) {
             return "duplicado";
         } else {
-            $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Tipo_User) VALUES (:nuevoRol)");
-            $stmt->bindParam(":nuevoRol", $valor, PDO::PARAM_STR);
+            $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Tipo_User, Descripcion_Tipo_User) VALUES (:nombre, :descripcion)");
+            $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
 
             if ($stmt->execute()) {
                 return "ok";
@@ -75,10 +76,12 @@ class ModeloRoles
 
         $stmt = Conexion::conectar()->prepare(
             "UPDATE $tabla
-            SET Tipo_User=:rol
+            SET Tipo_User=:nombre,
+                Descripcion_Tipo_User=:descripcion
             WHERE $item=:$item"
         );
-        $stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_STR);
+        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+        $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
         $stmt->bindParam(":" . $item, $datos["idRol"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {

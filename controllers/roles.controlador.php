@@ -25,9 +25,12 @@ class ControladorRoles
         if ( isset($_POST["nomRol"]) ){
 
             $tabla = "tipo_usuario";
-            $valor = $_POST["nomRol"];
+            $datos = array(
+                "nombre" => $_POST["nomRol"],
+                "descripcion" => $_POST["ingDescripcionRol"]
+            );
 
-            $ingreso = ModeloRoles::mdlCrearRol($tabla, $valor);
+            $ingreso = ModeloRoles::mdlCrearRol($tabla, $datos);
 
             return $ingreso;
 
@@ -46,7 +49,8 @@ class ControladorRoles
             $item = "Id_Tipo_User";
             $datos = array(
                 "idRol" => $_POST["idEditRol"],
-                "rol" => $_POST["nomEditRol"]
+                "nombre" => $_POST["nomEditRol"],
+                "descripcion" => $_POST["editDescripcionRol"]
             );
 
             $actualizar = ModeloRoles::mdlActualizarRol($tabla, $item, $datos);

@@ -3,6 +3,7 @@
         <tr>
             <th scope="col" style="width: 3px; max-width: 10px;">#</th>
             <th scope="col">Rol</th>
+            <th scope="col" style="max-width: 45%;">Descripción</th>
             <th scope="col">Acciones</th>
         </tr>
     </thead>
@@ -15,6 +16,7 @@
             <tr>
                 <td scope="row" style="width: 3px; max-width: 10px;"><?php echo $key + 1; ?></td>
                 <td><?php echo $value["Tipo_User"]; ?></td>
+                <td><?php echo $value["Descripcion_Tipo_User"]; ?></td>
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-secondary btnEditarPermisos" idRol="<?php echo $value["Id_Tipo_User"]; ?>" data-toggle="modal" data-target="#modalEditarPermisos"><i class="fas fa-key"></i></button>
