@@ -109,7 +109,6 @@ endif
   <!-- Moment -->
   <script src="views/plugins/moment/moment-with-locales.min.js"></script>
   <!-- InputMask -->
-  <script src="views/plugins/moment/moment.min.js"></script>
   <script src="views/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
