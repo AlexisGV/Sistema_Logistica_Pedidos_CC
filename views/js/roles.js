@@ -51,7 +51,7 @@ $(document).on('click', '.btnEditarPermisos', function () {
 
             for (let i = 0; i < respuesta.length; i++) {
 
-                $("#nomRolUsuario").html("\""+respuesta[0]["Tipo_User"]+"\"");
+                $("#nomRolUsuario").html("\"" + respuesta[0]["Tipo_User"] + "\"");
 
                 // BOTON PARA CREAR
                 var botonCreate = "";
@@ -60,9 +60,9 @@ $(document).on('click', '.btnEditarPermisos', function () {
                 } else {
 
                     if (Number(respuesta[i]["C"]) == 0) {
-                        botonCreate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="C" permiso="'+respuesta[i]["C"]+'">OFF</button>';
+                        botonCreate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="C" permiso="' + respuesta[i]["C"] + '">OFF</button>';
                     } else {
-                        botonCreate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="C" permiso="'+respuesta[i]["C"]+'">ON</button>';
+                        botonCreate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="C" permiso="' + respuesta[i]["C"] + '">ON</button>';
                     }
 
                 }
@@ -74,9 +74,9 @@ $(document).on('click', '.btnEditarPermisos', function () {
                 } else {
 
                     if (Number(respuesta[i]["R"]) == 0) {
-                        botonRead = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="R" permiso="'+respuesta[i]["R"]+'">OFF</button>';
+                        botonRead = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="R" permiso="' + respuesta[i]["R"] + '">OFF</button>';
                     } else {
-                        botonRead = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="R" permiso="'+respuesta[i]["R"]+'">ON</button>';
+                        botonRead = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="R" permiso="' + respuesta[i]["R"] + '">ON</button>';
                     }
 
                 }
@@ -88,9 +88,9 @@ $(document).on('click', '.btnEditarPermisos', function () {
                 } else {
 
                     if (Number(respuesta[i]["U"]) == 0) {
-                        botonUpdate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="U" permiso="'+respuesta[i]["U"]+'">OFF</button>';
+                        botonUpdate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="U" permiso="' + respuesta[i]["U"] + '">OFF</button>';
                     } else {
-                        botonUpdate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="U" permiso="'+respuesta[i]["U"]+'">ON</button>';
+                        botonUpdate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="U" permiso="' + respuesta[i]["U"] + '">ON</button>';
                     }
 
                 }
@@ -102,9 +102,9 @@ $(document).on('click', '.btnEditarPermisos', function () {
                 } else {
 
                     if (Number(respuesta[i]["D"]) == 0) {
-                        botonDelete = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="D" permiso="'+respuesta[i]["D"]+'">OFF</button>';
+                        botonDelete = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="D" permiso="' + respuesta[i]["D"] + '">OFF</button>';
                     } else {
-                        botonDelete = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="D" permiso="'+respuesta[i]["D"]+'">ON</button>';
+                        botonDelete = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="D" permiso="' + respuesta[i]["D"] + '">ON</button>';
                     }
 
                 }
@@ -119,19 +119,19 @@ $(document).on('click', '.btnEditarPermisos', function () {
                         '   </div>' +
                         '   <div class="col-3 col-md-2 text-center">' +
                         '       <h5 class="font-weight-bold text-truncate">Crear</h5>' +
-                                botonCreate +
+                        botonCreate +
                         '   </div>' +
                         '<div class="col-3 col-md-2 text-center">' +
                         '       <h5 class="font-weight-bold text-truncate">Lectura</h5>' +
-                                botonRead +
+                        botonRead +
                         '   </div>' +
                         '   <div class="col-3 col-md-2 text-center">' +
                         '       <h5 class="font-weight-bold text-truncate">Actualizar</h5>' +
-                                botonUpdate +
+                        botonUpdate +
                         '   </div>' +
                         '   <div class="col-3 col-md-2 text-center">' +
                         '       <h5 class="font-weight-bold text-truncate">Eliminar</h5>' +
-                                botonDelete +
+                        botonDelete +
                         '   </div>' +
                         '</div>'
                     );
@@ -145,19 +145,19 @@ $(document).on('click', '.btnEditarPermisos', function () {
                         '   </div>' +
                         '   <div class="col-3 col-md-2 text-center">' +
                         '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Crear</h5>' +
-                                botonCreate +
+                        botonCreate +
                         '   </div>' +
                         '   <div class="col-3 col-md-2 text-center">' +
                         '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Lectura</h5>' +
-                                botonRead +
+                        botonRead +
                         '   </div>' +
                         '   <div class="col-3 col-md-2 text-center">' +
                         '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Actualizar</h5>' +
-                                botonUpdate +
+                        botonUpdate +
                         '   </div>' +
                         '   <div class="col-3 col-md-2 text-center">' +
                         '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Eliminar</h5>' +
-                                botonDelete +
+                        botonDelete +
                         '   </div>' +
                         '</div>'
                     );
@@ -222,6 +222,18 @@ $(document).on('click', '.btnChangePermiso', function () {
             // }
         }
     });
+
+    if (Number(permiso) == 1) {
+        campo.removeClass("btn-success");
+        campo.addClass("btn-secondary");
+        campo.attr("permiso", 0);
+        campo.text("OFF");
+    } else {
+        campo.removeClass("btn-secondary");
+        campo.addClass("btn-success");
+        campo.attr("permiso", 1);
+        campo.text("ON");
+    }
 
 });
 

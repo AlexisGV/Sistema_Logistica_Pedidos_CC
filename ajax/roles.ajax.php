@@ -60,7 +60,7 @@ class AjaxRoles
 
         $respuesta = ControladorRoles::ctrActualizarPermiso($datos);
 
-        echo json_encode($respuesta);
+        echo $respuesta;
     }
 }
 
