@@ -52,14 +52,34 @@ class ModeloRoles
     }
 
     /*=============================================
-    TRAER TODOS LOS MODULOS
+    CONSULTA DE MODULOS Y PERMISOS
     =============================================*/
     static public function mdlObtenerModulos()
     {
         $tabla = "modulo";
         $orderItem = "Id_Modulo";
-
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY $orderItem ASC");
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        #Cerrar la conexion
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
+    CONSULTA DE MODULOS Y PERMISOS
+    =============================================*/
+    static public function mdlObtenerPermisos($tabla, $item, $valor, $orderItem)
+    {
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT * FROM $tabla
+             INNER JOIN permisos ON Id_Modulo=Id_Modulo1
+             INNER JOIN tipo_usuario ON Id_Tipo_User=Id_Tipo_User2
+             WHERE $item=:$item
+             ORDER BY $orderItem ASC");
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll();
@@ -138,6 +158,33 @@ class ModeloRoles
         $stmt->bindParam(":" . $item, $datos["idRol"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
+            return "ok";
+        } else {
+            $stmt->errorInfo();
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
+    ACTULIZAR PERMISO DEL ROL DE USUARIO
+    =============================================*/
+    static public function mdlActualizarPermiso($tabla, $datos)
+    {
+        $item = $datos["tipoPermiso"];
+
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla
+             SET $item=:$item
+             WHERE Id_Tipo_User2=:idRol AND Id_Modulo1=:idModulo"
+        );
+        $stmt->bindParam(":".$item, $datos["permiso"], PDO::PARAM_INT);
+        $stmt->bindParam(":idRol", $datos["idRol"], PDO::PARAM_INT);
+        $stmt->bindParam(":idModulo", $datos["idModulo"], PDO::PARAM_INT);
+
+        if ( $stmt->execute() ) {
             return "ok";
         } else {
             $stmt->errorInfo();

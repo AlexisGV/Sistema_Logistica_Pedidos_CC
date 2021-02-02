@@ -47,6 +47,7 @@
             <?php
             include "views/modules/Roles-Usuario/modalAddRol.php";
             include "views/modules/Roles-Usuario/modalEditRol.php";
+            include "views/modules/Roles-Usuario/modalPermisos.php";
             ?>
         </div>
     </section>

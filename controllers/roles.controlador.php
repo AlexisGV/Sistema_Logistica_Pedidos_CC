@@ -17,6 +17,21 @@ class ControladorRoles
     }
 
     /*=============================================
+    CONSULTA DE MODULOS Y PERMISOS
+    =============================================*/
+    static public function ctrObtenerPermisos($idRol)
+    {
+        $tabla = "modulo";
+        $item = "Id_Tipo_User";
+        $valor = $idRol;
+        $orderItem = "Id_Modulo";
+
+        $consulta = ModeloRoles::mdlObtenerPermisos($tabla, $item, $valor, $orderItem);
+
+        return $consulta;
+    }
+
+    /*=============================================
     AGREGAR ROL DE USUARIO
     =============================================*/
     static public function ctrCrearRol()
@@ -56,26 +71,25 @@ class ControladorRoles
 
                 $tabla = "permisos";
                 $errores = 0;
-                
+
                 foreach ($modulos as $key => $value) {
 
                     $idModulo = $value["Id_Modulo"];
                     $registrarPermisos = ModeloRoles::mdlRegistrarPermisos($tabla, $idModulo, $idRolNuevo);
 
-                    if ( $registrarPermisos == "error" ) {
+                    if ($registrarPermisos == "error") {
                         $errores++;
                     }
-
                 }
 
-                if ( $errores == 0 ) {
+                if ($errores == 0) {
                     return $ingreso;
                 } else {
 
                     $tabla = "tipo_usuario";
                     $item = "Id_Tipo_User";
                     $eliminarRol = ModeloRoles::mdlEliminarRol($tabla, $item, $idRolNuevo);
-                    
+
                     return "erroresModulos";
                 }
 
@@ -107,6 +121,19 @@ class ControladorRoles
 
             return $actualizar;
         }
+    }
+
+    /*=============================================
+    ACTULIZAR PERMISO DEL ROL DE USUARIO
+    =============================================*/
+    static public function ctrActualizarPermiso($datos)
+    {
+        $tabla = "permisos";
+        $permiso = $datos;
+
+        $actualizar = ModeloRoles::mdlActualizarPermiso($tabla, $permiso);
+
+        return $actualizar;
     }
 
     /*=============================================

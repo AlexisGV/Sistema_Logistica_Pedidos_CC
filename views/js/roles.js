@@ -21,10 +21,207 @@ $(document).on('click', '.btnEditarRol', function () {
             $("#nomEditRol").val(respuesta["Tipo_User"]);
             $("#editDescripcionRol").val(respuesta["Descripcion_Tipo_User"]);
         }
-        
+
     });
-    
+
     autosize($('#editDescripcionRol'));
+
+});
+
+/*=============================================
+EDICION DE PERMISOS - MOSTRAR TODOS LOS PERMISOS
+=============================================*/
+$(document).on('click', '.btnEditarPermisos', function () {
+
+    var idRol = $(this).attr('idRol');
+
+    var dato = new FormData();
+    dato.append('idRolForModules', idRol);
+
+    $.ajax({
+        url: "ajax/roles.ajax.php",
+        method: "POST",
+        data: dato,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (respuesta) {
+            // console.log(respuesta);
+
+            for (let i = 0; i < respuesta.length; i++) {
+
+                $("#nomRolUsuario").html("\""+respuesta[0]["Tipo_User"]+"\"");
+
+                // BOTON PARA CREAR
+                var botonCreate = "";
+                if (Number(respuesta[i]["C_A"]) == 0) {
+                    botonCreate = '<div class="btn border border-dark w-100">N/A</div>';
+                } else {
+
+                    if (Number(respuesta[i]["C"]) == 0) {
+                        botonCreate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="C" permiso="'+respuesta[i]["C"]+'">OFF</button>';
+                    } else {
+                        botonCreate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="C" permiso="'+respuesta[i]["C"]+'">ON</button>';
+                    }
+
+                }
+
+                // BOTON PARA LEER DATOS
+                var botonRead = "";
+                if (Number(respuesta[i]["R_A"]) == 0) {
+                    botonRead = '<div class="btn border border-dark w-100">N/A</div>';
+                } else {
+
+                    if (Number(respuesta[i]["R"]) == 0) {
+                        botonRead = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="R" permiso="'+respuesta[i]["R"]+'">OFF</button>';
+                    } else {
+                        botonRead = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="R" permiso="'+respuesta[i]["R"]+'">ON</button>';
+                    }
+
+                }
+
+                // BOTON PARA ACTUALIZAR DATOS
+                var botonUpdate = "";
+                if (Number(respuesta[i]["U_A"]) == 0) {
+                    botonUpdate = '<div class="btn border border-dark w-100">N/A</div>';
+                } else {
+
+                    if (Number(respuesta[i]["U"]) == 0) {
+                        botonUpdate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="U" permiso="'+respuesta[i]["U"]+'">OFF</button>';
+                    } else {
+                        botonUpdate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="U" permiso="'+respuesta[i]["U"]+'">ON</button>';
+                    }
+
+                }
+
+                // BOTON PARA ELIMINAR DATOS
+                var botonDelete = "";
+                if (Number(respuesta[i]["D_A"]) == 0) {
+                    botonDelete = '<div class="btn border border-dark w-100">N/A</div>';
+                } else {
+
+                    if (Number(respuesta[i]["D"]) == 0) {
+                        botonDelete = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="D" permiso="'+respuesta[i]["D"]+'">OFF</button>';
+                    } else {
+                        botonDelete = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="'+respuesta[i]["Id_Tipo_User"]+'" idModulo="'+respuesta[i]["Id_Modulo"]+'" tipoPermiso="D" permiso="'+respuesta[i]["D"]+'">ON</button>';
+                    }
+
+                }
+
+                if (i == 0) {
+
+                    $("#modulos").append(
+                        '<div class="row">' +
+                        '   <div class="col-12 col-md-4">' +
+                        '       <h5 class="font-weight-bold">Modulo</h5>' +
+                        '       <p>' + respuesta[i]["Nombre_Modulo"] + '</p>' +
+                        '   </div>' +
+                        '   <div class="col-3 col-md-2 text-center">' +
+                        '       <h5 class="font-weight-bold text-truncate">Crear</h5>' +
+                                botonCreate +
+                        '   </div>' +
+                        '<div class="col-3 col-md-2 text-center">' +
+                        '       <h5 class="font-weight-bold text-truncate">Lectura</h5>' +
+                                botonRead +
+                        '   </div>' +
+                        '   <div class="col-3 col-md-2 text-center">' +
+                        '       <h5 class="font-weight-bold text-truncate">Actualizar</h5>' +
+                                botonUpdate +
+                        '   </div>' +
+                        '   <div class="col-3 col-md-2 text-center">' +
+                        '       <h5 class="font-weight-bold text-truncate">Eliminar</h5>' +
+                                botonDelete +
+                        '   </div>' +
+                        '</div>'
+                    );
+
+                } else {
+                    $("#modulos").append(
+                        '<div class="row mt-3">' +
+                        '   <div class="col-12 col-md-4">' +
+                        '       <h5 class="font-weight-bold d-block d-md-none">Modulo</h5>' +
+                        '       <p>' + respuesta[i]["Nombre_Modulo"] + '</p>' +
+                        '   </div>' +
+                        '   <div class="col-3 col-md-2 text-center">' +
+                        '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Crear</h5>' +
+                                botonCreate +
+                        '   </div>' +
+                        '   <div class="col-3 col-md-2 text-center">' +
+                        '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Lectura</h5>' +
+                                botonRead +
+                        '   </div>' +
+                        '   <div class="col-3 col-md-2 text-center">' +
+                        '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Actualizar</h5>' +
+                                botonUpdate +
+                        '   </div>' +
+                        '   <div class="col-3 col-md-2 text-center">' +
+                        '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Eliminar</h5>' +
+                                botonDelete +
+                        '   </div>' +
+                        '</div>'
+                    );
+                }
+
+            }
+        }
+
+    });
+
+});
+
+/*=============================================
+EDICION DE PERMISOS - MOSTRAR TODOS LOS PERMISOS
+=============================================*/
+$(document).on('click', '.btnChangePermiso', function () {
+
+    var campo = $(this);
+    var idRol = $(this).attr('idRol');
+    var idModulo = $(this).attr('idModulo');
+    var tipoPermiso = $(this).attr('tipoPermiso');
+    var permiso = $(this).attr('permiso');
+    // console.log(idRol + " - " + idModulo + " - " + tipoPermiso + " - " + permiso);
+
+    var datos = new FormData();
+    datos.append('idRol', idRol);
+    datos.append('idModulo', idModulo);
+    datos.append('tipoPermiso', tipoPermiso);
+    datos.append('permiso', permiso);
+
+    $.ajax({
+        url: "ajax/roles.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (respuesta) {
+            console.log(respuesta);
+
+            // if ( respuesta == "ok" ) {
+
+            //     if ( Number(permiso) == 1 ) {
+            //         campo.removeClass("btn-succes");
+            //         campo.addClass("btn-secondary");
+            //         campo.attr("permiso", 0);
+            //         campo.text("OFF");
+            //     } else {
+            //         campo.removeClass("btn-secondary");
+            //         campo.addClass("btn-succes");
+            //         campo.attr("permiso", 1);
+            //         campo.text("ON");
+            //     }
+
+            // } else {
+            //     swal({
+            //         title: "Error al actualizar permiso",
+            //         text: "Ha ocurrido un error inesperado al intentar actualziar el permiso",
+            //         icon: "error",
+            //     });
+            // }
+        }
+    });
 
 });
 
@@ -77,4 +274,9 @@ $(document).on('click', '.closeModalEditRol', function () {
     $("#editDescripcionRol").val("");
     $("#editDescripcionRol").attr("style", "overflow: hidden; overflow-wrap: break-word; resize: none;");
     $("#editDescripcionRol").attr("rows", 3);
+});
+
+$(document).on('click', '.closeModalEditPermisos', function () {
+    $("#nomRolUsuario").html("");
+    $("#modulos").html("");
 });
