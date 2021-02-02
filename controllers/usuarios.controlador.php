@@ -252,7 +252,6 @@ class ControladorUsuarios
             $item = "Id_Usuario";
             $dato = $_GET["idUser"];
 
-            
             $borrar = ModeloUsuarios::mdlEliminarUsuario($tabla, $item, $dato);
             
             if ($borrar == "ok") {
@@ -264,17 +263,43 @@ class ControladorUsuarios
     
                 #Borrar el directorio del usuario
                 rmdir("views/img/Usuarios/" . $_GET["apodoUser"]);
+
+                #Obtener ID de Usuario Eliminado
+                $tabla = "usuario";
+                $item = "Tipo_User";
+                $valor = "Usuario eliminado";
+                $usuarioEliminado = ModeloUsuarios::mdlBuscarUsuario($tabla, $item, $valor);
+                $idUserEliminated = $usuarioEliminado["Id_Usuario"];
+
+                #Actualizar usuario eliminado en pedidos
+                $tabla = "actualizaciones_pedido";
+                $item = "Id_Usuario1";
+                $actualizarUsuarioEliminado = ModeloUsuarios::mdlActualizarUsuarioEliminado($tabla, $item, $idUserEliminated);
+
+                if ( $actualizarUsuarioEliminado == "ok" ) {
+                    echo '<script>
+                            swal({
+                                title: "Eliminación exitosa!",
+                                text: "El producto se eliminó correctamente.",
+                                icon: "success",
+                                closeOnClickOutside: false,
+                            }).then( (result) => {
+                                window.location = "mainUsuarios";
+                            });
+                          </script>';
+                } else {
+                    echo '<script>
+                            swal({
+                                title: "Eliminación exitosa!",
+                                text: "El producto se eliminó correctamente, pero no se actualizaron los campos vacíos.",
+                                icon: "info",
+                                closeOnClickOutside: false,
+                            }).then( (result) => {
+                                window.location = "mainUsuarios";
+                            });
+                          </script>';
+                }
                 
-                echo '<script>
-                        swal({
-                            title: "Eliminación exitosa!",
-                            text: "El producto se eliminó correctamente.",
-                            icon: "success",
-                            closeOnClickOutside: false,
-                        }).then( (result) => {
-                            window.location = "mainUsuarios";
-                        });
-                      </script>';
             } else {
                 echo '<script>
                         swal({

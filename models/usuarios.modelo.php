@@ -167,12 +167,14 @@ class ModeloUsuarios
     =============================================*/
     static public function mdlActualizarUsuarioEliminado($tabla, $item, $valor)
     {
+        $nulo = NULL;
         $stmt = Conexion::conectar()->prepare(
             "UPDATE $tabla
              SET $item=:$item
-             WHERE $item=NULL"
+             WHERE $item IS :nulo"
         );
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":nulo", $nulo, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return "ok";
