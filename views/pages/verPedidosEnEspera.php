@@ -45,7 +45,7 @@ CONTENEDOR
                             <h1 class="card-title">Pedidos en producción</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Logistica/tablaGenPedidosEnProduccion.php"; ?>
+                            <?php include "views/modules/Logistica/tablaGenPedidosEnEspera.php"; ?>
                         </div>
                     </div>
                 </div>
