@@ -39,7 +39,7 @@ CONTENEDOR
             </div>
 
             <!--=============================================
-            OBTENER PERMISOS PARA VER PEDIDOS EN TALLER - GEN
+            OBTENER PERMISOS PARA VER PEDIDOS EN ESPERA - GEN
             =============================================-->
             <?php
             $modulo = "Vista general de pedidos";
@@ -64,7 +64,6 @@ CONTENEDOR
                                     include "views/pages/permisosDenegados.php";
                                 }
                             ?>
-                            <?php  ?>
                         </div>
                     </div>
                 </div>
