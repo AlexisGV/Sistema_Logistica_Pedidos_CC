@@ -29,13 +29,32 @@ CONTENEDOR
     <section class="content">
 
         <div class="container-fluid">
-        
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn bg-navy mb-3" data-toggle="modal" data-target="#modalReportesLogistica">Obtener reporte de logistica</button>
-                </div>
-            </div>
 
+            <!--=============================================
+            OBTENER PERMISOS PARA REPORTES DE LOGISTICA
+            =============================================-->
+            <?php
+            $modulo = "Logística y reportes";
+            $permisosLogistica = ControladorPermisos::ctrObtenerPermisos($modulo);
+
+            /* PERMISO PARA CREAR REPORTES
+            -------------------------------------------------- */
+            if (intval($permisosLogistica["C"]) == 1) :
+            ?>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn bg-navy mb-3" data-toggle="modal" data-target="#modalReportesLogistica">Obtener reporte de logistica</button>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <!--=============================================
+            OBTENER PERMISOS PARA ADMINISTRAR PEDIDOS
+            =============================================-->
+            <?php
+            $modulo = "Administración de pedidos";
+            $permisosPedidos = ControladorPermisos::ctrObtenerPermisos($modulo);
+            ?>
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -43,7 +62,18 @@ CONTENEDOR
                             <h1 class="card-title">Todos los pedidos</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Pedidos/tablaPedidos.php"; ?>
+                            <?php
+
+                                if ( intval($permisosPedidos["C"]) == 1 || intval($permisosPedidos["R"]) == 1 || intval($permisosPedidos["U"]) == 1 || intval($permisosPedidos["D"]) == 1 || intval($permisosLogistica["R"]) == 1 ) :
+                            
+                                    include "views/modules/Pedidos/tablaPedidos.php";
+
+                                else :
+
+                                    include "views/pages/permisosDenegados.php";
+                                    
+                                endif;
+                            ?>
                         </div>
                     </div>
                 </div>

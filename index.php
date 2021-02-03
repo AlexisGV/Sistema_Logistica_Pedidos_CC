@@ -28,6 +28,9 @@
     #Logistica
     require_once "controllers/logistica.controlador.php";
     require_once "models/logistica.modelo.php";
+    #Permisos
+    require_once "controllers/permisos.controlador.php";
+    require_once "models/permisos.modelo.php";
 
     $plantilla = new ControladorPlantilla();
     $plantilla->TraerPlantilla();
