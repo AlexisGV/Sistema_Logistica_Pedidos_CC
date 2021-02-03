@@ -28,7 +28,9 @@ $fechaActual = date('Y-m-d');
                 <td scope="row" style="width: 3px; max-width: 8px;">1</td>
                 <td>
                     <span><?php echo $value["Id_Pedido"] ?></span><br>
-                    <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $value["Id_Pedido"] ?>"  data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
+                    <?php if (intval($permisosPedidosEnCola["R"]) == 1) : ?>
+                        <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $value["Id_Pedido"] ?>" data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
+                    <?php endif; ?>
 
                     <?php
 
@@ -63,7 +65,9 @@ $fechaActual = date('Y-m-d');
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-warning btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado?>" avanceEstado="<?php echo intval($value["Avance_Estado"])+10 ?>">Empezar a producir</button>
+                        <?php if (intval($permisosPedidosEnCola["U"]) == 1) : ?>
+                            <button type="button" class="btn btn-sm btn-warning btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($value["Avance_Estado"]) + 10 ?>">Empezar a producir</button>
+                        <?php endif; ?>
                     </div>
                 </td>
             </tr>
