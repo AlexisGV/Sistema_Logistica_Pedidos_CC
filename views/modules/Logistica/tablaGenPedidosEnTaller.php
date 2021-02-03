@@ -28,6 +28,7 @@ $fechaActual = date('Y-m-d');
                 <td>
                     <span><?php echo $value["Id_Pedido"]; ?></span><br>
                     <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $value["Id_Pedido"]; ?>" data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
+
                     <?php
 
                     $date1 = new DateTime($fechaActual);

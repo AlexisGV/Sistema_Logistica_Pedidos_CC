@@ -38,6 +38,14 @@ CONTENEDOR
                 </div>
             </div>
 
+            <!--=============================================
+            OBTENER PERMISOS PARA VER PEDIDOS EN TALLER - GEN
+            =============================================-->
+            <?php
+            $modulo = "Vista general de pedidos";
+            $permisosGeneralesVistaPedidos = ControladorPermisos::ctrObtenerPermisos($modulo);
+            ?>
+
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -45,16 +53,22 @@ CONTENEDOR
                             <h1 class="card-title">Pedidos en producción</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Logistica/tablaGenPedidosEnTaller.php"; ?>
+                            <?php
+                                if ( intval($permisosGeneralesVistaPedidos["R"]) ) { 
+
+                                    include "views/modules/Logistica/tablaGenPedidosEnTaller.php";
+                                    include "views/modules/Pedidos/modalVerPedido.php";
+                                
+                                } else {
+
+                                    include "views/pages/permisosDenegados.php";
+
+                                }
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <?php
-            include "views/modules/Pedidos/modalVerPedido.php";
-            include "views/modules/Logistica/modalAddComentario.php";
-            ?>
 
         </div>
     </section>
