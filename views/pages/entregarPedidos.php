@@ -38,6 +38,14 @@ CONTENEDOR
                 </div>
             </div>
 
+            <!--=============================================
+            OBTENER PERMISOS PARA ENTREGA FINAL AL CLIENTE
+            =============================================-->
+            <?php
+            $modulo = "Entrega final";
+            $permisosEntregaFinal = ControladorPermisos::ctrObtenerPermisos($modulo);
+            ?>
+
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -45,16 +53,31 @@ CONTENEDOR
                             <h1 class="card-title">Pedidos listo para entrega final</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Logistica/tablaEntregaFinal.php"; ?>
+                            <?php
+                            
+                                if ( intval($permisosEntregaFinal["R"]) == 1 || intval($permisosEntregaFinal["U"]) == 1 ) {
+
+                                    include "views/modules/Logistica/tablaEntregaFinal.php";
+
+                                    if ( intval($permisosEntregaFinal["R"]) == 1 ) {
+                                        include "views/modules/Pedidos/modalVerPedido.php";
+                                    }
+
+                                    if ( intval($permisosEntregaFinal["U"]) == 1 ) {
+                                        include "views/modules/Logistica/modalAddComentario.php";
+                                    }
+                                
+                                } else {
+
+                                    include "views/pages/permisosDenegados.php";
+
+                                }
+
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <?php
-            include "views/modules/Pedidos/modalVerPedido.php";
-            include "views/modules/Logistica/modalAddComentario.php";
-            ?>
 
         </div>
     </section>
