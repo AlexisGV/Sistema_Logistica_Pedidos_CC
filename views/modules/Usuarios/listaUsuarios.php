@@ -30,8 +30,12 @@
                 <td><?php echo $value["Tipo_User"]; ?></td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-warning btnEditarUsuario" idUsuario="<?php echo $value["Id_Usuario"]; ?>" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fas fa-edit text-white"></i></button>
-                        <button class="btn btn-danger btnEliminarUsuario" idUsuario="<?php echo $value["Id_Usuario"]; ?>" fotoUsuario="<?php echo $value["Foto_User"]; ?>" apodoUsuario="<?php echo $value["Apodo"]; ?>"><i class="fas fa-trash-alt text-white"></i></button>
+                        <?php if (intval($permisosAdministrarUsuarios["U"]) == 1) : ?>
+                            <button class="btn btn-warning btnEditarUsuario" idUsuario="<?php echo $value["Id_Usuario"]; ?>" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fas fa-edit text-white"></i></button>
+                        <?php endif; ?>
+                        <?php if (intval($permisosAdministrarUsuarios["D"]) == 1) : ?>
+                            <button class="btn btn-danger btnEliminarUsuario" idUsuario="<?php echo $value["Id_Usuario"]; ?>" fotoUsuario="<?php echo $value["Foto_User"]; ?>" apodoUsuario="<?php echo $value["Apodo"]; ?>"><i class="fas fa-trash-alt text-white"></i></button>
+                        <?php endif; ?>
                     </div>
                 </td>
             </tr>
