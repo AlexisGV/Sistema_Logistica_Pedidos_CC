@@ -33,7 +33,7 @@ CONTENEDOR
             <div class="row">
                 <div class="col">
                     <div class="alert alert-info">
-                        En esta sección se muestran todos los pedidos que ya están en producción y los responsables de verificar que se estén realizando los mismos.
+                        En esta sección se muestran todos los pedidos que están en espera de ser producidos y los responsables de verificar que se realicen los mismos.
                     </div>
                 </div>
             </div>
