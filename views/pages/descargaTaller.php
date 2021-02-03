@@ -38,6 +38,14 @@ CONTENEDOR
                 </div>
             </div>
 
+            <!--=============================================
+            OBTENER PERMISOS PARA RECOLECCIÓN DE PEDIDOS
+            =============================================-->
+            <?php
+            $modulo = "Recolección y descarga de pedidos";
+            $permisosRecoleccion = ControladorPermisos::ctrObtenerPermisos($modulo);
+            ?>
+
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -45,16 +53,29 @@ CONTENEDOR
                             <h1 class="card-title">Pedidos en tienda</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Logistica/tablaDescargaTaller.php"; ?>
+                            <?php
+
+                                if (intval($permisosRecoleccion["R"]) == 1 || intval($permisosRecoleccion["U"]) == 1) {
+
+                                    include "views/modules/Logistica/tablaDescargaTaller.php";
+
+                                    if (intval($permisosRecoleccion["R"]) == 1) {
+                                        include "views/modules/Pedidos/modalVerPedido.php";
+                                    }
+
+                                    if (intval($permisosRecoleccion["U"]) == 1) {
+                                        include "views/modules/Logistica/modalAddComentario.php";
+                                    }
+                                } else {
+
+                                    include "views/pages/permisosDenegados.php";
+                                }
+
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <?php
-            include "views/modules/Pedidos/modalVerPedido.php";
-            include "views/modules/Logistica/modalAddComentario.php";
-            ?>
 
         </div>
     </section>
