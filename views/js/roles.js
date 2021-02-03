@@ -1,5 +1,5 @@
 /*=============================================
-EDICION DE SUBCATEGORIA
+EDICION DE ROLES
 =============================================*/
 $(document).on('click', '.btnEditarRol', function () {
 
@@ -19,6 +19,13 @@ $(document).on('click', '.btnEditarRol', function () {
         success: function (respuesta) {
             $("#idEditRol").val(respuesta["Id_Tipo_User"]);
             $("#nomEditRol").val(respuesta["Tipo_User"]);
+
+            if ( respuesta["Tipo_User"] == "Administrador" ) {
+                $("#nomEditRol").prop("readonly", true);
+            } else {
+                $("#nomEditRol").prop("readonly", false);
+            }
+
             $("#editDescripcionRol").val(respuesta["Descripcion_Tipo_User"]);
         }
 
@@ -53,114 +60,129 @@ $(document).on('click', '.btnEditarPermisos', function () {
 
                 $("#nomRolUsuario").html("\"" + respuesta[0]["Tipo_User"] + "\"");
 
-                // BOTON PARA CREAR
-                var botonCreate = "";
-                if (Number(respuesta[i]["C_A"]) == 0) {
-                    botonCreate = '<div class="btn border border-dark w-100">N/A</div>';
-                } else {
-
-                    if (Number(respuesta[i]["C"]) == 0) {
-                        botonCreate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="C" permiso="' + respuesta[i]["C"] + '">OFF</button>';
-                    } else {
-                        botonCreate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="C" permiso="' + respuesta[i]["C"] + '">ON</button>';
-                    }
-
-                }
-
-                // BOTON PARA LEER DATOS
-                var botonRead = "";
-                if (Number(respuesta[i]["R_A"]) == 0) {
-                    botonRead = '<div class="btn border border-dark w-100">N/A</div>';
-                } else {
-
-                    if (Number(respuesta[i]["R"]) == 0) {
-                        botonRead = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="R" permiso="' + respuesta[i]["R"] + '">OFF</button>';
-                    } else {
-                        botonRead = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="R" permiso="' + respuesta[i]["R"] + '">ON</button>';
-                    }
-
-                }
-
-                // BOTON PARA ACTUALIZAR DATOS
-                var botonUpdate = "";
-                if (Number(respuesta[i]["U_A"]) == 0) {
-                    botonUpdate = '<div class="btn border border-dark w-100">N/A</div>';
-                } else {
-
-                    if (Number(respuesta[i]["U"]) == 0) {
-                        botonUpdate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="U" permiso="' + respuesta[i]["U"] + '">OFF</button>';
-                    } else {
-                        botonUpdate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="U" permiso="' + respuesta[i]["U"] + '">ON</button>';
-                    }
-
-                }
-
-                // BOTON PARA ELIMINAR DATOS
-                var botonDelete = "";
-                if (Number(respuesta[i]["D_A"]) == 0) {
-                    botonDelete = '<div class="btn border border-dark w-100">N/A</div>';
-                } else {
-
-                    if (Number(respuesta[i]["D"]) == 0) {
-                        botonDelete = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="D" permiso="' + respuesta[i]["D"] + '">OFF</button>';
-                    } else {
-                        botonDelete = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="D" permiso="' + respuesta[i]["D"] + '">ON</button>';
-                    }
-
-                }
-
-                if (i == 0) {
-
+                if ( respuesta[0]["Tipo_User"] == "Administrador" ) {
+                    
                     $("#modulos").append(
-                        '<div class="row">' +
-                        '   <div class="col-12 col-md-4">' +
-                        '       <h5 class="font-weight-bold">Modulo</h5>' +
-                        '       <p>' + respuesta[i]["Nombre_Modulo"] + '</p>' +
-                        '   </div>' +
-                        '   <div class="col-3 col-md-2 text-center">' +
-                        '       <h5 class="font-weight-bold text-truncate">Crear</h5>' +
-                        botonCreate +
-                        '   </div>' +
-                        '<div class="col-3 col-md-2 text-center">' +
-                        '       <h5 class="font-weight-bold text-truncate">Lectura</h5>' +
-                        botonRead +
-                        '   </div>' +
-                        '   <div class="col-3 col-md-2 text-center">' +
-                        '       <h5 class="font-weight-bold text-truncate">Actualizar</h5>' +
-                        botonUpdate +
-                        '   </div>' +
-                        '   <div class="col-3 col-md-2 text-center">' +
-                        '       <h5 class="font-weight-bold text-truncate">Eliminar</h5>' +
-                        botonDelete +
-                        '   </div>' +
+                        '<div class="jumbotron bg-info m-2">'+
+                        '   <h1 class="display-4"><i class="fas fa-info-circle d-block d-md-inline-block text-center text-md-left"></i> Privilegios sin restricciones</h1>'+
+                        '   <p class="lead">Este es el rol de administrador, puede realizar la acción que desee en el sistema sin ningún tipo de restricción. Sin embargo, debe procura ser cuidadoso con estas acciones para evitar cualquier perdida de información o alteración de la misma.</p>'+
                         '</div>'
                     );
 
+                    break;
+
                 } else {
-                    $("#modulos").append(
-                        '<div class="row mt-3">' +
-                        '   <div class="col-12 col-md-4">' +
-                        '       <h5 class="font-weight-bold d-block d-md-none">Modulo</h5>' +
-                        '       <p>' + respuesta[i]["Nombre_Modulo"] + '</p>' +
-                        '   </div>' +
-                        '   <div class="col-3 col-md-2 text-center">' +
-                        '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Crear</h5>' +
-                        botonCreate +
-                        '   </div>' +
-                        '   <div class="col-3 col-md-2 text-center">' +
-                        '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Lectura</h5>' +
-                        botonRead +
-                        '   </div>' +
-                        '   <div class="col-3 col-md-2 text-center">' +
-                        '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Actualizar</h5>' +
-                        botonUpdate +
-                        '   </div>' +
-                        '   <div class="col-3 col-md-2 text-center">' +
-                        '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Eliminar</h5>' +
-                        botonDelete +
-                        '   </div>' +
-                        '</div>'
-                    );
+
+                    // BOTON PARA CREAR
+                    var botonCreate = "";
+                    if (Number(respuesta[i]["C_A"]) == 0) {
+                        botonCreate = '<div class="btn border border-dark w-100">N/A</div>';
+                    } else {
+    
+                        if (Number(respuesta[i]["C"]) == 0) {
+                            botonCreate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="C" permiso="' + respuesta[i]["C"] + '">OFF</button>';
+                        } else {
+                            botonCreate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="C" permiso="' + respuesta[i]["C"] + '">ON</button>';
+                        }
+    
+                    }
+    
+                    // BOTON PARA LEER DATOS
+                    var botonRead = "";
+                    if (Number(respuesta[i]["R_A"]) == 0) {
+                        botonRead = '<div class="btn border border-dark w-100">N/A</div>';
+                    } else {
+    
+                        if (Number(respuesta[i]["R"]) == 0) {
+                            botonRead = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="R" permiso="' + respuesta[i]["R"] + '">OFF</button>';
+                        } else {
+                            botonRead = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="R" permiso="' + respuesta[i]["R"] + '">ON</button>';
+                        }
+    
+                    }
+    
+                    // BOTON PARA ACTUALIZAR DATOS
+                    var botonUpdate = "";
+                    if (Number(respuesta[i]["U_A"]) == 0) {
+                        botonUpdate = '<div class="btn border border-dark w-100">N/A</div>';
+                    } else {
+    
+                        if (Number(respuesta[i]["U"]) == 0) {
+                            botonUpdate = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="U" permiso="' + respuesta[i]["U"] + '">OFF</button>';
+                        } else {
+                            botonUpdate = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="U" permiso="' + respuesta[i]["U"] + '">ON</button>';
+                        }
+    
+                    }
+    
+                    // BOTON PARA ELIMINAR DATOS
+                    var botonDelete = "";
+                    if (Number(respuesta[i]["D_A"]) == 0) {
+                        botonDelete = '<div class="btn border border-dark w-100">N/A</div>';
+                    } else {
+    
+                        if (Number(respuesta[i]["D"]) == 0) {
+                            botonDelete = '<button type="button" class="btn btn-secondary w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="D" permiso="' + respuesta[i]["D"] + '">OFF</button>';
+                        } else {
+                            botonDelete = '<button type="button" class="btn btn-success w-100 btnChangePermiso" idRol="' + respuesta[i]["Id_Tipo_User"] + '" idModulo="' + respuesta[i]["Id_Modulo"] + '" tipoPermiso="D" permiso="' + respuesta[i]["D"] + '">ON</button>';
+                        }
+    
+                    }
+    
+                    if (i == 0) {
+    
+                        $("#modulos").append(
+                            '<div class="row">' +
+                            '   <div class="col-12 col-md-4">' +
+                            '       <h5 class="font-weight-bold">Modulo</h5>' +
+                            '       <p>' + respuesta[i]["Nombre_Modulo"] + '</p>' +
+                            '   </div>' +
+                            '   <div class="col-3 col-md-2 text-center">' +
+                            '       <h5 class="font-weight-bold text-truncate">Crear</h5>' +
+                            botonCreate +
+                            '   </div>' +
+                            '<div class="col-3 col-md-2 text-center">' +
+                            '       <h5 class="font-weight-bold text-truncate">Lectura</h5>' +
+                            botonRead +
+                            '   </div>' +
+                            '   <div class="col-3 col-md-2 text-center">' +
+                            '       <h5 class="font-weight-bold text-truncate">Actualizar</h5>' +
+                            botonUpdate +
+                            '   </div>' +
+                            '   <div class="col-3 col-md-2 text-center">' +
+                            '       <h5 class="font-weight-bold text-truncate">Eliminar</h5>' +
+                            botonDelete +
+                            '   </div>' +
+                            '</div>'
+                        );
+    
+                    } else {
+                        $("#modulos").append(
+                            '<div class="row mt-3">' +
+                            '   <div class="col-12 col-md-4">' +
+                            '       <h5 class="font-weight-bold d-block d-md-none">Modulo</h5>' +
+                            '       <p>' + respuesta[i]["Nombre_Modulo"] + '</p>' +
+                            '   </div>' +
+                            '   <div class="col-3 col-md-2 text-center">' +
+                            '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Crear</h5>' +
+                            botonCreate +
+                            '   </div>' +
+                            '   <div class="col-3 col-md-2 text-center">' +
+                            '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Lectura</h5>' +
+                            botonRead +
+                            '   </div>' +
+                            '   <div class="col-3 col-md-2 text-center">' +
+                            '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Actualizar</h5>' +
+                            botonUpdate +
+                            '   </div>' +
+                            '   <div class="col-3 col-md-2 text-center">' +
+                            '       <h5 class="font-weight-bold d-block d-md-none text-truncate">Eliminar</h5>' +
+                            botonDelete +
+                            '   </div>' +
+                            '</div>'
+                        );
+                    }
+
                 }
 
             }

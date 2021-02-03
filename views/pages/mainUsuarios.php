@@ -31,7 +31,7 @@ CONTENEDOR
         <div class="container-fluid">
 
             <!--=============================================
-            OBTENER PERMISOS PARA VER PEDIDOS EN ESPERA
+            OBTENER PERMISOS PARA ADMINISTRAR USUARIOS
             =============================================-->
             <?php
             $modulo = "Administración de usuarios";

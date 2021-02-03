@@ -28,6 +28,7 @@ class FormularioIngreso
                     $_SESSION["idUsuario"] = $ingreso["Id_Usuario"];
                     $_SESSION["nombreUsuario"] = $ingreso["Nombre_Usuario"];
                     $_SESSION["tipoUsuario"] = $ingreso["Id_Tipo_User1"];
+                    $_SESSION["tipoUsuarioPorNombre"] = $ingreso["Tipo_User"];
                     $_SESSION["imagenUsuario"] = $ingreso["Foto_User"];
 
                     echo

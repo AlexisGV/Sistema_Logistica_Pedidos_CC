@@ -19,9 +19,17 @@
                 <td><?php echo $value["Descripcion_Tipo_User"]; ?></td>
                 <td>
                     <div class="btn-group">
+                        <?php if ($_SESSION["tipoUsuarioPorNombre"] == "Administrador") : ?>
                         <button class="btn bg-navy btnEditarPermisos" idRol="<?php echo $value["Id_Tipo_User"]; ?>" data-toggle="modal" data-target="#modalEditarPermisos"><i class="fas fa-key"></i></button>
+                        <?php endif; ?>
+
+                        <?php if (intval($permisosAdministrarRoles["U"]) == 1 ) : ?>
                         <button class="btn btn-warning btnEditarRol" idRol="<?php echo $value["Id_Tipo_User"]; ?>" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit text-white"></i></button>
+                        <?php endif; ?>
+
+                        <?php if (intval($permisosAdministrarRoles["D"]) == 1 ) : ?>
                         <button class="btn btn-danger btnEliminarRol" idRol="<?php echo $value["Id_Tipo_User"]; ?>"><i class="fas fa-trash-alt text-white"></i></button>
+                        <?php endif; ?>
                     </div>
                 </td>
             </tr>

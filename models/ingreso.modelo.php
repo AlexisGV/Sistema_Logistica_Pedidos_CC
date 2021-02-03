@@ -6,7 +6,7 @@
 
         static public function mdlIngreso($tabla, $item, $item2, $valor){
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item=:$item OR $item2=:$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla INNER JOIN tipo_usuario ON Id_Tipo_User=Id_Tipo_User1 WHERE $item=:$item OR $item2=:$item");
 
             $stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);
 
