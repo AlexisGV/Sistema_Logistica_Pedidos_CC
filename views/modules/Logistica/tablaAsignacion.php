@@ -22,7 +22,7 @@ $fechaActual = date('Y-m-d');
 
         $pedidos = ControladorLogistica::ctrTraerPedidosPorEstado($tabla, $item, $ordenEstado, $avance);
         foreach ($pedidos as $key => $value) :
-            
+
             $idPedido = $value["Id_Pedido"];
             $avanceActual = $value["Avance_Estado"];
         ?>
@@ -30,7 +30,9 @@ $fechaActual = date('Y-m-d');
                 <td scope="row" style="width: 3px; max-width: 8px;">1</td>
                 <td>
                     <span><?php echo $value["Id_Pedido"] ?></span><br>
-                    <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
+                    <?php if (intval($permisosAsignacion["R"]) == 1) : ?>
+                        <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
+                    <?php endif; ?>
 
                     <?php
 
@@ -64,17 +66,19 @@ $fechaActual = date('Y-m-d');
                     ?>
                 </td>
                 <td>
-                    <div class="form-group">
-                        <select name="ingResponsable" class="form-control select2 btnAsignarUsuario" data-placeholder="Responsable ..." idPedido="<?php echo $idPedido; ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($avanceActual) + 10; ?>">
-                            <option></option>
-                            <?php
-                            $usuarios = ControladorUsuarios::ctrTraerUsuarios();
-                            foreach ($usuarios as $key => $value2) :
-                            ?>
-                                <option value="<?php echo $value2["Id_Usuario"]; ?>"><?php echo $value2["Nombre_Usuario"]; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                    <?php if (intval($permisosAsignacion["U"]) == 1) : ?>
+                        <div class="form-group">
+                            <select name="ingResponsable" class="form-control select2 btnAsignarUsuario" data-placeholder="Responsable ..." idPedido="<?php echo $idPedido; ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($avanceActual) + 10; ?>">
+                                <option></option>
+                                <?php
+                                $usuarios = ControladorUsuarios::ctrTraerUsuarios();
+                                foreach ($usuarios as $key => $value2) :
+                                ?>
+                                    <option value="<?php echo $value2["Id_Usuario"]; ?>"><?php echo $value2["Nombre_Usuario"]; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php

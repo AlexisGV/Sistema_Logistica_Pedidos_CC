@@ -38,6 +38,14 @@ CONTENEDOR
                 </div>
             </div>
 
+            <!--=============================================
+            OBTENER PERMISOS PARA ASIGNAR RESPONSABLES
+            =============================================-->
+            <?php
+            $modulo = "Asignación de pedidos";
+            $permisosAsignacion = ControladorPermisos::ctrObtenerPermisos($modulo);
+            ?>
+
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -45,16 +53,30 @@ CONTENEDOR
                             <h1 class="card-title">Pedidos sin responsables asignados</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Logistica/tablaAsignacion.php"; ?>
+                            <?php
+
+                                if (intval($permisosAsignacion["R"]) == 1 || intval($permisosAsignacion["U"]) == 1) {
+
+                                    include "views/modules/Logistica/tablaAsignacion.php";
+
+                                    if (intval($permisosAsignacion["R"]) == 1) {
+                                        include "views/modules/Pedidos/modalVerPedido.php";
+                                    }
+
+                                    if (intval($permisosAsignacion["U"]) == 1) {
+                                        include "views/modules/Logistica/modalAddComentario.php";
+                                    }
+                                    
+                                } else {
+
+                                    include "views/pages/permisosDenegados.php";
+                                }
+
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <?php
-            include "views/modules/Pedidos/modalVerPedido.php";
-            include "views/modules/Logistica/modalAddComentario.php";
-            ?>
 
         </div>
     </section>
