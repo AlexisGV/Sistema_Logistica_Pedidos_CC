@@ -39,7 +39,7 @@ CONTENEDOR
             </div>
 
             <!--=============================================
-            OBTENER PERMISOS PARA ASIGNAR RESPONSABLES
+            OBTENER PERMISOS PARA VER PEDIDOS EN ESPERA
             =============================================-->
             <?php
             $modulo = "Pedidos en espera";

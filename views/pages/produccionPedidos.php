@@ -38,6 +38,14 @@ CONTENEDOR
                 </div>
             </div>
 
+            <!--=============================================
+            OBTENER PERMISOS PARA VER PEDIDOS EN PRODUCCION
+            =============================================-->
+            <?php
+            $modulo = "Producción de pedidos";
+            $permisosPedidosEnProduccion = ControladorPermisos::ctrObtenerPermisos($modulo);
+            ?>
+
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -45,16 +53,30 @@ CONTENEDOR
                             <h1 class="card-title">Pedidos en producción</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Logistica/tablaProduccion.php"; ?>
+                            <?php
+
+                                if (intval($permisosPedidosEnProduccion["R"]) == 1 || intval($permisosPedidosEnProduccion["U"]) == 1) {
+
+                                    include "views/modules/Logistica/tablaProduccion.php";
+
+                                    if (intval($permisosPedidosEnProduccion["R"]) == 1) {
+                                        include "views/modules/Pedidos/modalVerPedido.php";
+                                    }
+
+                                    if (intval($permisosPedidosEnProduccion["U"]) == 1) {
+                                        include "views/modules/Logistica/modalAddComentario.php";
+                                    }
+
+                                } else {
+
+                                    include "views/pages/permisosDenegados.php";
+                                }
+
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <?php
-            include "views/modules/Pedidos/modalVerPedido.php";
-            include "views/modules/Logistica/modalAddComentario.php";
-            ?>
 
         </div>
     </section>
