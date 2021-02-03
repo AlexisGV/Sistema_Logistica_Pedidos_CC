@@ -46,7 +46,10 @@ CONTENEDOR
                         <button type="button" class="btn bg-navy mb-3" data-toggle="modal" data-target="#modalReportesLogistica">Obtener reporte de logistica</button>
                     </div>
                 </div>
-            <?php endif; ?>
+            <?php
+                include "views/modules/Pedidos/modalOpcionesReportes.php";
+            endif;
+            ?>
 
             <!--=============================================
             OBTENER PERMISOS PARA ADMINISTRAR PEDIDOS
@@ -64,21 +67,36 @@ CONTENEDOR
                         <div class="card-body p-1">
                             <?php
 
-                            if (intval($permisosPedidos["C"]) == 1 || intval($permisosPedidos["R"]) == 1 || intval($permisosPedidos["U"]) == 1 || intval($permisosPedidos["D"]) == 1 || intval($permisosLogistica["R"]) == 1) :
+                            if (intval($permisosPedidos["C"]) == 1 || intval($permisosPedidos["R"]) == 1 || intval($permisosPedidos["U"]) == 1 || intval($permisosPedidos["D"]) == 1 || intval($permisosLogistica["R"]) == 1) {
 
                                 include "views/modules/Pedidos/tablaPedidos.php";
 
-                                include "views/modules/Pedidos/modalVerPedido.php";
-                                include "views/modules/Pedidos/modalVerLogisticaPedido.php";
-                                include "views/modules/Pedidos/modalOpcionesReportes.php";
-                                include "views/modules/Pedidos/editPedido/modalEditPedido.php";
-                                include "views/modules/Pedidos/editPedido/modalAddProducto.php";
+                                if (intval($permisosPedidos["R"]) == 1) {
+                                    include "views/modules/Pedidos/modalVerPedido.php";
+                                }
 
-                            else :
+                                if (intval($permisosLogistica["R"]) == 1) {
+                                    include "views/modules/Pedidos/modalVerLogisticaPedido.php";
+                                }
+
+                                if (intval($permisosPedidos["U"]) == 1) {
+                                    include "views/modules/Pedidos/editPedido/modalEditPedido.php";
+                                    include "views/modules/Pedidos/editPedido/modalAddProducto.php";
+                                }
+
+                                if (intval($permisosPedidos["D"]) == 1) {
+                                    /*=============================================
+                                    ELIMINAR PEDIDO
+                                    =============================================*/
+                                    $eliminarPedido = new ControladorPedidos();
+                                    $eliminarPedido->ctrEliminarPedido();
+                                }
+
+                            } else {
 
                                 include "views/pages/permisosDenegados.php";
 
-                            endif;
+                            }
                             ?>
                         </div>
                     </div>
@@ -92,13 +110,3 @@ CONTENEDOR
 
 </div>
 <!--============  FIN DE CONTENEDOR  =============-->
-
-<?php
-
-/*=============================================
-ELIMINAR PEDIDO
-=============================================*/
-$eliminarPedido = new ControladorPedidos();
-$eliminarPedido->ctrEliminarPedido();
-
-?>
