@@ -64,28 +64,27 @@ CONTENEDOR
                         <div class="card-body p-1">
                             <?php
 
-                                if ( intval($permisosPedidos["C"]) == 1 || intval($permisosPedidos["R"]) == 1 || intval($permisosPedidos["U"]) == 1 || intval($permisosPedidos["D"]) == 1 || intval($permisosLogistica["R"]) == 1 ) :
-                            
-                                    include "views/modules/Pedidos/tablaPedidos.php";
+                            if (intval($permisosPedidos["C"]) == 1 || intval($permisosPedidos["R"]) == 1 || intval($permisosPedidos["U"]) == 1 || intval($permisosPedidos["D"]) == 1 || intval($permisosLogistica["R"]) == 1) :
 
-                                else :
+                                include "views/modules/Pedidos/tablaPedidos.php";
 
-                                    include "views/pages/permisosDenegados.php";
-                                    
-                                endif;
+                                include "views/modules/Pedidos/modalVerPedido.php";
+                                include "views/modules/Pedidos/modalVerLogisticaPedido.php";
+                                include "views/modules/Pedidos/modalOpcionesReportes.php";
+                                include "views/modules/Pedidos/editPedido/modalEditPedido.php";
+                                include "views/modules/Pedidos/editPedido/modalAddProducto.php";
+
+                            else :
+
+                                include "views/pages/permisosDenegados.php";
+
+                            endif;
                             ?>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <?php
-            include "views/modules/Pedidos/modalVerPedido.php";
-            include "views/modules/Pedidos/modalVerLogisticaPedido.php";
-            include "views/modules/Pedidos/modalOpcionesReportes.php";
-            include "views/modules/Pedidos/editPedido/modalEditPedido.php";
-            include "views/modules/Pedidos/editPedido/modalAddProducto.php";
-            ?>
         </div>
     </section>
     <!-- FIN DE CONTENEDOR PRINCIPAL
