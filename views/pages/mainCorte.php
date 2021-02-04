@@ -31,7 +31,7 @@ CONTENEDOR
         <div class="container-fluid">
 
             <!--=============================================
-            OBTENER PERMISOS PARA ADMINISTRAR ACABADOS
+            OBTENER PERMISOS PARA ADMINISTRAR CORTES
             =============================================-->
             <?php
             $modulo = "Administración de cortes";
