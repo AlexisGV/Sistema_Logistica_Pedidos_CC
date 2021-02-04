@@ -27,9 +27,9 @@ MODAL - REPORTES DE LOGISITICA
                     <!-- MENU DE OPCIONES
                     -------------------------------------------------- -->
                     <div class="row">
-                        <button type="button" class="col-12 btn bg-primary mb-1">Reporte del último mes</button>
-                        <button type="button" class="col-12 btn bg-warning mb-1">Reporte de los últimos 6 meses</button>
-                        <button type="button" class="col-12 btn bg-danger mb-1">Reporte del último año</button>
+                        <button type="button" class="col-12 btn bg-primary mb-1 btnReporteLogistica" meses="1">Reporte del último mes</button>
+                        <button type="button" class="col-12 btn bg-warning mb-1 btnReporteLogistica" meses="6">Reporte de los últimos 6 meses</button>
+                        <button type="button" class="col-12 btn bg-danger mb-1 btnReporteLogistica" meses="12">Reporte del último año</button>
                         <button type="button" class="col-12 btn bg-navy" data-toggle="modal" data-target="#modalReportePersonalizado">Personalizado</button>
                     </div>
                     <!-- FIN - MENU DE OPCIONES
