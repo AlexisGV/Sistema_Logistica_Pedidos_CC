@@ -7,13 +7,13 @@ $(document).on("click", ".btnReporteLogistica", function(){
     
     /* FECHAS SIN HORA
     -------------------------------------------------- */
-    let fechaActual = moment().format("YYYY-MM-DD");
-    let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD");
+    // let fechaActual = moment().format("YYYY-MM-DD");
+    // let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD");
 
     /* FECHAS CON HORA
     -------------------------------------------------- */
-    // let fechaActual = moment().format("YYYY-MM-DD hh:mm:ss");
-    // let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD hh:mm:ss");
+    let fechaActual = moment().format("YYYY-MM-DD 23:59:59");
+    let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD 00:00:00");
 
     console.log(fechaActual + " menos " + meses + " meses = " + fechaRange);
 
