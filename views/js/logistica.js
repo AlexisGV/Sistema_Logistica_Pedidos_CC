@@ -1,4 +1,27 @@
 /*=============================================
+GENERAR REPORTES PDF - LOGISTICA
+=============================================*/
+$(document).on("click", ".btnReporteLogistica", function(){
+
+    let meses = Number($(this).attr("meses"));
+    
+    /* FECHAS SIN HORA
+    -------------------------------------------------- */
+    let fechaActual = moment().format("YYYY-MM-DD");
+    let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD");
+
+    /* FECHAS CON HORA
+    -------------------------------------------------- */
+    // let fechaActual = moment().format("YYYY-MM-DD hh:mm:ss");
+    // let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD hh:mm:ss");
+
+    console.log(fechaActual + " menos " + meses + " meses = " + fechaRange);
+
+    window.open("extensiones/tcpdf/pdf/pdf.php", "_blank");
+
+});
+
+/*=============================================
 VER DETALLES DEL PEDIDO - LOGISTICA
 =============================================*/
 $(document).on("click", ".btnVerDetallePedidoParaLogistica", function () {
