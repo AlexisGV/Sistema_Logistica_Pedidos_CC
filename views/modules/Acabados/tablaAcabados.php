@@ -5,7 +5,9 @@
             <th scope="col">Imagen</th>
             <th scope="col">Acabado</th>
             <th scope="col">Abreviación</th>
-            <th scope="col">Acciones</th>
+            <?php if (intval($permisosAdministrarAcabados["U"]) == 1 || intval($permisosAdministrarAcabados["D"]) == 1) : ?>
+                <th scope="col">Acciones</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -26,12 +28,18 @@
                 </td>
                 <td><?php echo $value["Acabado"]; ?></td>
                 <td><?php echo $value["Abreviacion_Acabado"]; ?></td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn btn-warning btnEditarAcabado" idAcabado="<?php echo $value["Id_Acabado"]; ?>" data-toggle="modal" data-target="#modalEditAcabado"><i class="fas fa-edit text-white"></i></button>
-                        <button class="btn btn-danger btnEliminarAcabado" idAcabado="<?php echo $value["Id_Acabado"]; ?>" fotoAcabado="<?php echo $value["Foto_Acabado"]; ?>" nomAcabado="<?php echo $value["Acabado"]; ?>"><i class="fas fa-trash-alt text-white"></i></button>
-                    </div>
-                </td>
+                <?php if (intval($permisosAdministrarAcabados["U"]) == 1 || intval($permisosAdministrarAcabados["D"]) == 1) : ?>
+                    <td>
+                        <div class="btn-group">
+                            <?php if (intval($permisosAdministrarAcabados["U"]) == 1) : ?>
+                                <button class="btn btn-warning btnEditarAcabado" idAcabado="<?php echo $value["Id_Acabado"]; ?>" data-toggle="modal" data-target="#modalEditAcabado"><i class="fas fa-edit text-white"></i></button>
+                            <?php endif; ?>
+                            <?php if (intval($permisosAdministrarAcabados["D"]) == 1) : ?>
+                                <button class="btn btn-danger btnEliminarAcabado" idAcabado="<?php echo $value["Id_Acabado"]; ?>" fotoAcabado="<?php echo $value["Foto_Acabado"]; ?>" nomAcabado="<?php echo $value["Acabado"]; ?>"><i class="fas fa-trash-alt text-white"></i></button>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                <?php endif; ?>
             </tr>
         <?php endforeach ?>
     </tbody>

@@ -30,13 +30,33 @@ CONTENEDOR
 
         <div class="container-fluid">
 
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn btn-success d-block mb-3" data-toggle="modal" data-target="#modalAddAcabado">
-                        <i class="fas fa-plus mr-1"></i> Crear nuevo acabado
-                    </button>
+            <!--=============================================
+            OBTENER PERMISOS PARA ADMINISTRAR ACABADOS
+            =============================================-->
+            <?php
+            $modulo = "Administración de acabados";
+            $permisosAdministrarAcabados = ControladorPermisos::ctrObtenerPermisos($modulo);
+            ?>
+
+            <!-- VALIDAR PERMISO PARA CREAR ACABADOS
+            -------------------------------------------------- -->
+            <?php if (intval($permisosAdministrarAcabados["C"])) : ?>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-success d-block mb-3" data-toggle="modal" data-target="#modalAddAcabado">
+                            <i class="fas fa-plus mr-1"></i> Crear nuevo acabado
+                        </button>
+                    </div>
                 </div>
-            </div>
+
+            <?php
+
+                include "views/modules/Acabados/addAcabado/modalAddAcabado.php";
+
+            endif;
+
+            ?>
 
             <div class="row">
                 <div class="col">
@@ -45,16 +65,36 @@ CONTENEDOR
                             <h1 class="card-title">Tipos de acabados</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Acabados/tablaAcabados.php"; ?>
+                            <?php
+
+                                if (intval($permisosAdministrarAcabados["R"]) == 1 || intval($permisosAdministrarAcabados["U"]) == 1 || intval($permisosAdministrarAcabados["D"]) == 1) {
+
+                                    include "views/modules/Acabados/tablaAcabados.php";
+
+                                    if (intval($permisosAdministrarAcabados["U"]) == 1) {
+                                        include "views/modules/Acabados/editAcabado/modalEditAcabado.php";
+                                    }
+
+                                    if (intval($permisosAdministrarAcabados["D"]) == 1) {
+                                        /*=============================================
+                                            INSTANCIA PARA ELIMINAR ACABADO
+                                            =============================================*/
+                                        $elimiarAcabado = new ControladorAcabado();
+                                        $elimiarAcabado->ctrEliminarAcabado();
+                                    }
+
+                                } else {
+
+                                    include "views/pages/permisosDenegados.php";
+
+                                }
+
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <?php
-            include "views/modules/Acabados/addAcabado/modalAddAcabado.php";
-            include "views/modules/Acabados/editAcabado/modalEditAcabado.php";
-            ?>
         </div>
     </section>
     <!-- FIN DE CONTENEDOR PRINCIPAL
@@ -62,10 +102,3 @@ CONTENEDOR
 
 </div>
 <!--============  FIN DE CONTENEDOR  =============-->
-
-<?php
-
-$elimiarAcabado = new ControladorAcabado();
-$elimiarAcabado->ctrEliminarAcabado();
-
-?>
