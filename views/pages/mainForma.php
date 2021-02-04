@@ -75,7 +75,7 @@ CONTENEDOR
 
                                     if (intval($permisosAdministrarFormas["D"]) == 1) {
                                         /*=============================================
-                                        INSTANCIA PARA ELIMINAR CORTE
+                                        INSTANCIA PARA ELIMINAR FORMA
                                         =============================================*/
                                         $elimiarForma = new ControladorForma();
                                         $elimiarForma->ctrEliminarForma();

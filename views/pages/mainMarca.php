@@ -30,13 +30,31 @@ CONTENEDOR
 
         <div class="container-fluid">
 
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn bg-orange d-block mb-3" data-toggle="modal" data-target="#modalAddMarca">
-                        <i class="fas fa-plus mr-1"></i> Crear nueva marca
-                    </button>
+            <!--=============================================
+            OBTENER PERMISOS PARA ADMINISTRAR MARCAS
+            =============================================-->
+            <?php
+            $modulo = "Administración de marcas";
+            $permisosAdministrarMarcas = ControladorPermisos::ctrObtenerPermisos($modulo);
+            ?>
+
+            <!-- VALIDAR PERMISO PARA CREAR MARCASS
+            -------------------------------------------------- -->
+            <?php if (intval($permisosAdministrarMarcas["C"])) : ?>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn bg-orange d-block mb-3" data-toggle="modal" data-target="#modalAddMarca">
+                            <i class="fas fa-plus mr-1"></i> Crear nueva marca
+                        </button>
+                    </div>
                 </div>
-            </div>
+            <?php
+
+                include "views/modules/Marcas/addMarca/modalAddMarca.php";
+
+            endif;
+
+            ?>
 
             <div class="row">
                 <div class="col">
@@ -45,16 +63,34 @@ CONTENEDOR
                             <h1 class="card-title">Marcas registradas</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Marcas/tablaMarcas.php"; ?>
+                            <?php
+
+                                if (intval($permisosAdministrarMarcas["R"]) == 1 || intval($permisosAdministrarMarcas["U"]) == 1 || intval($permisosAdministrarMarcas["D"]) == 1) {
+
+                                    include "views/modules/Marcas/tablaMarcas.php";
+
+                                    if (intval($permisosAdministrarMarcas["U"]) == 1) {
+                                        include "views/modules/Marcas/editMarca/modalEditMarca.php";
+                                    }
+
+                                    if (intval($permisosAdministrarMarcas["D"]) == 1) {
+                                        /*=============================================
+                                        INSTANCIA PARA ELIMINAR MARCA
+                                        =============================================*/
+                                        $elimiarMarca = new ControladorMarca();
+                                        $elimiarMarca->ctrEliminarMarca();
+                                    }
+                                } else {
+
+                                    include "views/pages/permisosDenegados.php";
+                                }
+
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <?php
-            include "views/modules/Marcas/addMarca/modalAddMarca.php";
-            include "views/modules/Marcas/editMarca/modalEditMarca.php";
-            ?>
         </div>
     </section>
     <!-- FIN DE CONTENEDOR PRINCIPAL
@@ -62,10 +98,3 @@ CONTENEDOR
 
 </div>
 <!--============  FIN DE CONTENEDOR  =============-->
-
-<?php
-
-$elimiarMarca = new ControladorMarca();
-$elimiarMarca->ctrEliminarMarca();
-
-?>

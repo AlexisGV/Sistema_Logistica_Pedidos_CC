@@ -4,7 +4,9 @@
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">Imagen</th>
             <th scope="col">Marca</th>
-            <th scope="col">Acciones</th>
+            <?php if (intval($permisosAdministrarMarcas["U"]) == 1 || intval($permisosAdministrarMarcas["D"]) == 1) : ?>
+                <th scope="col">Acciones</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -24,12 +26,18 @@
                     <?php endif ?>
                 </td>
                 <td><?php echo $value["Marca"]; ?></td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn btn-warning btnEditarMarca" idMarca="<?php echo $value["Id_Marca"]; ?>" data-toggle="modal" data-target="#modalEditMarca"><i class="fas fa-edit text-white"></i></button>
-                        <button class="btn btn-danger btnEliminarMarca" idMarca="<?php echo $value["Id_Marca"]; ?>" fotoMarca="<?php echo $value["Foto_Marca"]; ?>" nomMarca="<?php echo $value["Marca"]; ?>"><i class="fas fa-trash-alt text-white"></i></button>
-                    </div>
-                </td>
+                <?php if (intval($permisosAdministrarMarcas["U"]) == 1 || intval($permisosAdministrarMarcas["D"]) == 1) : ?>
+                    <td>
+                        <div class="btn-group">
+                            <?php if (intval($permisosAdministrarMarcas["U"]) == 1) : ?>
+                                <button class="btn btn-warning btnEditarMarca" idMarca="<?php echo $value["Id_Marca"]; ?>" data-toggle="modal" data-target="#modalEditMarca"><i class="fas fa-edit text-white"></i></button>
+                            <?php endif; ?>
+                            <?php if (intval($permisosAdministrarMarcas["D"]) == 1) : ?>
+                                <button class="btn btn-danger btnEliminarMarca" idMarca="<?php echo $value["Id_Marca"]; ?>" fotoMarca="<?php echo $value["Foto_Marca"]; ?>" nomMarca="<?php echo $value["Marca"]; ?>"><i class="fas fa-trash-alt text-white"></i></button>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                <?php endif; ?>
             </tr>
         <?php endforeach ?>
     </tbody>
