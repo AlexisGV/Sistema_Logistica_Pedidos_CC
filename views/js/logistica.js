@@ -17,7 +17,7 @@ $(document).on("click", ".btnReporteLogistica", function(){
 
     console.log(fechaActual + " menos " + meses + " meses = " + fechaRange);
 
-    window.open("extensiones/tcpdf/pdf/pdf.php", "_blank");
+    window.open("extensiones/tcpdf/pdf/reporte_logistica_fechas.php?fehcaInicio="+fechaRange+"&fechaFin="+fechaActual, "_blank");
 
 });
 
