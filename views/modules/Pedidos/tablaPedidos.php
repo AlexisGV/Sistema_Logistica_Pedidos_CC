@@ -14,7 +14,9 @@ $fechaActual = date('Y-m-d');
             <th scope="col">Fecha Compromiso</th>
             <th scope="col">Días restantes</th>
             <th scope="col">Estado</th>
-            <th scope="col">Acciones</th>
+            <?php if (intval($permisosLogistica["R"]) == 1 || intval($permisosPedidos["R"]) == 1 || intval($permisosPedidos["U"]) == 1 || intval($permisosPedidos["D"]) == 1) : ?>
+                <th scope="col">Acciones</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -107,42 +109,44 @@ $fechaActual = date('Y-m-d');
                     endif;
                     ?>
                 </td>
-                <td>
-                    <div class="btn-group">
+                <?php if (intval($permisosLogistica["R"]) == 1 || intval($permisosPedidos["R"]) == 1 || intval($permisosPedidos["U"]) == 1 || intval($permisosPedidos["D"]) == 1) : ?>
+                    <td>
+                        <div class="btn-group">
 
-                        <?php
-                        /* PERMISO PARA CONSULTAR LOGISTICA POR PEDIDO
+                            <?php
+                            /* PERMISO PARA CONSULTAR LOGISTICA POR PEDIDO
                         -------------------------------------------------- */
-                        if (intval($permisosLogistica["R"]) == 1) :
-                        ?>
-                            <button class="btn bg-navy btnVerLogisticaPedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerLogisticaPedido"><i class="fas fa-shipping-fast"></i></button>
-                        <?php endif; ?>
+                            if (intval($permisosLogistica["R"]) == 1) :
+                            ?>
+                                <button class="btn bg-navy btnVerLogisticaPedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerLogisticaPedido"><i class="fas fa-shipping-fast"></i></button>
+                            <?php endif; ?>
 
-                        <?php
-                        /* PERMISO PARA VER DETALLES DEL PEDIDO
+                            <?php
+                            /* PERMISO PARA VER DETALLES DEL PEDIDO
                         -------------------------------------------------- */
-                        if (intval($permisosPedidos["R"]) == 1) :
-                        ?>
-                        <button class="btn btn-success btnVerDetallePedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerDetallePedido"><i class="fas fa-eye text-white"></i></button>
-                        <?php endif; ?>
+                            if (intval($permisosPedidos["R"]) == 1) :
+                            ?>
+                                <button class="btn btn-success btnVerDetallePedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerDetallePedido"><i class="fas fa-eye text-white"></i></button>
+                            <?php endif; ?>
 
-                        <?php
-                        /* PERMISO PARA ACTUALIZAR DETALLES DEL PEDIDO
+                            <?php
+                            /* PERMISO PARA ACTUALIZAR DETALLES DEL PEDIDO
                         -------------------------------------------------- */
-                        if (intval($permisosPedidos["U"]) == 1) :
-                        ?>
-                        <button class="btn btn-warning btnEditarPedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalEditPedido"><i class="fas fa-edit text-white"></i></button>
-                        <?php endif; ?>
+                            if (intval($permisosPedidos["U"]) == 1) :
+                            ?>
+                                <button class="btn btn-warning btnEditarPedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalEditPedido"><i class="fas fa-edit text-white"></i></button>
+                            <?php endif; ?>
 
-                        <?php
-                        /* PERMISO PARA ELIMINAR PEDIDO
+                            <?php
+                            /* PERMISO PARA ELIMINAR PEDIDO
                         -------------------------------------------------- */
-                        if (intval($permisosPedidos["D"]) == 1) :
-                        ?>
-                        <button class="btn btn-danger btnEliminarPedido" idPedido="<?php echo $idPedido; ?>"><i class="fas fa-trash-alt text-white"></i></button>
-                        <?php endif; ?>
-                    </div>
-                </td>
+                            if (intval($permisosPedidos["D"]) == 1) :
+                            ?>
+                                <button class="btn btn-danger btnEliminarPedido" idPedido="<?php echo $idPedido; ?>"><i class="fas fa-trash-alt text-white"></i></button>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                <?php endif; ?>
             </tr>
         <?php endforeach ?>
     </tbody>

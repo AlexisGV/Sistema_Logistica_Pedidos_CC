@@ -10,7 +10,9 @@ $fechaActual = date('Y-m-d');
         <tr>
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">N° Pedido</th>
-            <th scope="col">Estado</th>
+            <?php if (intval($permisosRecoleccion["U"]) == 1) :  ?>
+                <th scope="col">Estado</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -62,13 +64,13 @@ $fechaActual = date('Y-m-d');
 
                     ?>
                 </td>
-                <td>
-                    <div class="btn-group">
-                        <?php if (intval($permisosRecoleccion["U"]) == 1) :  ?>
+                <?php if (intval($permisosRecoleccion["U"]) == 1) :  ?>
+                    <td>
+                        <div class="btn-group">
                             <button type="button" class="btn btn-sm bg-navy btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($value["Avance_Estado"]) + 10 ?>">Descargar en tienda</button>
-                        <?php endif; ?>
-                    </div>
-                </td>
+                        </div>
+                    </td>
+                <?php endif; ?>
             </tr>
         <?php
         endforeach;

@@ -10,7 +10,9 @@ $fechaActual = date('Y-m-d');
         <tr>
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">N° Pedido</th>
-            <th scope="col">Estado</th>
+            <?php if (intval($permisosEntregaFinal["U"]) == 1) :  ?>
+                <th scope="col">Estado</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -28,7 +30,7 @@ $fechaActual = date('Y-m-d');
                 <td>
                     <span><?php echo $value["Id_Pedido"]; ?></span><br>
                     <?php if (intval($permisosEntregaFinal["R"]) == 1) :  ?>
-                    <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $value["Id_Pedido"]; ?>" data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
+                        <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $value["Id_Pedido"]; ?>" data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
                     <?php endif; ?>
 
                     <?php
@@ -62,13 +64,13 @@ $fechaActual = date('Y-m-d');
 
                     ?>
                 </td>
-                <td>
-                    <div class="btn-group">
-                        <?php if (intval($permisosEntregaFinal["U"]) == 1) :  ?>
+                <?php if (intval($permisosEntregaFinal["U"]) == 1) :  ?>
+                    <td>
+                        <div class="btn-group">
                             <button type="button" class="btn btn-sm bg-olive btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($value["Avance_Estado"]) + 10 ?>">Entregar al cliente</button>
-                        <?php endif; ?>
-                    </div>
-                </td>
+                        </div>
+                    </td>
+                <?php endif; ?>
             </tr>
         <?php
         endforeach;

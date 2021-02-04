@@ -10,7 +10,9 @@ $fechaActual = date('Y-m-d');
         <tr>
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">N° Pedido</th>
-            <th scope="col">Estado</th>
+            <?php if (intval($permisosAsignacion["U"]) == 1) : ?>
+                <th scope="col">Estado</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -65,8 +67,8 @@ $fechaActual = date('Y-m-d');
 
                     ?>
                 </td>
-                <td>
-                    <?php if (intval($permisosAsignacion["U"]) == 1) : ?>
+                <?php if (intval($permisosAsignacion["U"]) == 1) : ?>
+                    <td>
                         <div class="form-group">
                             <select name="ingResponsable" class="form-control select2 btnAsignarUsuario" data-placeholder="Responsable ..." idPedido="<?php echo $idPedido; ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($avanceActual) + 10; ?>">
                                 <option></option>
@@ -78,8 +80,8 @@ $fechaActual = date('Y-m-d');
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                    <?php endif; ?>
-                </td>
+                    </td>
+                <?php endif; ?>
             </tr>
         <?php
         endforeach;

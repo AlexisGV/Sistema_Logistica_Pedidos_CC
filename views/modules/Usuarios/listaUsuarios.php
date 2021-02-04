@@ -7,7 +7,9 @@
             <th scope="col">Correo</th>
             <th scope="col">Apodo</th>
             <th scope="col">Tipo</th>
-            <th scope="col">Acciones</th>
+            <?php if (intval($permisosAdministrarUsuarios["U"]) == 1 || intval($permisosAdministrarUsuarios["D"]) == 1) : ?>
+                <th scope="col">Acciones</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -28,16 +30,18 @@
                 <td><?php echo $value["Correo"]; ?></td>
                 <td><?php echo $value["Apodo"]; ?></td>
                 <td><?php echo $value["Tipo_User"]; ?></td>
-                <td>
-                    <div class="btn-group">
-                        <?php if (intval($permisosAdministrarUsuarios["U"]) == 1) : ?>
-                            <button class="btn btn-warning btnEditarUsuario" idUsuario="<?php echo $value["Id_Usuario"]; ?>" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fas fa-edit text-white"></i></button>
-                        <?php endif; ?>
-                        <?php if (intval($permisosAdministrarUsuarios["D"]) == 1) : ?>
-                            <button class="btn btn-danger btnEliminarUsuario" idUsuario="<?php echo $value["Id_Usuario"]; ?>" fotoUsuario="<?php echo $value["Foto_User"]; ?>" apodoUsuario="<?php echo $value["Apodo"]; ?>"><i class="fas fa-trash-alt text-white"></i></button>
-                        <?php endif; ?>
-                    </div>
-                </td>
+                <?php if (intval($permisosAdministrarUsuarios["U"]) == 1 || intval($permisosAdministrarUsuarios["D"]) == 1) : ?>
+                    <td>
+                        <div class="btn-group">
+                            <?php if (intval($permisosAdministrarUsuarios["U"]) == 1) : ?>
+                                <button class="btn btn-warning btnEditarUsuario" idUsuario="<?php echo $value["Id_Usuario"]; ?>" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fas fa-edit text-white"></i></button>
+                            <?php endif; ?>
+                            <?php if (intval($permisosAdministrarUsuarios["D"]) == 1) : ?>
+                                <button class="btn btn-danger btnEliminarUsuario" idUsuario="<?php echo $value["Id_Usuario"]; ?>" fotoUsuario="<?php echo $value["Foto_User"]; ?>" apodoUsuario="<?php echo $value["Apodo"]; ?>"><i class="fas fa-trash-alt text-white"></i></button>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                <?php endif; ?>
             </tr>
         <?php endforeach ?>
     </tbody>
