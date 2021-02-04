@@ -30,13 +30,33 @@ CONTENEDOR
 
         <div class="container-fluid">
 
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn btn-info d-block mb-3" data-toggle="modal" data-target="#modalAddCorte">
-                        <i class="fas fa-plus mr-1"></i> Crear nuevo corte
-                    </button>
+            <!--=============================================
+            OBTENER PERMISOS PARA ADMINISTRAR ACABADOS
+            =============================================-->
+            <?php
+            $modulo = "Administración de cortes";
+            $permisosAdministrarCortes = ControladorPermisos::ctrObtenerPermisos($modulo);
+            ?>
+
+            <!-- VALIDAR PERMISO PARA CREAR CORTES
+            -------------------------------------------------- -->
+            <?php if (intval($permisosAdministrarCortes["C"])) : ?>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-info d-block mb-3" data-toggle="modal" data-target="#modalAddCorte">
+                            <i class="fas fa-plus mr-1"></i> Crear nuevo corte
+                        </button>
+                    </div>
                 </div>
-            </div>
+
+            <?php
+
+                include "views/modules/Cortes/addCorte/modalAddCorte.php";
+
+            endif;
+
+            ?>
 
             <div class="row">
                 <div class="col">
@@ -45,16 +65,34 @@ CONTENEDOR
                             <h1 class="card-title">Tipos de cortes</h1>
                         </div>
                         <div class="card-body p-1">
-                            <?php include "views/modules/Cortes/tablaCortes.php"; ?>
+                            <?php
+
+                                if (intval($permisosAdministrarCortes["R"]) == 1 || intval($permisosAdministrarCortes["U"]) == 1 || intval($permisosAdministrarCortes["D"]) == 1) {
+
+                                    include "views/modules/Cortes/tablaCortes.php";
+
+                                    if (intval($permisosAdministrarCortes["U"]) == 1) {
+                                        include "views/modules/Cortes/editCorte/modalEditCorte.php";
+                                    }
+
+                                    if (intval($permisosAdministrarCortes["D"]) == 1) {
+                                        /*=============================================
+                                        INSTANCIA PARA ELIMINAR CORTE
+                                        =============================================*/
+                                        $elimiarCorte = new ControladorCorte();
+                                        $elimiarCorte->ctrEliminarCorte();
+                                    }
+                                } else {
+
+                                    include "views/pages/permisosDenegados.php";
+                                }
+
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <?php
-            include "views/modules/Cortes/addCorte/modalAddCorte.php";
-            include "views/modules/Cortes/editCorte/modalEditCorte.php";
-            ?>
         </div>
     </section>
     <!-- FIN DE CONTENEDOR PRINCIPAL
@@ -62,10 +100,3 @@ CONTENEDOR
 
 </div>
 <!--============  FIN DE CONTENEDOR  =============-->
-
-<?php
-
-$elimiarCorte = new ControladorCorte();
-$elimiarCorte->ctrEliminarCorte();
-
-?>
