@@ -1,11 +1,17 @@
 <?php
 
+require_once "../../../controllers/logistica.controlador.php";
+require_once "../../../models/logistica.modelo.php";
+
 class imprimirReporteLogisticaPorFechas{
 
     public $fechaInicio;
     public $fechaFin;
 
     public function traerReporteLogisticaPorFechas(){
+
+        $fechaInicial = $this->fechaInicio;
+        $fechaTermino = $this->fechaFin;
 
     }
 
