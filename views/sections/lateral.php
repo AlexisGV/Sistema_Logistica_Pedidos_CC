@@ -25,11 +25,19 @@
                 " class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <span href="#" class="d-block text-truncate text-white">
+                <span class="d-block text-truncate text-white">
                     <?php
                     # Colocar el nombre de usuario desde la Base de Datos
                     if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok") {
                         echo $_SESSION["nombreUsuario"];
+                    }
+                    ?>
+                </span>
+                <span class="d-block text-truncate text-white text-xs">
+                    <?php
+                    # Colocar el nombre de usuario desde la Base de Datos
+                    if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok") {
+                        echo $_SESSION["tipoUsuarioPorNombre"];
                     }
                     ?>
                 </span>
