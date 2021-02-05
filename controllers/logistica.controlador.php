@@ -78,4 +78,33 @@ class ControladorLogistica
 
         return $actualizarComentario;
     }
+
+    /*===================================================
+    SELECCIONAR PEDIDOS ENTREGADOS - REPORTE DE LOGISTICA
+    ===================================================*/
+    static public function ctrTraerPedidosEntregados($fechaInicio, $fechaTermino)
+    {
+
+        $tabla = "pedido";
+        $item = "Fecha_Entrega";
+        $fechas = array(
+            "fechaInicio" => $fechaInicio,
+            "fechaTermino" => $fechaTermino
+        );
+
+        $pedidosEntregados = ModeloLogistica::mdlTraerPedidosEntregados($tabla, $item, $fechas);
+
+        return $pedidosEntregados;
+    }
+
+    /*===================================================
+    SELECCIONAR ESTADOS DE PEDIDO - REPORTE DE LOGISTICA
+    ===================================================*/
+    static public function ctrTraerEstadosPedido($tabla, $item1, $value1, $item2, $value2)
+    {
+        $consulta = ModeloLogistica::mdlTraerEstadosPedido($tabla, $item1, $value1, $item2, $value2);
+
+        return $consulta;
+    }
+    
 }

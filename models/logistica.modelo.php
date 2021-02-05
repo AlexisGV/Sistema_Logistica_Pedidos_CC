@@ -187,4 +187,53 @@ class ModeloLogistica
         $stmt->closeCursor();
         $stmt = null;
     }
+
+    /*===================================================
+    SELECCIONAR PEDIDOS ENTREGADOS - REPORTE DE LOGISTICA
+    ===================================================*/
+    static public function mdlTraerPedidosEntregados($tabla, $item, $fechas)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item BETWEEN :fechaInicio AND :fechaTermino");
+        $stmt->bindParam(":fechaInicio", $fechas["fechaInicio"], PDO::PARAM_STR);
+        $stmt->bindParam(":fechaTermino", $fechas["fechaTermino"], PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*===================================================
+    SELECCIONAR ESTADOS DE PEDIDO - REPORTE DE LOGISTICA
+    ===================================================*/
+    static public function mdlTraerEstadosPedido($tabla, $item1, $value1, $item2, $value2)
+    {
+        if ( $item1 == null && $item2 == null ) {
+            #Consulta general para traer todos los estados del pedido
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+            $stmt->closeCursor();
+            $stmt = null;
+        } else {
+            #Consulta para traer pedidos por estado
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT Id_Pedido, Nombre_Estatus, Fecha_Actualizacion, Fecha_Entrega FROM $tabla
+                 INNER JOIN actualizaciones_pedido ON Id_Pedido=Id_Pedido2
+                 INNER JOIN estatus_pedido ON Id_Estatus=Id_Estatus1
+                 WHERE $item1=:$item1 AND $item2=:$item2");
+            $stmt->bindParam(":".$item1, $value1, PDO::PARAM_INT);
+            $stmt->bindParam(":".$item2, $value2, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetch();
+
+            $stmt->closeCursor();
+            $stmt = null;
+        }
+    }
 }

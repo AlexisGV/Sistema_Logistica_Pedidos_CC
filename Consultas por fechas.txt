@@ -1,3 +1,10 @@
 # SELECCIONAR PEDIDOS ENTREGADOS
 SELECT * FROM `pedido` WHERE Fecha_Entrega BETWEEN '2021-01-04 00:00:00' AND '2021-02-04 23:59:59'
 
+# ENLACES DE AYUDA PARA OBTENER DIFERENCIA ENTRE FECHAS
+
+PARA ACUMULAR DIFERENCIAS:
+https://es.stackoverflow.com/questions/265397/c%C3%B3mo-puedo-sumar-diferencias-de-fechas-en-php
+
+PARA OBTENER EL PROMEDIO DE LAS DIFERENCIAS
+https://es.stackoverflow.com/questions/132473/como-calcular-el-promedio-de-las-diferencias-entre-marcas-de-tiempo-en-php
