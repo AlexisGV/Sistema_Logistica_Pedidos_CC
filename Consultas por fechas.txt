@@ -8,3 +8,6 @@ https://es.stackoverflow.com/questions/265397/c%C3%B3mo-puedo-sumar-diferencias-
 
 PARA OBTENER EL PROMEDIO DE LAS DIFERENCIAS
 https://es.stackoverflow.com/questions/132473/como-calcular-el-promedio-de-las-diferencias-entre-marcas-de-tiempo-en-php
+
+OTRO RECURSO (date_add)
+https://www.anerbarrena.com/php-date_add-5694/
