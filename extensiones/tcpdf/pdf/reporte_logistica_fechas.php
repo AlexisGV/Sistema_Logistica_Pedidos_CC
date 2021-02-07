@@ -39,12 +39,12 @@ $bloque1 = <<<EOF
         
     <table>
         <tr>
-            <td style="width:125px; text-align:center;">
+            <td style="width:120px; text-align:center;">
                 <div style="display:flex; flex-direction:row; justify-content: center; align-content: center;">
                     <img style="width:60px;" src="images/Logo-CC-Largo.png">
                 </div>
             </td>
-            <td style="width:290px; text-align:center;">
+            <td style="width:300px; text-align:center;">
                             
                 <div style="display:flex; flex-direction:row; justify-content: center; align-content: center;">
                     <span style="font-size:13px; font-weight:bold;">Reporte de Logística</span><br>
@@ -52,7 +52,7 @@ $bloque1 = <<<EOF
                 </div>
         
             </td>
-            <td style="width:125px; text-align:center;">
+            <td style="width:120px; text-align:center;">
                 <div style="display:flex; flex-direction:row; justify-content: center; align-content: center;">
                     <img style="width:60px;" src="images/Logo-CC-Largo.png">
                 </div>
@@ -76,7 +76,7 @@ $totalPedidosEntregados = count($pedidosEntregados);
 
 /* ACUMULAR ID DE PEDIDOS ENTREGADOS
 -------------------------------------------------- */
-$idsPedidos = "Pedidos entregados (10 primeros): ";
+$idsPedidos = "Pedidos entregados: ";
 foreach($pedidosEntregados as $key => $value){
     $idsPedidos .= $value["Id_Pedido"] . ", " ;
 
@@ -87,14 +87,47 @@ foreach($pedidosEntregados as $key => $value){
     }
 }
 
+/* ACUMULAR PEDIDOS ENTREGADOS CON RETRASO
+-------------------------------------------------- */
+$totalPedidosRetardados = 0;
+$totalPedidosEnTimepo = 0;
+$pedidosRetardados = "";
+$pedidosEnTiempo = "";
+foreach($pedidosEntregados as $key => $value){
+    $fechaCompromiso = new DateTime($value["Fecha_Compromiso"]);
+    $fechaEntrega = new DateTime($value["Fecha_Entrega"]);
+
+    if ($fechaEntrega > $fechaCompromiso) {
+        $totalPedidosRetardados++;
+        if ($key <= 10) {
+            $pedidosRetardados .= $value["Id_Pedido"] . ", ";
+        }
+    } else if ( $fechaEntrega <= $fechaCompromiso ) {
+        $totalPedidosEnTimepo++;
+        if ($key <= 10) {
+            $pedidosEnTiempo .= $value["Id_Pedido"] . ", ";
+        }
+    }
+}
+
+if ( $pedidosRetardados == "" ) {
+    $pedidosRetardados = "No hay información disponible";
+}
+
+if ( $pedidosEnTiempo == "" ) {
+    $pedidosEnTiempo = "No hay información disponible.";
+}
+
 $bloque2 = <<<EOF
 
-    <br>
+    <br><br>
     <table style="background-color: #D1ECF1; opacity: 0.5; font-size: 9.5px; color: #35747E; padding: 5px 10x; text-align:justify;">
         <tr>
-            <td><span style="font-weight: bold;">Nota:</span> Este reporte únicamente muestra un resumen de todos los pedidos que ya han sido entregados. Por lo tanto, todo pedido que se encuentre en producción en estos momentos no se tomará en cuenta para las estadísticas mostradas en este reporte.</td>
+            <td><span style="font-weight: bold;">Nota:</span> Este reporte únicamente muestra un resumen de todos los pedidos que ya han sido entregados. Por lo tanto, todo pedido que se encuentre en producción o cualquier otro estado de pedido diferente a entregado en estos momentos, no se tomará en cuenta para las estadísticas mostradas en este reporte.</td>
         </tr>
     </table>
+
+    <h4 style="text-align:center;">Estadísticas generales sobre los pedidos entregados en este periodo</h4>
 
     <br><br>
     <table style="font-size: 9.5px; padding: 5px 10px;">
@@ -104,6 +137,46 @@ $bloque2 = <<<EOF
         </tr>
         <tr>
             <td style="border: 0.5px solid #666;" colspan="2">$idsPedidos</td>
+        </tr>
+    </table>
+
+    <table style="font-size: 8.5px; padding: 5px 0x; text-align:justify;">
+        <tr>
+            <td><span style="font-weight: bold;">Nota:</span> Esta tabla muestra únicamente los primeros 10 Números de los pedidos que fueron entregados en este periodo, independientemente si fueron entregados a tiempo o no. Si deseas observar todos los números de pedidos y sus detalles, así como el recorrido de logística que se llevó en cada uno, puedes hacerlo desde el sistema en el apartado de "administrar pedidos".</td>
+        </tr>
+    </table>
+
+    <br><br>
+    <table style="font-size: 9.5px; padding: 5px 10px;">
+        <tr>
+            <td style="border: 0.5px solid #666; width: 150px; font-weight: bold;">Entregados a tiempo</td>
+            <td style="border: 0.5px solid #666; width: 380px; text-align: center;">$totalPedidosEnTimepo pedidos entregados en tiempo y forma.</td>
+        </tr>
+        <tr>
+            <td style="border: 0.5px solid #666;" colspan="2">Pedidos en tiempo y forma: $pedidosEnTiempo</td>
+        </tr>
+    </table>
+
+    <table style="font-size: 8.5px; padding: 5px 0x; text-align:justify;">
+        <tr>
+            <td><span style="font-weight: bold;">Nota:</span> Esta tabla únicamente muestra 10 números de pedidos que fueron entregados en tiempo y forma, pero eso no afecta las estadisticas si el valor mostrado en la fila "Entregados a tiempo" es mayor a 10.</td>
+        </tr>
+    </table>
+
+    <br><br>
+    <table style="font-size: 9.5px; padding: 5px 10px;">
+        <tr>
+            <td style="border: 0.5px solid #666; width: 150px; font-weight: bold;">Entregados con retraso</td>
+            <td style="border: 0.5px solid #666; width: 380px; text-align: center;">$totalPedidosRetardados pedidos entregados en con retraso.</td>
+        </tr>
+        <tr>
+            <td style="border: 0.5px solid #666;" colspan="2">Pedidos con retraso: $pedidosRetardados</td>
+        </tr>
+    </table>
+
+    <table style="font-size: 8.5px; padding: 5px 0x; text-align:justify;">
+        <tr>
+            <td><span style="font-weight: bold;">Nota:</span> Esta tabla únicamente muestra 10 números de pedidos que fueron entregados con retraso, pero eso no afecta las estadisticas si el valor mostrado en la fila "Entregados con retraso" es mayor a 10.</td>
         </tr>
     </table>
 
@@ -124,10 +197,13 @@ $tabla = "estatus_pedido";
 $estadosPedido = ControladorLogistica::ctrTraerEstadosPedido($tabla, null, null, null, null);
 
 $bloque3 = <<<EOF
+
+    <h4 style="text-align:center;">Estimación de los tiempos transcurridos de un estado de pedido a otro</h4>
+    <div style="font-size: 9.5px; padding: 5px 10px; text-align:justify;">La siguiente tabla muestra del lado izquierdo todos los estados de pedido existentes, es decir, la logística que debe de llevar cada pedido. Y en la parte derecha, muestra un promedio del tiempo que está pasando de un estado de pedido a otro, con el objetivo de ver cuanto está tardando la producción de los mismos.<div><br>
     
     <table style="font-size: 9.5px; padding: 5px 10px;">
         <tr>
-            <td style="border: 0.5px solid #666; font-weight: bold; text-align: center;">Estado de pedido</td>
+            <td style="border: 0.5px solid #666; font-weight: bold; text-align: center;">Estados de pedido</td>
             <td style="border: 0.5px solid #666; font-weight: bold; text-align: center;">Tiempo promedio transcurrido</td>
         </tr>
     </table>
@@ -178,7 +254,11 @@ $horas = floor($promedioSegundos / 3600);
 $minutos = floor(($promedioSegundos - ($horas * 3600)) / 60);
 $segundos = $promedioSegundos - ($horas * 3600) - ($minutos * 60);
 
+if  ($idEstatus != 9) :
 $diferenciaObtenida = $horas . " horas " . $minutos . " minutos " . number_format($segundos, 2) . " segundos.";
+else :
+$diferenciaObtenida = "Este es el último estado de pedido";
+endif;
 
 $bloque4 = <<<EOF
         
