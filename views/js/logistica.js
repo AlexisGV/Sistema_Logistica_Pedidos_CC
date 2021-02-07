@@ -22,6 +22,41 @@ $(document).on("click", ".btnReporteLogistica", function(){
 });
 
 /*=============================================
+GENERAR REPORTES PERSONALIZADOS PDF - LOGISTICA
+=============================================*/
+$(document).on("click", ".btnObtenerReportePersonalizado", function(){
+
+    let fechaInicio = $("#ingFechaInicioPersonalizada").val();
+    let fechaTermino = $("#ingFechaInicioPersonalizada").val();
+    let expresion = /^[0-9]{2,2}\/+[0-9]{2,2}\/+[0-9]{4,4}$/;
+    
+    if ( fechaInicio.match(expresion) && fechaTermino.match(expresion) ) {
+        let formatoFechaInicio = moment(fechaInicio, "YYYY-MM-DD");
+        console.log(formatoFechaInicio);
+    } else {
+        if (!fechaInicio.match(expresion)) $("#ingFechaInicioPersonalizada").addClass("is-invalid");
+        else $("#ingFechaInicioPersonalizada").addClass("is-valid");
+
+        if (!fechaTermino.match(expresion)) $("#ingFechaTerminoPersonalizada").addClass("is-invalid");
+        else $("#ingFechaTerminoPersonalizada").addClass("is-valid");
+    }
+    /* FECHAS SIN HORA
+    -------------------------------------------------- */
+    // let fechaActual = moment().format("YYYY-MM-DD");
+    // let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD");
+
+    /* FECHAS CON HORA
+    -------------------------------------------------- */
+    // let fechaActual = moment().format("YYYY-MM-DD 23:59:59");
+    // let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD 00:00:00");
+
+    // console.log(fechaActual + " menos " + meses + " meses = " + fechaRange);
+
+    // window.open("extensiones/tcpdf/pdf/reporte_logistica_fechas.php?fechaInicio="+fechaRange+"&fechaFin="+fechaActual, "_blank");
+
+});
+
+/*=============================================
 VER DETALLES DEL PEDIDO - LOGISTICA
 =============================================*/
 $(document).on("click", ".btnVerDetallePedidoParaLogistica", function () {

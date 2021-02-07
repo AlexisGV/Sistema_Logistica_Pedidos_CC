@@ -93,7 +93,7 @@ MODAL - REPORTES DE LOGISITICA PERSONALIZADOS
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                             </div>
-                            <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="Fecha de inicio">
+                            <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="Fecha de inicio" id="ingFechaInicioPersonalizada">
                         </div>
 
                     </div>
@@ -107,7 +107,7 @@ MODAL - REPORTES DE LOGISITICA PERSONALIZADOS
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                             </div>
-                            <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="Fecha de termino">
+                            <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="Fecha de termino" id="ingFechaTerminoPersonalizada">
                         </div>
 
                     </div>
@@ -123,7 +123,8 @@ MODAL - REPORTES DE LOGISITICA PERSONALIZADOS
             <!-- PIE DEL MODAL
                 -------------------------------------------------- -->
             <div class="modal-footer" style="border-top: #001f3f 1px solid;">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar ventana</button>
+                <button type="button" class="btn btn-danger btnCerrarModalReportePersonalizado" data-dismiss="modal">Cerrar ventana</button>
+                <button type="button" class="btn btn-primary btnObtenerReportePersonalizado">Obtener reporte</button>
             </div>
             <!-- FIN PIE DEL MODAL
                 -------------------------------------------------- -->
