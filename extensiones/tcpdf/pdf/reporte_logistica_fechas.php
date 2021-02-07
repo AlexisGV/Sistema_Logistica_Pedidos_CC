@@ -39,12 +39,12 @@ $bloque1 = <<<EOF
         
     <table>
         <tr>
-            <td style="width:130px; text-align:center;">
+            <td style="width:125px; text-align:center;">
                 <div style="display:flex; flex-direction:row; justify-content: center; align-content: center;">
                     <img style="width:60px;" src="images/Logo-CC-Largo.png">
                 </div>
             </td>
-            <td style="width:280px; text-align:center;">
+            <td style="width:290px; text-align:center;">
                             
                 <div style="display:flex; flex-direction:row; justify-content: center; align-content: center;">
                     <span style="font-size:13px; font-weight:bold;">Reporte de Logística</span><br>
@@ -52,7 +52,7 @@ $bloque1 = <<<EOF
                 </div>
         
             </td>
-            <td style="width:130px; text-align:center;">
+            <td style="width:125px; text-align:center;">
                 <div style="display:flex; flex-direction:row; justify-content: center; align-content: center;">
                     <img style="width:60px;" src="images/Logo-CC-Largo.png">
                 </div>
@@ -150,9 +150,10 @@ $nombreEstatus = $value["Nombre_Estatus"];
 $idEstatus = $value["Id_Estatus"];
 $idEstatusSiguiente = intval($value["Id_Estatus"])+1;
 
-$sumaDiff = new DateTime("0000-00-00 00:00:00");
+// $sumaDiff = new DateTime("0001-01-01 00:00:00");
+$sumaDiff = 0;
 
-foreach ( $pedidosEntregados as $key => $value2 ) {
+foreach ( $pedidosEntregados as $key2 => $value2 ) {
 
 $idPedido = $value2["Id_Pedido"];
 
@@ -160,28 +161,31 @@ $pedidoEstadoActual = ControladorLogistica::ctrTraerEstadosPedido($tabla, $item1
 $pedidoEstadoSiguiente = ControladorLogistica::ctrTraerEstadosPedido($tabla, $item1, $idPedido, $item2, $idEstatusSiguiente);
 
 #Evalua que se haga esto hasta el ultimo estado del pedido
-if ( $idEstatusSiguiente < 9 ) {
+if ( $idEstatusSiguiente < 10 ) {
 
-    $fechaEntrega = new DateTime($pedidoEstadoActual["Fecha_Entrega"]);
     $fechaActualizacion1 = new DateTime($pedidoEstadoActual["Fecha_Actualizacion"]);
     $fechaActualizacion2 = new DateTime($pedidoEstadoSiguiente["Fecha_Actualizacion"]);
 
     $interval = $fechaActualizacion1->diff($fechaActualizacion2);
-    $sumaDiff->add($interval);
+    $sumaDiff += ($interval->days*86400 + $interval->h*3600 + $interval->i*60 + $interval->s);
 
 }
 
 }
 
-$diferenciaObtenida = strftime("%A, %d de %B del %Y", strtotime($sumaDiff->format('Y-m-d H:i:s')));
-echo "<pre>"; print_r($sumaDiff->format('Y-m-d H:i:s')); echo "</pre>";
+$promedioSegundos = $sumaDiff / $totalPedidosEntregados;
+$horas = floor($promedioSegundos / 3600);
+$minutos = floor(($promedioSegundos - ($horas * 3600)) / 60);
+$segundos = $promedioSegundos - ($horas * 3600) - ($minutos * 60);
+
+$diferenciaObtenida = $horas . " horas " . $minutos . " minutos " . number_format($segundos, 2) . " segundos.";
 
 $bloque4 = <<<EOF
         
     <table style="font-size: 9.5px; padding: 5px 10px;">
         <tr>
             <td style="border: 0.5px solid #666;">$nombreEstatus</td>
-            <td style="border: 0.5px solid #666;">$diferenciaObtenida</td>
+            <td style="border: 0.5px solid #666; text-align:center;">$diferenciaObtenida</td>
         </tr>
     </table>
         
