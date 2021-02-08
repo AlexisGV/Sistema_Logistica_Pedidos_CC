@@ -43,6 +43,27 @@ class ModeloUsuarios
     }
 
     /*=============================================
+    SELECCIONAR TODOS LOS USUARIOS - PARA ASIGNAR PEDIDOS
+    =============================================*/
+    static public function mdlTraerUsuariosParaAsignar()
+    {
+
+        # Consulta para traer toda la lista de usuarios a excepcion del usuario eliminado
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT * FROM usuario
+             INNER JOIN tipo_usuario ON Id_Tipo_User=Id_Tipo_User1
+             WHERE Tipo_User != 'Usuario eliminado' AND Tipo_User != 'Usuario no asignado' AND Tipo_User != 'Administrador' AND Tipo_User != 'Ventas'
+             ORDER BY Nombre_Usuario ASC"
+        );
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
     BUSCAR UN USUARIO EN ESPECIFICO
     =============================================*/
     static public function mdlBuscarUsuario($tabla, $item, $valor)

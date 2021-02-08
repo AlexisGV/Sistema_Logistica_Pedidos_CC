@@ -20,7 +20,7 @@ $(document).on('click', '.btnEditarRol', function () {
             $("#idEditRol").val(respuesta["Id_Tipo_User"]);
             $("#nomEditRol").val(respuesta["Tipo_User"]);
 
-            if ( respuesta["Tipo_User"] == "Administrador" ) {
+            if ( respuesta["Tipo_User"] == "Administrador" || respuesta["Tipo_User"] == "Ventas") {
                 $("#nomEditRol").prop("readonly", true);
             } else {
                 $("#nomEditRol").prop("readonly", false);

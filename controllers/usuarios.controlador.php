@@ -28,6 +28,17 @@ class ControladorUsuarios
     }
 
     /*=============================================
+    SELECCIONAR TODOS LOS USUARIOS - ASIGNAR PEDIDOS
+    =============================================*/
+    static public function ctrTraerUsuariosParaAsignar()
+    {
+
+        $consulta = ModeloUsuarios::mdlTraerUsuariosParaAsignar();
+
+        return $consulta;
+    }
+
+    /*=============================================
     BUSCAR UN USUARIO EN ESPECIFICO
     =============================================*/
     static public function ctrBuscarUsuario($tabla, $item, $valor)

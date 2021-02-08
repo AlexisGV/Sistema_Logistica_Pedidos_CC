@@ -73,7 +73,7 @@ $fechaActual = date('Y-m-d');
                             <select name="ingResponsable" class="form-control select2 btnAsignarUsuario" data-placeholder="Responsable ..." idPedido="<?php echo $idPedido; ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($avanceActual) + 10; ?>">
                                 <option></option>
                                 <?php
-                                $usuarios = ControladorUsuarios::ctrTraerUsuarios();
+                                $usuarios = ControladorUsuarios::ctrTraerUsuariosParaAsignar();
                                 foreach ($usuarios as $key => $value2) :
                                 ?>
                                     <option value="<?php echo $value2["Id_Usuario"]; ?>"><?php echo $value2["Nombre_Usuario"]; ?></option>
