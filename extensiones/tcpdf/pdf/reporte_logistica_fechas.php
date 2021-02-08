@@ -61,6 +61,13 @@ $bloque1 = <<<EOF
             </td>
         </tr>
     </table>
+
+    <br><br>
+    <table style="background-color: #D1ECF1; opacity: 0.5; font-size: 9.5px; color: #35747E; padding: 5px 10x; text-align:justify;">
+        <tr>
+            <td><span style="font-weight: bold;">Nota:</span> Este reporte únicamente muestra un resumen de todos los pedidos que ya han sido entregados. Por lo tanto, todo pedido que se encuentre en producción o cualquier otro estado de pedido diferente a entregado en estos momentos, no se tomará en cuenta para las estadísticas mostradas en este reporte.</td>
+        </tr>
+    </table>
         
 EOF;
         
@@ -124,13 +131,6 @@ if ( $pedidosEnTiempo == "" ) {
 }
 
 $bloque2 = <<<EOF
-
-    <br><br>
-    <table style="background-color: #D1ECF1; opacity: 0.5; font-size: 9.5px; color: #35747E; padding: 5px 10x; text-align:justify;">
-        <tr>
-            <td><span style="font-weight: bold;">Nota:</span> Este reporte únicamente muestra un resumen de todos los pedidos que ya han sido entregados. Por lo tanto, todo pedido que se encuentre en producción o cualquier otro estado de pedido diferente a entregado en estos momentos, no se tomará en cuenta para las estadísticas mostradas en este reporte.</td>
-        </tr>
-    </table>
 
     <h4 style="text-align:center;">Estadísticas generales sobre los pedidos entregados en este periodo</h4>
 
@@ -287,7 +287,7 @@ else :
     
     $nullMessage = <<<EOF
     
-    <table style="padding: 300px 20px; text-align:center; font-size:20px; font-style:italic;">
+    <table style="padding: 250px 20px; text-align:center; font-size:20px; font-style:italic;">
     <tr>
     <td>No hay información disponible por mostrar en este periodo de tiempo</td>
     </tr>
