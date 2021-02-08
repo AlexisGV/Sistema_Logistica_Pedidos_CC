@@ -77,6 +77,8 @@ $totalPedidosEntregados = 0;
 $pedidosEntregados = ControladorLogistica::ctrTraerPedidosEntregados($fechaInicial, $fechaTermino);
 $totalPedidosEntregados = count($pedidosEntregados);
 
+if ( $totalPedidosEntregados != 0 ) : 
+
 /* ACUMULAR ID DE PEDIDOS ENTREGADOS
 -------------------------------------------------- */
 $idsPedidos = "Pedidos entregados: ";
@@ -279,9 +281,28 @@ $pdf->writeHTML($bloque4, false, false, false, false, '');
 
 
 }
-       
+
+
+else :
+    
+    $nullMessage = <<<EOF
+    
+    <table style="padding: 300px 20px; text-align:center; font-size:20px; font-style:italic;">
+    <tr>
+    <td>No hay información disponible por mostrar en este periodo de tiempo</td>
+    </tr>
+    </table>
+    
+    EOF;
+    
+    # Escribe el HTML en PDF
+    $pdf->writeHTML($nullMessage, false, false, false, false, '');
+    
+endif;
+
 # Salida del archivo
 $pdf->Output('replog_'.substr(str_replace("-","",$fechaInicial),0,8). '_to_' . substr(str_replace("-","",$fechaTermino),0,8));
+
 
 }
 
