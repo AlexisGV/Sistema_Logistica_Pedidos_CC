@@ -73,7 +73,7 @@ MODAL - REPORTES DE LOGISITICA PERSONALIZADOS
                 -------------------------------------------------- -->
             <div class="modal-header" style="border-top: #001f3f 12px solid;">
                 <h1 class="modal-title">Fechas personalizadas</h1>
-                <button type="button" class="close btn text-black" data-dismiss="modal">×</button>
+                <button type="button" class="close btn text-black btnCerrarModalReportePersonalizado" data-dismiss="modal">×</button>
             </div>
             <!-- FIN HEADER
                 -------------------------------------------------- -->
@@ -110,6 +110,13 @@ MODAL - REPORTES DE LOGISITICA PERSONALIZADOS
                             <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="Fecha de termino" id="ingFechaTerminoPersonalizada">
                         </div>
 
+                    </div>
+
+                    <div class="invalid-feedback" id="errorIncongruentDate">
+                        La fecha de termino debe ser mayor a la de inicio.
+                    </div>
+                    <div class="invalid-feedback" id="errorIncongruentDate2">
+                        La fecha de termino no puede ser mayor a la de hoy.
                     </div>
                     <!-- /.FECHA DE INICIO -->
 

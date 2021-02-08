@@ -4,11 +4,6 @@ GENERAR REPORTES PDF - LOGISTICA
 $(document).on("click", ".btnReporteLogistica", function(){
 
     let meses = Number($(this).attr("meses"));
-    
-    /* FECHAS SIN HORA
-    -------------------------------------------------- */
-    // let fechaActual = moment().format("YYYY-MM-DD");
-    // let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD");
 
     /* FECHAS CON HORA
     -------------------------------------------------- */
@@ -27,32 +22,48 @@ GENERAR REPORTES PERSONALIZADOS PDF - LOGISTICA
 $(document).on("click", ".btnObtenerReportePersonalizado", function(){
 
     let fechaInicio = $("#ingFechaInicioPersonalizada").val();
-    let fechaTermino = $("#ingFechaInicioPersonalizada").val();
-    let expresion = /^[0-9]{2,2}\/+[0-9]{2,2}\/+[0-9]{4,4}$/;
+    let fechaTermino = $("#ingFechaTerminoPersonalizada").val();
+    let expresion = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
     
-    if ( fechaInicio.match(expresion) && fechaTermino.match(expresion) ) {
-        let formatoFechaInicio = moment(fechaInicio, "YYYY-MM-DD");
-        console.log(formatoFechaInicio);
+    if ( fechaInicio.match(expresion) ) {
+        $("#ingFechaInicioPersonalizada").removeClass("is-invalid");
+        $("#ingFechaInicioPersonalizada").addClass("is-valid");
+
+        var fechaInicioObtenida = moment(fechaInicio, "DD/MM/YYYY");
+        // console.log(fechaInicioFormateada);
     } else {
-        if (!fechaInicio.match(expresion)) $("#ingFechaInicioPersonalizada").addClass("is-invalid");
-        else $("#ingFechaInicioPersonalizada").addClass("is-valid");
-
-        if (!fechaTermino.match(expresion)) $("#ingFechaTerminoPersonalizada").addClass("is-invalid");
-        else $("#ingFechaTerminoPersonalizada").addClass("is-valid");
+        $("#ingFechaInicioPersonalizada").removeClass("is-valid");
+        $("#ingFechaInicioPersonalizada").addClass("is-invalid");
+        return false;
     }
-    /* FECHAS SIN HORA
-    -------------------------------------------------- */
-    // let fechaActual = moment().format("YYYY-MM-DD");
-    // let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD");
 
-    /* FECHAS CON HORA
-    -------------------------------------------------- */
-    // let fechaActual = moment().format("YYYY-MM-DD 23:59:59");
-    // let fechaRange = moment().subtract(meses, "months").format("YYYY-MM-DD 00:00:00");
+    if ( fechaTermino.match(expresion) ) {
+        $("#ingFechaTerminoPersonalizada").removeClass("is-invalid");
+        $("#ingFechaTerminoPersonalizada").addClass("is-valid");
 
-    // console.log(fechaActual + " menos " + meses + " meses = " + fechaRange);
+        var fechaTerminoObtenida = moment(fechaTermino, "DD/MM/YYYY");
+    } else {
+        $("#ingFechaTerminoPersonalizada").removeClass("is-valid");
+        $("#ingFechaTerminoPersonalizada").addClass("is-invalid");
+        return false;
+    }
 
-    // window.open("extensiones/tcpdf/pdf/reporte_logistica_fechas.php?fechaInicio="+fechaRange+"&fechaFin="+fechaActual, "_blank");
+    if ( fechaInicioObtenida >= fechaTerminoObtenida ) {
+        $("#errorIncongruentDate").show(); 
+        return false;
+    } else if( fechaTerminoObtenida > moment() ) {
+        $("#errorIncongruentDate2").show(); 
+        return false;
+    } else {
+        fechaInicioFormateada = fechaInicioObtenida.format("YYYY-MM-DD 00:00:00");
+        fechaTerminoFormateada = fechaTerminoObtenida.format("YYYY-MM-DD 23:59:59");
+        $("#errorIncongruentDate").hide();
+        $("#errorIncongruentDate2").hide();
+    }
+
+    $(".btnCerrarModalReportePersonalizado").trigger("click");
+    // $("#modalReportesLogistica").modal("hide");
+    window.open("extensiones/tcpdf/pdf/reporte_logistica_fechas.php?fechaInicio="+fechaInicioFormateada+"&fechaFin="+fechaTerminoFormateada, "_blank");
 
 });
 
@@ -604,4 +615,14 @@ LIMPIAR MODAL - LOGISTICA DE PRODUCTO
 $(document).on("click", ".closeModalVerLogisticaPedido", function () {
     $("#viewNumPedido").html("");
     $("#contenedorEstadosPedido").html("");
+});
+
+/*=============================================
+LIMPIAR MODAL REPORTES PERSONALIZADOS - LOGISTICA DE PRODUCTO
+=============================================*/
+$(document).on("click", ".btnCerrarModalReportePersonalizado", function () {
+    $("#ingFechaInicioPersonalizada").val("");
+    $("#ingFechaInicioPersonalizada").removeClass("is-valid is-invalid");
+    $("#ingFechaTerminoPersonalizada").val("");
+    $("#ingFechaTerminoPersonalizada").removeClass("is-valid is-invalid");
 });

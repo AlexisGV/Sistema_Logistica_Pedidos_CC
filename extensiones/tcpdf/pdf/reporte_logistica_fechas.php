@@ -25,6 +25,8 @@ $fchTerminoHumanice = strftime("%A, %d de %B del %Y", strtotime($fechaTermino));
 require_once('tcpdf_include.php');
         
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+$pdf->SetTitle('Reporte de Logistica ('.substr($fechaInicial,0,10). ' a ' . substr($fechaTermino,0,10).')');
         
 # Indica que el PDF puede tener varias páginas
 $pdf->startPageGroup();
@@ -71,6 +73,7 @@ CUERPO DEL PDF
 
 /* TOTAL DE PEDIDOS ENTREGADOS
 -------------------------------------------------- */
+$totalPedidosEntregados = 0;
 $pedidosEntregados = ControladorLogistica::ctrTraerPedidosEntregados($fechaInicial, $fechaTermino);
 $totalPedidosEntregados = count($pedidosEntregados);
 
@@ -278,7 +281,7 @@ $pdf->writeHTML($bloque4, false, false, false, false, '');
 }
        
 # Salida del archivo
-$pdf->Output('reporte_logistica.pdf');
+$pdf->Output('replog_'.substr(str_replace("-","",$fechaInicial),0,8). '_to_' . substr(str_replace("-","",$fechaTermino),0,8));
 
 }
 
