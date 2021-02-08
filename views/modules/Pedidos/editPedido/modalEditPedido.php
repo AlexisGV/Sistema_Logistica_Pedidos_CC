@@ -112,7 +112,7 @@ MODAL - EDITAR PEDIDO
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">IVA<i class="fas fa-percentage ml-1"></i></div>
                                     </div>
-                                    <input type="number" min="0" class="form-control" name="editIVA" id="editIVA" placeholder="0" autocomplete="off" required>
+                                    <input type="number" min="0" max="16" step="16" class="form-control" name="editIVA" id="editIVA" placeholder="0" autocomplete="off" required>
                                 </div>
                             </div>
                             <div class="form-group col-12 col-xl-3">
