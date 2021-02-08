@@ -10,8 +10,8 @@ $fechaActual = date('Y-m-d');
         <tr>
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">N° de Pedido</th>
+            <th scope="col">Cliente</th>
             <th scope="col">Fecha Inicio</th>
-            <th scope="col">Fecha Compromiso</th>
             <th scope="col">Días restantes</th>
             <th scope="col">Estado</th>
             <?php if (intval($permisosLogistica["R"]) == 1 || intval($permisosPedidos["R"]) == 1 || intval($permisosPedidos["U"]) == 1 || intval($permisosPedidos["D"]) == 1) : ?>
@@ -42,10 +42,12 @@ $fechaActual = date('Y-m-d');
             <tr>
                 <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $key + 1; ?></td>
                 <td><?php echo $value["Id_Pedido"]; ?></td>
+                <td><?php echo $value["Nombre_Cliente"]; ?></td>
                 <td><?php echo strftime("%A, %d de %B del %Y a las %r", strtotime($value["Fecha_Inicio"])); ?></td>
-                <td><?php echo strftime("%A, %d de %B del %Y", strtotime($value["Fecha_Compromiso"])); ?></td>
                 <td>
                     <?php
+                    // echo strftime("%A, %d de %B del %Y", strtotime($value["Fecha_Compromiso"])) . "<br>"; 
+
                     if ($fechaEntrega != null && $fechaEntrega != "") :
 
                         $date1 = new DateTime($fechaEntrega);
