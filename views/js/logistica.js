@@ -625,4 +625,6 @@ $(document).on("click", ".btnCerrarModalReportePersonalizado", function () {
     $("#ingFechaInicioPersonalizada").removeClass("is-valid is-invalid");
     $("#ingFechaTerminoPersonalizada").val("");
     $("#ingFechaTerminoPersonalizada").removeClass("is-valid is-invalid");
+    $("#errorIncongruentDate").hide();
+    $("#errorIncongruentDate2").hide();
 });

@@ -42,6 +42,10 @@ MODAL - VER DETALLE PEDIDO
                 <div class="mb-3">
                     <div class="d-flex flex-column flex-xl-row justify-content-between" id="totalesPedido"></div>
                 </div>
+
+                <div class="mb-1">
+                    <div class="text-center" id="obtenerFactura"></div>
+                </div>
             </div>
             <!-- FIN CUERPO DEL MODAL
                 -------------------------------------------------- -->

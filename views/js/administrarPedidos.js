@@ -114,10 +114,23 @@ $(document).on("click", ".btnVerDetallePedido", function () {
                 $("#totalesPedido").append('<div class="text-right"><span class="font-weight-bold"><span class="badge badge-primary" style="font-size: 1rem;">PAGAGO</span></div>');
             }
 
+            $("#obtenerFactura").append('<button type="button" class="btn btn-info btnImprimirOrdenPedido" idPedido="'+idPedidoSeleccionado+'"><i class="fas fa-print mr-2"></i>Imprimir orden de pedido</button>');
+
         }
 
     });
 
+});
+
+/*=============================================
+IMPRIMIR ORDEN DE PEDIDO
+=============================================*/
+$(document).on("click", ".btnImprimirOrdenPedido", function(){
+    var idPedido = $(this).attr("idPedido");
+
+    console.log(idPedido);
+
+    window.open("extensiones/tcpdf/pdf/orden_pedido.php?idPedido="+idPedido, "_blank");
 });
 
 /*=============================================
@@ -221,9 +234,9 @@ $(document).on("click", ".btnEditarPedido", function () {
                             '    </div>' +
                             '    <div class="col-6 col-xl-2 text-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>' +
                             '       <div class="btn-group">' +
-                            '           <button type="button" class="btn btn-outline-info btnAddOne" idProducto="' + respuesta[i]["idProducto"] + '" idPedido="' + idPedidoSeleccionado + '"><i class="fas fa-plus"></i></button>' +
-                            '           <div class="btn border border-info px-3 font-weight-bold cantidadProducto">' + respuesta[i]["cantidad"] + '</div>' +
                             '           <button type="button" class="btn btn-outline-info btnRemoveOne" idProducto="' + respuesta[i]["idProducto"] + '" idPedido="' + idPedidoSeleccionado + '"><i class="fas fa-minus"></i></button>' +
+                            '           <div class="btn border border-info px-3 font-weight-bold cantidadProducto">' + respuesta[i]["cantidad"] + '</div>' +
+                            '           <button type="button" class="btn btn-outline-info btnAddOne" idProducto="' + respuesta[i]["idProducto"] + '" idPedido="' + idPedidoSeleccionado + '"><i class="fas fa-plus"></i></button>' +
                             '       </div>' +
                             '   </div>' +
                             '    <div class="col-6 col-xl-1 text-center contenedorPrecioProducto"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ <span class="precioProducto" precio="' + respuesta[i]["precioUnitario"] + '">' + Number(respuesta[i]["importe"]).toFixed(2) + badgeDescuento + '</span></div>' +
@@ -605,6 +618,7 @@ $(document).on("click", ".closeModalVerDetallePedido", function () {
     $("#datosCliente").html("");
     $("#contenedorProductosModal").html("");
     $("#totalesPedido").html("");
+    $("#obtenerFactura").html("");
 
 });
 
