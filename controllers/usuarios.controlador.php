@@ -246,6 +246,14 @@ class ControladorUsuarios
             if ($_POST["idEditUser"] == $_SESSION["idUsuario"] && $actualizar == "ok") {
                 $_SESSION["nombreUsuario"] = $_POST["nomEditUser"];
                 $_SESSION["imagenUsuario"] = $ruta;
+                $_SESSION["tipoUsuarioPorNombre"] = $_POST["tipoEditUsuario"];
+
+                #Obtener ID del nuevo tipo de usuario para actualizar SESSION
+                $tabla = "usuario";
+                $item = "Tipo_User";
+                $valor = $_POST["tipoEditUsuario"];
+                $usuarioActualizado = ModeloUsuarios::mdlBuscarUsuario($tabla, $item, $valor);
+                $_SESSION["tipoUsuario"] = $usuarioActualizado["Id_Tipo_User"];
             }
 
             return $actualizar;
