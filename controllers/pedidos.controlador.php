@@ -287,11 +287,19 @@ class ControladorPedidos
 
             #Obtener fecha actual y futura
             $fechaActual = date('Y-m-d H:i:s');
-            $fechaFutura = date('Y-m-d H:i:s', strtotime($fechaActual . "+ 3 week"));
 
             #Informacion y detalles del pedido
             $informacionPedido = json_decode($_POST["informacionPedido"], true);
+            // echo "<pre>"; print_r($informacionPedido); echo "</pre>";
             $listaProductos = json_decode($_POST["listaProductos"], true);
+            
+            if ( $informacionPedido[0]["fechaEstimada"] == "") {
+                $fechaFutura = date('Y-m-d H:i:s', strtotime($fechaActual . "+ 3 week"));
+            } else {
+                $fechaFutura = $informacionPedido[0]["fechaEstimada"];
+            }
+            // echo "<pre>"; print_r($fechaFutura); echo "</pre>";
+            // return false;
 
             #Verificar pedido duplicado
             $tabla = "pedido";

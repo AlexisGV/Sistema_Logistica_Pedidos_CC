@@ -114,6 +114,7 @@ function listarProductos() {
     var nomCliente = $("#ingNombreCliente").val();
     var correoCliente = $("#ingEmailCliente").val();
     var telefonoCliente = $("#ingTelfCliente").val();
+    var fechaEstimada = $("#ingFechaEstimadaFormateada").val();
 
     // Detalles del producto
     var descripcion = $(".nuevaDescripcionProducto");
@@ -153,6 +154,7 @@ function listarProductos() {
         "nomCliente": nomCliente,
         "correoCliente": correoCliente,
         "telefonoCliente": telefonoCliente,
+        "fechaEstimada": fechaEstimada,
         "subtotal": subtotal,
         "iva": iva,
         "total": total,

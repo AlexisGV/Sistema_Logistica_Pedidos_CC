@@ -55,7 +55,7 @@ class ModeloPedidos
     =========================================================*/
     static public function mdlTraerRegistrosDescendentes($tabla, $item)
     {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY $item DESC");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY $item ASC");
 
         $stmt->execute();
 

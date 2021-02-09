@@ -1,5 +1,5 @@
 <?php
-setlocale(LC_ALL,"spanish.utf8");
+setlocale(LC_ALL, "spanish.utf8");
 date_default_timezone_set('UTC');
 date_default_timezone_set("America/Mexico_City");
 $fechaActual = date('d-m-Y');
@@ -19,9 +19,9 @@ INFORMACION DEL PEDIDO
                 </div>
 
                 <?php
-                
-                    $numeroPedido = ControladorPedidos::ctrObtenerNumeroPedido();
-                    echo '<input type="text" class="form-control" name="ingFolioPedido" id="ingFolioPedido" placeholder="Número de pedido" autocomplete="off" readonly value="'. $numeroPedido .'">';
+
+                $numeroPedido = ControladorPedidos::ctrObtenerNumeroPedido();
+                echo '<input type="text" class="form-control" name="ingFolioPedido" id="ingFolioPedido" placeholder="Número de pedido" autocomplete="off" readonly value="' . $numeroPedido . '">';
 
                 ?>
             </div>
@@ -34,7 +34,16 @@ INFORMACION DEL PEDIDO
                 <div class="input-group-prepend">
                     <div class="input-group-text">Fecha est.</div>
                 </div>
-                <input type="text" class="form-control text-center" name="ingFechaEstimada" id="ingFechaEstimada" placeholder="Fecha entrega estimada" autocomplete="off" readonly value="<?php echo strftime("%A, %d de %B del %Y", strtotime($fechaFutura)); ?>">
+                <input type="hidden" class="form-control text-center" id="ingFechaEstimadaHidden" placeholder="Fecha entrega estimada" autocomplete="off" readonly value="<?php echo strftime("%A, %d de %B del %Y", strtotime($fechaFutura)); ?>">
+
+                <input type="text" class="form-control text-center" id="ingFechaEstimada" placeholder="Fecha entrega estimada personalizada" autocomplete="off" readonly value="<?php echo strftime("%A, %d de %B del %Y", strtotime($fechaFutura)); ?>">
+                <div class="icheck-primary d-inline ml-1">
+                    <input type="checkbox" name="ingFechaCompromisoPersonalizada" id="ingFechaCompromisoPersonalizada">
+                    <label for="ingFechaCompromisoPersonalizada"></label>
+                </div>
+                <div class="invalid-feedback">El formato de la fecha debe ser similar a este dd/mm/aaaa y debe de ser mayor o igual a la de hoy</div>
+
+                <input type="hidden" name="ingFechaEstimadaFormateada" id="ingFechaEstimadaFormateada">
             </div>
         </div>
     </div>

@@ -1,5 +1,6 @@
 $("#ingAnticipoPedido").prop("readonly", true);
 $("#ingPagoCompleto").prop("checked", true);
+$("#ingFechaCompromisoPersonalizada").prop("checked", true);
 
 function validarExpresion(campo, expresion) {
 
@@ -27,6 +28,44 @@ $(document).on("change", "#ingPagoCompleto", function () {
     }
 
     listarProductos();
+});
+
+$(document).on("change", "#ingFechaCompromisoPersonalizada", function () {
+    if ($(this).is(":checked")) {
+        $("#ingFechaEstimada").removeClass("is-valid is-invalid");
+        $("#ingFechaEstimada").prop("readonly", true);
+        $("#ingFechaEstimada").val($("#ingFechaEstimadaHidden").val());
+    } else {
+        $("#ingFechaEstimada").prop("readonly", false);
+        $("#ingFechaEstimada").val("");
+    }
+});
+
+$(document).on("change keyup blur", "#ingFechaEstimada", function () {
+    var expresion = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
+    if (!$("#ingFechaCompromisoPersonalizada").is(":checked")) {
+        if(validarExpresion($(this), expresion)){
+            let fechaHOY = moment();
+            let fechaPersonalizada = moment($(this).val(), "DD/MM/YYYY");
+
+            if ( fechaPersonalizada < fechaHOY ) {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                $("#ingFechaEstimadaFormateada").val("");
+            } else {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+
+                let fechaFormateada = fechaPersonalizada.format("YYYY-MM-DD 20:00:00");
+                $("#ingFechaEstimadaFormateada").val(fechaFormateada);
+                console.log($("#ingFechaEstimadaFormateada").val());
+            }
+        } else {
+            $("#ingFechaEstimadaFormateada").val("");
+        }
+    } else {
+        $("#ingFechaEstimadaFormateada").val("");
+    }
 });
 
 $(document).on("keyup change", "#ingAnticipoPedido", function () {
@@ -146,8 +185,13 @@ $(document).on("submit", "#formAddPedido", function (e) {
 
     var expNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/,
         expCorreo = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/,
-        expTelefono = /^55+[0-9]{8,8}$/;
-        expTelefono2 = /^56+[0-9]{8,8}$/;
+        expTelefono = /^55+[0-9]{8,8}$/,
+        expTelefono2 = /^56+[0-9]{8,8}$/,
+        expFecha = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
+
+    if ($("#ingFechaCompromisoPersonalizada").is(":checked") == false) {
+        if ( !validarExpresion($("#ingFechaEstimada"), expFecha) ) e.preventDefault();
+    }
 
     if (!validarExpresion($("#ingNombreCliente"), expNombre)) e.preventDefault();
 
