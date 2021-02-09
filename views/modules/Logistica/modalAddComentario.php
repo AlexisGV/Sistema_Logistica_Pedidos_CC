@@ -1,11 +1,11 @@
 <!--=============================================
-MODAL - AGREGAR ACABADO
+MODAL - AGREGAR COMENTARIO
 =============================================-->
 <div class="modal fade" id="modalAddComentario" data-backdrop="static">
     <!--=============================================
-    FORMULARIO - AGREGAR ACABADO
+    FORMULARIO - AGREGAR COMENTARIO
     =============================================-->
-    <form role="form" class="modal-dialog modal-dialog-centered modal-lg" id="formAgregarComentario" method="post">
+    <form role="form" class="modal-dialog modal-dialog-centered modal-md" id="formAgregarComentario" method="post">
         <div class="modal-content">
 
             <!-- HEADER
@@ -24,7 +24,7 @@ MODAL - AGREGAR ACABADO
                 <input type="hidden" name="numEstado" id="numEstado">
                 <label for="ingComentarioPedido">Comentario:</label>
                 <div class="form-group">
-                    <textarea name="ingComentarioPedido" id="ingComentarioPedido" class="form-control" rows="1" placeholder="Escriba un comentario para el pedido seleccionado" autocomplete="off" required></textarea>
+                    <textarea name="ingComentarioPedido" id="ingComentarioPedido" class="form-control" rows="3" placeholder="Escriba un comentario para el pedido seleccionado" autocomplete="off" required></textarea>
                     <div class="invalid-feedback">
                         El comentario no puede tener caracteres especiales.
                     </div>
@@ -44,7 +44,7 @@ MODAL - AGREGAR ACABADO
 
         </div>
     </form>
-    <!--============  FIN FORMULARIO - AGREGAR ACABADO =============-->
+    <!--============  FIN FORMULARIO - AGREGAR COMENTARIO =============-->
 </div>
 
-<!--============  FIN MODAL - AGREGAR ACABADO =============-->
+<!--============  FIN MODAL - AGREGAR COMENTARIO =============-->

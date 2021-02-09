@@ -326,6 +326,39 @@ $(document).on("click", ".btnVerLogisticaPedido", function () {
 });
 
 /*=============================================
+VISUALIZAR COMENTARIO DE PEDIDO
+=============================================*/
+$(document).on("click", ".btnViewComentario", function(){
+
+    let idPedido = $(this).attr("idPedido");
+    let orden = $(this).attr("orden");
+
+    var datos = new FormData();
+    datos.append('verComentarioId', idPedido);
+    datos.append('verComentarioOrden', orden);
+
+    $.ajax({
+
+        url: "ajax/logistica.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (respuesta) {
+            console.log(respuesta);
+
+            $("#viewIdPedidoForMC").html(idPedido);
+            $("#comentarioPedido").text(respuesta["Comentario"]);
+            $("#autorComentario").html(respuesta["Nombre_Usuario"]+' <cite title="'+respuesta["Tipo_User"]+'">'+respuesta["Tipo_User"]+'</cite>');
+        }
+    });
+
+});
+
+
+/*=============================================
 ACTUALIZAR ESTADO DE PEDIDO - BOTONES
 =============================================*/
 $(document).on("click", ".btnActualizarEstado", function () {
@@ -615,6 +648,15 @@ LIMPIAR MODAL - LOGISTICA DE PRODUCTO
 $(document).on("click", ".closeModalVerLogisticaPedido", function () {
     $("#viewNumPedido").html("");
     $("#contenedorEstadosPedido").html("");
+});
+
+/*=============================================
+LIMPIAR MODAL - COMENTARIO DE PEDIDO
+=============================================*/
+$(document).on("click", ".closeModalViewComentario", function () {
+    $("#viewIdPedidoForMC").html("");
+    $("#comentarioPedido").text("");
+    $("#autorComentario").html("");
 });
 
 /*=============================================

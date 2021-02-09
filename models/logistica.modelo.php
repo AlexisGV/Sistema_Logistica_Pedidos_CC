@@ -6,6 +6,30 @@ class ModeloLogistica
 {
 
     /*=============================================
+    SELECCIONAR COMENTARIO DE PEDIDO
+    =============================================*/
+    static public function mdlTraerComentario($tabla, $item1, $val1, $item2, $val2, $item3, $val3){
+
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT $item3, Nombre_Usuario, Tipo_User FROM $tabla 
+             INNER JOIN estatus_pedido ON Id_Estatus=Id_Estatus1
+             INNER JOIN usuario ON Id_Usuario=Id_Usuario1
+             INNER JOIN tipo_usuario ON Id_Tipo_User=Id_Tipo_User1
+             WHERE $item1=:$item1 AND $item2=:$item2 AND $item3!=:$item3");
+        $stmt->bindParam(":".$item1, $val1, PDO::PARAM_INT);
+        $stmt->bindParam(":".$item2, $val2, PDO::PARAM_INT);
+        $stmt->bindParam(":".$item3, $val3, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->fetch();
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+    }
+    
+
+    /*=============================================
     TRAER PEDIDOS POR ESTADO
     =============================================*/
     static public function mdlTraerPedidosPorEstado($tabla, $item, $orden, $avance, $idUsuario)

@@ -44,6 +44,20 @@ class AjaxLogistica
     }
 
     /*=============================================
+    VER COMENTARIO DE PEDIDO
+    =============================================*/
+    public function ajaxVerComentarioPedido()
+    {
+
+        $pedido = $this->idPedido;
+        $estatus = $this->ordenEstado;
+
+        $respuesta = ControladorLogistica::ctrTraerComentario($pedido, $estatus);
+
+        echo json_encode($respuesta);
+    }
+
+    /*=============================================
     ACTUALIZAR COMENTARIO DE PEDIDO
     =============================================*/
     public $comentarioPedido;
@@ -74,6 +88,16 @@ if (isset($_POST["verLogisticaPorId"])) {
     $actualizarEstado = new AjaxLogistica();
     $actualizarEstado->idPedido = $_POST["verLogisticaPorId"];
     $actualizarEstado->ajaxVerLogisticaPedido();
+}
+
+/*=============================================
+VER COMENTARIO DE PEDIDO
+=============================================*/
+if (isset($_POST["verComentarioId"])) {
+    $verComentario = new AjaxLogistica();
+    $verComentario->idPedido = $_POST["verComentarioId"];
+    $verComentario->ordenEstado = $_POST["verComentarioOrden"];
+    $verComentario->ajaxVerComentarioPedido();
 }
 
 /*=============================================

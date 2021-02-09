@@ -65,6 +65,7 @@ CONTENEDOR
 
                                     if ( intval($permisosEntregaFinal["U"]) == 1 ) {
                                         include "views/modules/Logistica/modalAddComentario.php";
+                                        include "views/modules/Logistica/modalViewComentario.php";
                                     }
                                 
                                 } else {

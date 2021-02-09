@@ -80,6 +80,13 @@ $fechaActual = date('Y-m-d');
                                 <?php endforeach; ?>
                             </select>
                         </div>
+                        <?php
+                        $comentarioPedido = ControladorLogistica::ctrTraerComentario($value["Id_Pedido"], $ordenEstado);
+
+                        if ($comentarioPedido) :
+                        ?>
+                            <button type="button" class="btn btn-sm btn-info btnViewComentario mt-1" idPedido="<?php echo $value["Id_Pedido"]; ?>" orden="<?php echo $ordenEstado; ?>" data-toggle="modal" data-target="#modalViewComentario">Ver comentario</button>
+                        <?php endif; ?>
                     </td>
                 <?php endif; ?>
             </tr>

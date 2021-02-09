@@ -70,6 +70,14 @@ $fechaActual = date('Y-m-d');
                         <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-danger btnActualizarEstado" idPedido="<?php echo $value["Id_Pedido"] ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($value["Avance_Estado"]) + 10 ?>">Finalizar producción</button>
                         </div>
+                        <?php
+                        $comentarioPedido = ControladorLogistica::ctrTraerComentario($value["Id_Pedido"], $ordenEstado);
+
+                        if ($comentarioPedido) :
+                        ?>
+                            <br>
+                            <button type="button" class="btn btn-sm btn-info btnViewComentario mt-1" idPedido="<?php echo $value["Id_Pedido"]; ?>" orden="<?php echo $ordenEstado; ?>" data-toggle="modal" data-target="#modalViewComentario">Ver comentario</button>
+                        <?php endif; ?>
                     </td>
                 <?php endif; ?>
             </tr>

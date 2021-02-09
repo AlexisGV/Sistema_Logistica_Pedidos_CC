@@ -4,6 +4,21 @@ class ControladorLogistica
 {
 
     /*=============================================
+    SELECCIONAR COMENTARIO DE PEDIDO
+    =============================================*/
+    static public function ctrTraerComentario($idPedido, $orden)
+    {
+        $tabla = "actualizaciones_pedido";
+        $item1 = "Id_Pedido2";
+        $item2 = "Orden";
+        $item3 = "Comentario";
+
+        $comentario = ModeloLogistica::mdlTraerComentario($tabla, $item1, $idPedido, $item2, $orden, $item3, "");
+
+        return $comentario;
+    }
+
+    /*=============================================
     TRAER PEDIDOS POR ESTADO
     =============================================*/
     static public function ctrTraerPedidosPorEstado($tabla, $item, $orden, $avance)
