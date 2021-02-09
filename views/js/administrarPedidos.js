@@ -186,6 +186,9 @@ $(document).on("click", ".btnEditarPedido", function () {
 
             $("#editFechaInicioPedido").val(fechaInicio.toLocaleDateString("es-MX", options));
             $("#editFechaCompromisoPedido").val(fechaCompromiso.toLocaleDateString("es-MX", options));
+            $("#editFechaCompromisoPedidoHidden").val(fechaCompromiso.toLocaleDateString("es-MX", options));
+            $("#editFechaCompromisoActual").val(respuesta["Fecha_Compromiso"]);
+            console.log($("#editFechaCompromisoActual").val());
 
             if (respuesta["Fecha_Entrega"] != null && respuesta["Fecha_Entrega"] != "") {
                 var fechaEntrega = new Date(respuesta["Fecha_Compromiso"]);
@@ -636,10 +639,13 @@ $(document).on("click", ".closeModalEditPedido", function () {
     $("#editCliente").removeClass("is-valid is-invalid");
     $("#editCorreo").val("");
     $("#editCorreo").removeClass("is-valid is-invalid");
+    $("#editTelefono").val("");
+    $("#editTelefono").removeClass("is-valid is-invalid");
     $("#editContenedorProductos").html("");
     $("#editSubtotal").val("");
     $("#editIVA").val("");
     $("#editIVA").removeClass("is-valid is-invalid");
     $("#editTotal").val("");
     $("#editAnticipo").removeClass("is-valid is-invalid");
+    $("#editFechaCompromisoPersonalizada").prop("checked", true).trigger("change");
 });

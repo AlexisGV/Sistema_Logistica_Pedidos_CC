@@ -1,3 +1,5 @@
+$("#editFechaCompromisoPersonalizada").prop("checked", true);
+
 function validarExpresion(campo, expresion) {
 
     if (campo.val().match(expresion)) {
@@ -14,6 +16,44 @@ function validarExpresion(campo, expresion) {
 
 }
 
+$(document).on("change", "#editFechaCompromisoPersonalizada", function () {
+    if ($(this).is(":checked")) {
+        $("#editFechaCompromisoPedido").removeClass("is-valid is-invalid");
+        $("#editFechaCompromisoPedido").prop("readonly", true);
+        $("#editFechaCompromisoPedido").val($("#editFechaCompromisoPedidoHidden").val());
+    } else {
+        $("#editFechaCompromisoPedido").prop("readonly", false);
+        $("#editFechaCompromisoPedido").val("");
+    }
+});
+
+$(document).on("change keyup blur", "#editFechaCompromisoPedido", function () {
+    var expresion = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
+    if (!$("#editFechaCompromisoPersonalizada").is(":checked")) {
+        if (validarExpresion($(this), expresion)) {
+            let fechaHOY = moment();
+            let fechaPersonalizada = moment($(this).val(), "DD/MM/YYYY");
+
+            if (fechaPersonalizada < fechaHOY) {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                $("#editFechaCompromisoPedidoFormateada").val("");
+            } else {
+                $(this).removeClass("is-invalid");
+                $(this).addClass("is-valid");
+
+                let fechaFormateada = fechaPersonalizada.format("YYYY-MM-DD 20:00:00");
+                $("#editFechaCompromisoPedidoFormateada").val(fechaFormateada);
+                console.log($("#editFechaCompromisoPedidoFormateada").val());
+            }
+        } else {
+            $("#editFechaCompromisoPedidoFormateada").val("");
+        }
+    } else {
+        $("#editFechaCompromisoPedidoFormateada").val("");
+    }
+});
+
 $(document).on("change keyup blur", "#editCliente", function () {
     let expresion = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
     validarExpresion($(this), expresion);
@@ -27,7 +67,7 @@ $(document).on("change keyup blur", "#editCorreo", function () {
 });
 
 $(document).on("change keyup blur", "#editTelefono", function () {
-    let expresion = /^5+[5-6]+[0-9]{8,8}$/;
+    let expresion = /^5[5-6][0-9]{8,8}$/;
     validarExpresion($(this), expresion);
 });
 
@@ -73,7 +113,12 @@ $(document).on("keyup change", "#editAnticipo", function () {
 $(document).on("submit", "#formEditPedido", function (e) {
     let expNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/,
         expEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/,
-        expTelf = /^5+[5-6]+[0-9]{8,8}$/;
+        expTelf = /^5[5-6][0-9]{8,8}$/,
+        expFecha = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
+
+    if ($("#editFechaCompromisoPersonalizada").is(":checked") == false) {
+        if (!validarExpresion($("#editFechaCompromisoPedido"), expFecha)) e.preventDefault();
+    }
 
     if (!validarExpresion($("#editCliente"), expNombre)) {
         e.preventDefault();
@@ -210,7 +255,7 @@ $(document).on("click", ".btnAñadirProductoPedido", function (e) {
     }
 
     swal({
-        title: "Agregar producto al pedido \""+$("#editIdPedido").val()+"\"",
+        title: "Agregar producto al pedido \"" + $("#editIdPedido").val() + "\"",
         text: "¿Estas seguro de que quieres agregar este producto a la lista? Esta acción modificará los totales de forma automática sin necesidad de dar clic en el botón \"Guardar cambios\" . Si deseas continuar da clic en el botón \"Confirmar\"",
         icon: "warning",
         buttons: {
@@ -235,11 +280,11 @@ $(document).on("click", ".btnAñadirProductoPedido", function (e) {
                 data: $("#formAgregarProductoPedido").serialize(),
                 dataType: "json",
                 success: function (respuesta) {
-        
+
                     // console.log(respuesta);
-        
+
                     $(".closeModalProducto").trigger("click");
-        
+
                     if (respuesta == "errorProducto") {
                         swal({
                             title: "Error al ingresar el producto!",
@@ -259,7 +304,7 @@ $(document).on("click", ".btnAñadirProductoPedido", function (e) {
                         if (Number(respuesta["descuento"]) > 0) {
                             badgeDescuento = '<span class="badge bg-indigo ml-2 ml-xl-0" style="font-size: 1rem;">- ' + respuesta["descuento"] + '%</span>';
                         }
-        
+
                         $("#editContenedorProductos").append(
                             '<div class="productoNuevo row py-3 border-top border-secondary" idProducto="' + respuesta["idProducto"] + '">' +
                             '    <div class="col-12 col-xl-8 pb-2 pb-xl-0">' +
@@ -280,25 +325,25 @@ $(document).on("click", ".btnAñadirProductoPedido", function (e) {
                             '   </div>' +
                             '</div>'
                         );
-        
+
                         $("#editSubtotal").val(Number(respuesta["subtotal"]).toFixed(2));
                         $("#editIVA").val(respuesta["IVA"]);
                         $("#editTotal").val(Number(respuesta["total"]).toFixed(2));
-        
+
                         if (respuesta["anticipo"] == respuesta["total"]) {
                             $("#editPagoCompleto").prop("checked", true).trigger("change");
                         } else {
                             $("#editPagoCompleto").prop("checked", false).trigger("change");
                             $("#editAnticipo").val(Number(respuesta["anticipo"]).toFixed(2));
                         }
-        
+
                         swal({
                             title: "Producto añadido con éxito!",
                             text: "El producto se agrego de forma correcta a la lista del pedido.",
                             icon: "success",
                         });
                     }
-        
+
                 }
             });
         }

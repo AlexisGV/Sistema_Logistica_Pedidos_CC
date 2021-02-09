@@ -400,6 +400,7 @@ class ModeloPedidos
              SET Nombre_Cliente=:cliente,
                  Correo_Cliente=:correo,
                  Telefono_Cliente=:telefono,
+                 Fecha_Compromiso=:fechaCompromiso,
                  Anticipo=:anticipo,
                  Subtotal=:subtotal,
                  IVA=:iva,
@@ -409,6 +410,7 @@ class ModeloPedidos
         $stmt->bindParam(":cliente", $datos["cliente"], PDO::PARAM_STR);
         $stmt->bindParam(":correo", $datos["correo"], PDO::PARAM_STR);
         $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+        $stmt->bindParam(":fechaCompromiso", $datos["fechaCompromiso"], PDO::PARAM_STR);
         $stmt->bindParam(":anticipo", $datos["anticipo"], PDO::PARAM_STR);
         $stmt->bindParam(":subtotal", $datos["subtotal"], PDO::PARAM_STR);
         $stmt->bindParam(":iva", $datos["iva"], PDO::PARAM_INT);

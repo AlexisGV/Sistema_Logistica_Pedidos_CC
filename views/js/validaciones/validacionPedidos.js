@@ -145,8 +145,8 @@ $(document).on("keyup", "#ingEmailCliente", function () {
 });
 
 $(document).on("keyup", "#ingTelfCliente", function () {
-    var expresion = /^55+[0-9]{0,8}$/;
-    var expresion2 = /^56+[0-9]{0,8}$/;
+    var expresion = /^55[0-9]{0,8}$/;
+    var expresion2 = /^56[0-9]{0,8}$/;
 
     if ($(this).val().match(expresion) || $(this).val().match(expresion2)) {
         $(this).removeClass("is-invalid is-valid is-warning");
@@ -185,8 +185,8 @@ $(document).on("submit", "#formAddPedido", function (e) {
 
     var expNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/,
         expCorreo = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/,
-        expTelefono = /^55+[0-9]{8,8}$/,
-        expTelefono2 = /^56+[0-9]{8,8}$/,
+        expTelefono = /^55[0-9]{8,8}$/,
+        expTelefono2 = /^56[0-9]{8,8}$/,
         expFecha = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
 
     if ($("#ingFechaCompromisoPersonalizada").is(":checked") == false) {

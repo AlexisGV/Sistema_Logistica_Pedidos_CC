@@ -38,7 +38,17 @@ MODAL - EDITAR PEDIDO
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Com.</div>
                             </div>
-                            <input type="text" class="form-control" name="editFechaCompromisoPedido" id="editFechaCompromisoPedido" placeholder="Fecha compromiso" readonly>
+                            <input type="hidden" class="form-control" id="editFechaCompromisoPedidoHidden" placeholder="Fecha compromiso" readonly>
+                            <input type="hidden" class="form-control" name="editFechaCompromisoActual" id="editFechaCompromisoActual" placeholder="Fecha compromiso" readonly>
+
+                            <input type="text" class="form-control" name="editFechaCompromisoPedido" id="editFechaCompromisoPedido" placeholder="Fecha compromiso" readonly autocomplete="off">
+                            <div class="icheck-primary d-inline ml-1">
+                                <input type="checkbox" name="editFechaCompromisoPersonalizada" id="editFechaCompromisoPersonalizada">
+                                <label for="editFechaCompromisoPersonalizada"></label>
+                            </div>
+                            <div class="invalid-feedback">El formato de la fecha debe ser similar a este dd/mm/aaaa y debe de ser mayor o igual a la de hoy</div>
+
+                            <input type="hidden" class="form-control" name="editFechaCompromisoPedidoFormateada" id="editFechaCompromisoPedidoFormateada" placeholder="Fecha compromiso" readonly>
                         </div>
                     </div>
                     <div class="form-group col-12 col-xl-4">
@@ -174,11 +184,10 @@ MODAL - EDITAR PEDIDO
 
 <?php
 
-    /*=============================================
+/*=============================================
     ACTUALIZAR PEDIDO
     =============================================*/
-    $actualizarPedido = new ControladorPedidos();
-    $actualizarPedido->ctrActualizarPedido();
+$actualizarPedido = new ControladorPedidos();
+$actualizarPedido->ctrActualizarPedido();
 
 ?>
-

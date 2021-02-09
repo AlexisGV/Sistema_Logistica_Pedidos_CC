@@ -744,10 +744,19 @@ class ControladorPedidos
                 $anticipo = $_POST["editAnticipo"];
             }
 
+            /* EVALUAR SI HAY CAMBIO EN FECHAS
+            -------------------------------------------------- */
+            if ($_POST["editFechaCompromisoPedidoFormateada"] != ""){
+                $fechaCompromiso = $_POST["editFechaCompromisoPedidoFormateada"];
+            }else{
+                $fechaCompromiso = $_POST["editFechaCompromisoActual"];
+            }
+
             /* ORDENANDO LOS DATOS
             -------------------------------------------------- */
             $datos = array(
                 "idPedido" => $_POST["editIdPedido"],
+                "fechaCompromiso" => $fechaCompromiso,
                 "cliente" => $_POST["editCliente"],
                 "correo" => $_POST["editCorreo"],
                 "telefono" => $_POST["editTelefono"],
