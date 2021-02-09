@@ -117,7 +117,12 @@ $(document).on("submit", "#formEditPedido", function (e) {
         expFecha = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
 
     if ($("#editFechaCompromisoPersonalizada").is(":checked") == false) {
-        if (!validarExpresion($("#editFechaCompromisoPedido"), expFecha)) e.preventDefault();
+        if ( moment($("#editFechaCompromisoPedido").val(), "DD/MM/YYYY") < moment() ) {
+            $("#editFechaCompromisoPedido").addClass("is-invalid");
+            e.preventDefault();
+        } else {
+            if (!validarExpresion($("#editFechaCompromisoPedido"), expFecha)) e.preventDefault();
+        }
     }
 
     if (!validarExpresion($("#editCliente"), expNombre)) {

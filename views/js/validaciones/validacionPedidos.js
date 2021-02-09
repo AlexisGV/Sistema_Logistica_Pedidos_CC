@@ -190,7 +190,12 @@ $(document).on("submit", "#formAddPedido", function (e) {
         expFecha = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
 
     if ($("#ingFechaCompromisoPersonalizada").is(":checked") == false) {
-        if ( !validarExpresion($("#ingFechaEstimada"), expFecha) ) e.preventDefault();
+        if ( moment($("#ingFechaEstimada").val(), "DD/MM/YYYY") < moment() ) {
+            $("#ingFechaEstimada").addClass("is-invalid");
+            e.preventDefault();
+        } else {
+            if ( !validarExpresion($("#ingFechaEstimada"), expFecha) ) e.preventDefault();
+        }
     }
 
     if (!validarExpresion($("#ingNombreCliente"), expNombre)) e.preventDefault();
