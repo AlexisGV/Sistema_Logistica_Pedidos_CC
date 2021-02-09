@@ -61,15 +61,11 @@ class ControladorLogistica
         #Obtener fecha actual y futura
         $fechaActual = date('Y-m-d H:i:s');
 
-        if ($usuario != null && $usuario != "") {
-            $idUsuario = $usuario;
-        } else {
-            $idUsuario = $_SESSION["idUsuario"];
-        }
-
+        $idUsuario = $_SESSION["idUsuario"];
+        
         $ordenNuevo = intval($orden) + 1;
         $estado = 1;
-
+        
         $datos = array(
             "idPedido" => $idPedido,
             "idUsuario" => $idUsuario,
@@ -78,6 +74,13 @@ class ControladorLogistica
             "estado" => $estado,
             "avance" => $avance
         );
+
+        #Usuario para asignar pedido
+        if ($usuario != null && $usuario != "") {
+            $idUsuario2 = $usuario;
+            $datos += ["idUsuario2" => $idUsuario2];
+        }
+
 
         $actualizarEstado = ModeloLogistica::mdlActualizarEstadoPedido($tabla, $datos);
 

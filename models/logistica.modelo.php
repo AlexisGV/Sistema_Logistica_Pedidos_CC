@@ -156,7 +156,7 @@ class ModeloLogistica
                          SET Id_Usuario1=:idUsuario
                          WHERE Id_Pedido2=:idPedido AND Orden=:orden"
                     );
-                    $actualizarUsuario->bindParam(":idUsuario", $datos["idUsuario"], PDO::PARAM_INT);
+                    $actualizarUsuario->bindParam(":idUsuario", $datos["idUsuario2"], PDO::PARAM_INT);
                     $actualizarUsuario->bindParam(":orden", $i, PDO::PARAM_INT);
                     $actualizarUsuario->bindParam(":idPedido", $datos["idPedido"], PDO::PARAM_INT);
 
