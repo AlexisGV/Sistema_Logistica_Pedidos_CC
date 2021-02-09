@@ -250,8 +250,8 @@ class ControladorUsuarios
 
                 #Obtener ID del nuevo tipo de usuario para actualizar SESSION
                 $tabla = "usuario";
-                $item = "Tipo_User";
-                $valor = $_POST["tipoEditUsuario"];
+                $item = "Id_Usuario";
+                $valor = $_POST["idEditUser"];
                 $usuarioActualizado = ModeloUsuarios::mdlBuscarUsuario($tabla, $item, $valor);
                 $_SESSION["tipoUsuario"] = $usuarioActualizado["Id_Tipo_User"];
             }
