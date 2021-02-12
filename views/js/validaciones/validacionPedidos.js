@@ -56,7 +56,7 @@ $(document).on("change keyup blur", "#ingFechaEstimada", function () {
                 $(this).removeClass("is-invalid");
                 $(this).addClass("is-valid");
 
-                let fechaFormateada = fechaPersonalizada.format("YYYY-MM-DD 20:00:00");
+                let fechaFormateada = fechaPersonalizada.format("YYYY-MM-DD 18:00:00");
                 $("#ingFechaEstimadaFormateada").val(fechaFormateada);
                 console.log($("#ingFechaEstimadaFormateada").val());
             }

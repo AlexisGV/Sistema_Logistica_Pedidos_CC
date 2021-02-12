@@ -294,7 +294,7 @@ class ControladorPedidos
             $listaProductos = json_decode($_POST["listaProductos"], true);
             
             if ( $informacionPedido[0]["fechaEstimada"] == "") {
-                $fechaFutura = date('Y-m-d H:i:s', strtotime($fechaActual . "+ 3 week"));
+                $fechaFutura = date('Y-m-d 18:00:00', strtotime($fechaActual . "+ 3 week"));
             } else {
                 $fechaFutura = $informacionPedido[0]["fechaEstimada"];
             }
