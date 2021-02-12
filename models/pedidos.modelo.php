@@ -53,10 +53,15 @@ class ModeloPedidos
     /*=========================================================
     TRAER REGISTROS DE FORMA DESCENDENTE
     =========================================================*/
-    static public function mdlTraerRegistrosDescendentes($tabla, $item)
+    static public function mdlTraerRegistrosAscendentes($tabla, $item, $item2, $val2, $operador)
     {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY $item ASC");
-
+        if($operador == "non-equal") :
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2!=:$item2 ORDER BY $item ASC");
+        elseif ($operador == "equal") :
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2=:$item2 ORDER BY $item ASC");
+        endif;
+        
+        $stmt->bindParam(":".$item2, $val2, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll();
@@ -80,6 +85,30 @@ class ModeloPedidos
         );
         $stmt->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
         $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
+    SELECCIONAR USUARIO QUE LEVANTO EL PEDIDO
+    =============================================*/
+    static public function mdlTraerUsuarioPedido($tabla, $idPedido, $orden)
+    {
+        $estado = 1;
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT Nombre_Usuario FROM $tabla
+             INNER JOIN estatus_pedido ON Id_Estatus=Id_Estatus1
+             INNER JOIN usuario ON Id_Usuario=Id_Usuario1
+             WHERE Id_Pedido2=:idPedido AND Estado=:estado AND Orden=:orden"
+        );
+        $stmt->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
+        $stmt->bindParam(":orden", $orden, PDO::PARAM_INT);
 
         $stmt->execute();
 

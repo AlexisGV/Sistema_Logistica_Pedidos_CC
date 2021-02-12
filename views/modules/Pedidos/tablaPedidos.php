@@ -10,6 +10,7 @@ $fechaActual = date('Y-m-d');
         <tr>
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">N° de Pedido</th>
+            <th scope="col">Empleado</th>
             <th scope="col">Cliente</th>
             <th scope="col">Fecha Inicio</th>
             <th scope="col">Días restantes</th>
@@ -21,11 +22,19 @@ $fechaActual = date('Y-m-d');
     </thead>
     <tbody>
         <?php
+        /*=============================================
+        IMPRIMIR PEDIDOS QUE AUN NO HAN SIDO ENTREGADOS
+        =============================================*/
         $tabla = "pedido";
         $item = "Fecha_Compromiso";
-        $pedidos = ControladorPedidos::ctrTraerRegistrosDescendentes($tabla, $item);
+        $item2 = "Avance_Estado";
+        $valor = "90";
+        $operador = "non-equal";
+        $pedidos = ControladorPedidos::ctrTraerRegistrosAscendentes($tabla, $item, $item2, $valor, $operador);
 
         foreach ($pedidos as $key => $value) :
+
+            if ( $key+1 == count($pedidos) ) { $secuenciaPedidosImpresos = $key; }
 
             $fechaEntrega = $value["Fecha_Entrega"];
             $fechaCompromiso = $value["Fecha_Compromiso"];
@@ -35,13 +44,18 @@ $fechaActual = date('Y-m-d');
             $item = "Orden";
             $estados = ControladorPedidos::ctrTraerEstadoPedido($tabla, $idPedido, $item);
 
+            
             $orden = $estados[0]["Orden"];
             $estado = $estados[0]["Nombre_Estatus"];
+
+            $user = ControladorPedidos::ctrTraerUsuarioPedido($idPedido, 1);
+            $usuario = $user[0]["Nombre_Usuario"];
 
         ?>
             <tr>
                 <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $key + 1; ?></td>
                 <td><?php echo $value["Id_Pedido"]; ?></td>
+                <td><?php echo $usuario; ?></td>
                 <td><?php echo $value["Nombre_Cliente"]; ?></td>
                 <td><?php echo strftime("%A, %d de %B del %Y a las %r", strtotime($value["Fecha_Inicio"])); ?></td>
                 <td>
@@ -96,18 +110,17 @@ $fechaActual = date('Y-m-d');
                 </td>
                 <td>
                     <?php
+                    # Imprimir el SPAN oculto ayudará a acomodar los pedidos de forma Ascendente o Descendente al aplicar el filtro con el DataTable en la Columna de Estado
                     if ($orden == 1 || $orden == 8) :
-                        echo '<span class="badge bg-primary" style="font-size:1rem;">' . $estado . '</span>';
+                        echo '<span class="badge bg-primary" style="font-size:1rem;"><span class="d-none">('.$orden.')</span>' . $estado . '</span>';
                     elseif ($orden == 2 || $orden == 7) :
-                        echo '<span class="badge bg-success" style="font-size:1rem;">' . $estado . '</span>';
+                        echo '<span class="badge bg-success" style="font-size:1rem;"><span class="d-none">('.$orden.')</span>' . $estado . '</span>';
                     elseif ($orden == 3 || $orden == 6) :
-                        echo '<span class="badge bg-danger" style="font-size:1rem;">' . $estado . '</span>';
+                        echo '<span class="badge bg-danger" style="font-size:1rem;"><span class="d-none">('.$orden.')</span>' . $estado . '</span>';
                     elseif ($orden == 4) :
-                        echo '<span class="badge bg-indigo" style="font-size:1rem;">' . $estado . '</span>';
+                        echo '<span class="badge bg-indigo" style="font-size:1rem;"><span class="d-none">('.$orden.')</span>' . $estado . '</span>';
                     elseif ($orden == 5) :
-                        echo '<span class="badge bg-navy" style="font-size:1rem;">' . $estado . '</span>';
-                    elseif ($orden == 9) :
-                        echo '<span class="badge bg-maroon" style="font-size:1rem;">' . $estado . '</span>';
+                        echo '<span class="badge bg-navy" style="font-size:1rem;"><span class="d-none">('.$orden.')</span>' . $estado . '</span>';
                     endif;
                     ?>
                 </td>
@@ -150,6 +163,112 @@ $fechaActual = date('Y-m-d');
                     </td>
                 <?php endif; ?>
             </tr>
-        <?php endforeach ?>
+        <?php endforeach; ?>
+
+        <?php
+        /*=============================================
+        IMPRIMIR PEDIDOS QUE YA FUERON ENTREGADOS
+        =============================================*/
+        $tabla = "pedido";
+        $item = "Fecha_Inicio";
+        $item2 = "Avance_Estado";
+        $valor = "90";
+        $operador = "equal";
+        $pedidos2 = ControladorPedidos::ctrTraerRegistrosAscendentes($tabla, $item, $item2, $valor, $operador);
+
+        foreach ($pedidos2 as $key2 => $value2) :
+
+            // SUMAR UNO A LA SECUENCIA DE PEDIDOS
+            $secuenciaPedidosImpresos++;
+
+            $fechaEntrega = $value2["Fecha_Entrega"];
+            $fechaCompromiso = $value2["Fecha_Compromiso"];
+
+            $tabla = "actualizaciones_pedido";
+            $idPedido = $value2["Id_Pedido"];
+            $item = "Orden";
+            $estados = ControladorPedidos::ctrTraerEstadoPedido($tabla, $idPedido, $item);
+
+            $orden = $estados[0]["Orden"];
+            $estado = $estados[0]["Nombre_Estatus"];
+
+            $user = ControladorPedidos::ctrTraerUsuarioPedido($idPedido, 1);
+            $usuario = $user[0]["Nombre_Usuario"];
+
+        ?>
+            <tr>
+                <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $secuenciaPedidosImpresos + 1; ?></td>
+                <td><?php echo $value2["Id_Pedido"]; ?></td>
+                <td><?php echo $usuario; ?></td>
+                <td><?php echo $value2["Nombre_Cliente"]; ?></td>
+                <td><?php echo strftime("%A, %d de %B del %Y a las %r", strtotime($value2["Fecha_Inicio"])); ?></td>
+                <td>
+                    <?php
+                    // echo strftime("%A, %d de %B del %Y", strtotime($value["Fecha_Compromiso"])) . "<br>"; 
+
+                    if ($fechaEntrega != null && $fechaEntrega != "") :
+
+                        $date1 = new DateTime($fechaEntrega);
+                        $date2 = new DateTime($fechaCompromiso);
+
+                        if ($date1 > $date2) :
+                            # Entregado con dias de retraso
+                            echo '<span class="badge bg-warning" style="font-size:1rem;">Entregado</span>';
+                        else :
+                            # Entregado en tiempo
+                            echo '<span class="badge bg-maroon" style="font-size:1rem;">Entregado</span>';
+                        endif;
+
+                    endif;
+                    ?>
+                </td>
+                <td>
+                    <?php
+                    # Imprimir el SPAN oculto ayudará a acomodar los pedidos de forma Ascendente o Descendente al aplicar el filtro con el DataTable en la Columna de Estado
+                    if ($orden == 9) :
+                        echo '<span class="badge bg-maroon" style="font-size:1rem;"><span class="d-none">('.$orden.')</span>' . $estado . '</span>';
+                    endif;
+                    ?>
+                </td>
+                <?php if (intval($permisosLogistica["R"]) == 1 || intval($permisosPedidos["R"]) == 1 || intval($permisosPedidos["U"]) == 1 || intval($permisosPedidos["D"]) == 1) : ?>
+                    <td>
+                        <div class="btn-group">
+
+                            <?php
+                            /* PERMISO PARA CONSULTAR LOGISTICA POR PEDIDO
+                        -------------------------------------------------- */
+                            if (intval($permisosLogistica["R"]) == 1) :
+                            ?>
+                                <button class="btn bg-navy btnVerLogisticaPedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerLogisticaPedido"><i class="fas fa-shipping-fast"></i></button>
+                            <?php endif; ?>
+
+                            <?php
+                            /* PERMISO PARA VER DETALLES DEL PEDIDO
+                        -------------------------------------------------- */
+                            if (intval($permisosPedidos["R"]) == 1) :
+                            ?>
+                                <button class="btn btn-success btnVerDetallePedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalVerDetallePedido"><i class="fas fa-eye text-white"></i></button>
+                            <?php endif; ?>
+
+                            <?php
+                            /* PERMISO PARA ACTUALIZAR DETALLES DEL PEDIDO
+                        -------------------------------------------------- */
+                            if (intval($permisosPedidos["U"]) == 1) :
+                            ?>
+                                <button class="btn btn-warning btnEditarPedido" idPedido="<?php echo $idPedido; ?>" data-toggle="modal" data-target="#modalEditPedido"><i class="fas fa-edit text-white"></i></button>
+                            <?php endif; ?>
+
+                            <?php
+                            /* PERMISO PARA ELIMINAR PEDIDO
+                        -------------------------------------------------- */
+                            if (intval($permisosPedidos["D"]) == 1) :
+                            ?>
+                                <button class="btn btn-danger btnEliminarPedido" idPedido="<?php echo $idPedido; ?>"><i class="fas fa-trash-alt text-white"></i></button>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                <?php endif; ?>
+            </tr>
+        <?php endforeach; ?>
     </tbody>
 </table>

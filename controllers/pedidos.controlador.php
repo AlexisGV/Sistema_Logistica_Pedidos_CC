@@ -36,10 +36,9 @@ class ControladorPedidos
     /*=========================================================
     TRAER REGISTROS DE FORMA DESCENDENTE
     =========================================================*/
-    static public function ctrTraerRegistrosDescendentes($tabla, $item)
+    static public function ctrTraerRegistrosAscendentes($tabla, $item, $item2, $val2, $operador)
     {
-
-        $consulta = ModeloPedidos::mdlTraerRegistrosDescendentes($tabla, $item);
+        $consulta = ModeloPedidos::mdlTraerRegistrosAscendentes($tabla, $item, $item2, $val2, $operador);
         return $consulta;
     }
 
@@ -50,6 +49,18 @@ class ControladorPedidos
     {
         $estadosPedido = ModeloPedidos::mdlTraerEstadoPedido($tabla, $idPedido, $itemOrden);
         return $estadosPedido;
+    }
+    
+    /*=============================================
+    SELECCIONAR USUARIO QUE LEVANTO EL PEDIDO
+    =============================================*/
+    static public function ctrTraerUsuarioPedido($idPedido, $orden)
+    {
+        $tabla = "actualizaciones_pedido";
+        
+        $usuario = ModeloPedidos::mdlTraerUsuarioPedido($tabla, $idPedido, $orden);
+
+        return $usuario;
     }
 
     /*=========================================================
