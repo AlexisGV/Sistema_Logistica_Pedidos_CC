@@ -21,9 +21,13 @@
                 <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $key + 1; ?></td>
                 <td>
                     <?php if ($value["Foto_Acabado"] != "") : ?>
-                        <img src="<?php echo $value["Foto_Acabado"]; ?>" alt="" class="img-thumbnail p-0" style="width: 50px;">
+                        <a href="<?php echo $value["Foto_Acabado"]; ?>" data-toggle="lightbox" data-max-width="600" data-title="<?php echo $value["Acabado"]; ?>">
+                            <img src="<?php echo $value["Foto_Acabado"]; ?>" alt="" class="img-thumbnail p-0" style="width: 50px;">
+                        </a>
                     <?php else : ?>
-                        <img src="views/img/Acabados/defaultAcabado.png" alt="" class="img-thumbnail p-0" style="width: 50px;">
+                        <a href="views/img/Acabados/defaultAcabado.png" data-toggle="lightbox" data-max-width="600" data-title="<?php echo $value["Acabado"]; ?>" data-footer="Sin imagen disponible">
+                            <img src="views/img/Acabados/defaultAcabado.png" alt="" class="img-thumbnail p-0" style="width: 50px;">
+                        </a>
                     <?php endif ?>
                 </td>
                 <td><?php echo $value["Acabado"]; ?></td>

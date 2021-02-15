@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="views/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="views/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Ekko LightBox -->
+  <link rel="stylesheet" href="views/plugins/ekko-lightbox/ekko-lightbox.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="views/dist/css/adminlte.css">
   <!-- Google Font: Source Sans Pro -->
@@ -112,6 +114,8 @@ endif
   <script src="views/plugins/moment/moment-with-locales.min.js"></script>
   <!-- InputMask -->
   <script src="views/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+  <!-- Ekko Lightbox -->
+  <script src="views/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- DataTables -->

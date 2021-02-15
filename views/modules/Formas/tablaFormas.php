@@ -21,9 +21,13 @@
                 <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $key + 1; ?></td>
                 <td>
                     <?php if ($value["Foto_Forma"] != "") : ?>
-                        <img src="<?php echo $value["Foto_Forma"]; ?>" alt="" class="img-thumbnail p-0" style="width: 50px;">
+                        <a href="<?php echo $value["Foto_Forma"]; ?>" data-toggle="lightbox" data-max-width="600" data-title="<?php echo $value["Forma"]; ?>">
+                            <img src="<?php echo $value["Foto_Forma"]; ?>" alt="" class="img-thumbnail p-0" style="width: 50px;">
+                        </a>
                     <?php else : ?>
-                        <img src="views/img/Formas/defaultForma.png" alt="" class="img-thumbnail p-0" style="width: 50px;">
+                        <a href="views/img/Formas/defaultForma.png" data-toggle="lightbox" data-max-width="600" data-title="<?php echo $value["Forma"]; ?>" data-footer="Sin imagen disponible">
+                            <img src="views/img/Formas/defaultForma.png" alt="" class="img-thumbnail p-0" style="width: 50px;">
+                        </a>
                     <?php endif ?>
                 </td>
                 <td><?php echo $value["Forma"]; ?></td>

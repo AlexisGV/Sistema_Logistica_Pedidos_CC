@@ -74,3 +74,11 @@ FECHAS
 $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
 //Money Euro
 $('[data-mask]').inputmask()
+
+/*=============================================
+EKKO LIGHTBOX
+=============================================*/
+$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});
