@@ -11,7 +11,7 @@ $fechaActual = date('Y-m-d');
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">N° Pedido</th>
             <?php if (intval($permisosAsignacion["U"]) == 1) : ?>
-                <th scope="col">Estado</th>
+                <th scope="col">Responsable</th>
             <?php endif; ?>
         </tr>
     </thead>

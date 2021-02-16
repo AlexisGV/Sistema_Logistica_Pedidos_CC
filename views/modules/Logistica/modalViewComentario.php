@@ -31,7 +31,7 @@ MODAL - VISUALIZAR COMENTARIO
             <!-- PIE DEL MODAL
             -------------------------------------------------- -->
             <div class="modal-footer" style="border-top: #001f3f 1px solid;">
-                <button type="button" class="btn btn-danger closeModalViewComentario" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger closeModalViewComentario" data-dismiss="modal">Cerrar</button>
             </div>
             <!-- FIN PIE DEL MODAL
             -------------------------------------------------- -->

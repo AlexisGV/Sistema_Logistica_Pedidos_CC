@@ -351,7 +351,7 @@ $(document).on("click", ".btnViewComentario", function(){
 
             $("#viewIdPedidoForMC").html(idPedido);
             $("#comentarioPedido").text(respuesta["Comentario"]);
-            $("#autorComentario").html(respuesta["Nombre_Usuario"]+' <cite title="'+respuesta["Tipo_User"]+'">'+respuesta["Tipo_User"]+'</cite>');
+            $("#autorComentario").html(respuesta["Nombre_Usuario"]+' <cite title="'+respuesta["Tipo_User"]+'"> | '+respuesta["Tipo_User"]+'</cite>');
         }
     });
 
