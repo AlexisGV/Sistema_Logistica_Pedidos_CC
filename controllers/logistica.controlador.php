@@ -54,7 +54,7 @@ class ControladorLogistica
     static public function ctrActualizarEstadoPedido($tabla, $idPedido, $orden, $avance, $usuario)
     {
         #Establecer región para la fecha y hora
-        setlocale(LC_ALL, "spanish.utf8");
+        setlocale(LC_ALL, "es_MX.UTF-8");
         date_default_timezone_set('UTC');
         date_default_timezone_set("America/Mexico_City");
 
