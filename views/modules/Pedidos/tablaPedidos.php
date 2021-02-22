@@ -213,10 +213,10 @@ $fechaActual = date('Y-m-d');
 
                         if ($date1 > $date2) :
                             # Entregado con dias de retraso
-                            echo '<span class="badge bg-warning" style="font-size:1rem;">Entregado</span>';
+                            echo '<span class="badge bg-warning" style="font-size:1rem;"><span class="d-none">(22)</span>Entregado</span>';
                         else :
                             # Entregado en tiempo
-                            echo '<span class="badge bg-maroon" style="font-size:1rem;">Entregado</span>';
+                            echo '<span class="badge bg-maroon" style="font-size:1rem;"><span class="d-none">(22)</span>Entregado</span>';
                         endif;
 
                     endif;
