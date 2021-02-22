@@ -367,7 +367,17 @@ $(document).on("click", ".btnActualizarEstado", function () {
         numOrden = $(this).attr("ordenEstado"),
         avance = $(this).attr("avanceEstado");
 
-    var filaPedido = $(this).parent().parent().parent();
+    /* OBTENER FILA A ELIMINAR
+    -------------------------------------------------- */
+    var table = $(this).closest('table').DataTable();  
+    var filaPedido;
+
+    if($(this).closest('table').hasClass("collapsed")) {
+        var child = $(this).parents("tr.child");
+        filaPedido = $(child).prevAll(".parent");
+    } else {
+        filaPedido = $(this).parents('tr');
+    }
 
     var textModulo = "";
     var titulo = "";
@@ -435,7 +445,7 @@ $(document).on("click", ".btnActualizarEstado", function () {
                     // console.log(respuesta);
 
                     if (respuesta == "ok") {
-                        filaPedido.remove();
+                        table.row(filaPedido).remove().draw();
 
                         swal({
                             title: "¡Actualización exitosa! ¿Agregar comentario?",
@@ -479,16 +489,26 @@ $(document).on("click", ".btnActualizarEstado", function () {
 /*=============================================
 ACTUALIZAR ESTADO DE PEDIDO - ASIGNAR USUARIO
 =============================================*/
-$(document).on("change", ".btnAsignarUsuario", function () {
-    var campo = $(this),
-        idUsuario = $(this).val(),
-        data = $(this).select2('data');
+$(document).on("click", ".btnAsignarUsuario", function () {
+    var campo = $(this).parent().children(".optionResponsable").children(),
+        idUsuario = $(this).parent().children(".optionResponsable").children().val(),
+        data = $(this).parent().children(".optionResponsable").children(".responsable").select2('data');
         usuario = data[0].text,
         idPedido = $(this).attr("idPedido"),
         numOrden = $(this).attr("ordenEstado"),
         avance = $(this).attr("avanceEstado");
 
-    var filaPedido = $(this).parent().parent().parent();
+        /* OBTENER FILA A ELIMINAR
+        -------------------------------------------------- */
+        var table = $(this).closest('table').DataTable();  
+        var filaPedido;
+
+        if($(this).closest('table').hasClass("collapsed")) {
+            var child = $(this).parents("tr.child");
+            filaPedido = $(child).prevAll(".parent");
+        } else {
+            filaPedido = $(this).parents('tr');
+        }
 
     // Evaluar si el usaurio esta vacio para poder actualizar el estado
     if (idUsuario != null && idUsuario != "") {
@@ -533,7 +553,7 @@ $(document).on("change", ".btnAsignarUsuario", function () {
                         // console.log(respuesta);
 
                         if (respuesta == "ok") {
-                            filaPedido.remove();
+                            table.row(filaPedido).remove().draw();
 
                             swal({
                                 title: "¡Actualización exitosa! ¿Agregar comentario?",
@@ -572,6 +592,14 @@ $(document).on("change", ".btnAsignarUsuario", function () {
             }
         });
 
+    } else {
+        swal({
+            title: "¡Selecciona un responsable!",
+            text: "Debes elegir un usuario de la lista al cual le deseas asignar el pedido \"" + idPedido + "\"",
+            icon: "error",
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+        });
     }
 });
 

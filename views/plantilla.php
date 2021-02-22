@@ -27,6 +27,10 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- SweetAlert2 -->
   <script src="views/plugins/sweetalert2/sweetalert.min.js"></script>
+  <!-- jQuery -->
+  <script src="views/plugins/jquery/jquery.min.js"></script>
+  <script src="views/plugins/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+  <!-- Hoja de estilo de la plantilla -->
   <link rel="stylesheet" href="views/css/plantilla.css">
 </head>
 
@@ -99,9 +103,7 @@ endif
   <!--=============================================
   LIBRERIAS DE JAVASCRIPT
   =============================================-->
-  <!-- jQuery -->
-  <script src="views/plugins/jquery/jquery.min.js"></script>
-  <script src="views/plugins/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+  
   <!-- jQuery UI 1.11.4 -->
   <script src="views/plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- jQuery Number -->

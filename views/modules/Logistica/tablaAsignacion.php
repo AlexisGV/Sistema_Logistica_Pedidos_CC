@@ -5,7 +5,7 @@ date_default_timezone_set("America/Mexico_City");
 $fechaActual = date('Y-m-d');
 ?>
 
-<table class="table table-hover table-striped text-center tablas dt-responsive">
+<table id="tablaActualizarPedidos" class="table table-hover table-striped text-center tablas dt-responsive">
     <thead class="thead-dark">
         <tr>
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
@@ -28,8 +28,8 @@ $fechaActual = date('Y-m-d');
             $idPedido = $value["Id_Pedido"];
             $avanceActual = $value["Avance_Estado"];
         ?>
-            <tr>
-                <td scope="row" style="width: 3px; max-width: 8px;">1</td>
+            <tr id="filaPedido<?php echo $idPedido ?>">
+                <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $key+1 ?></td>
                 <td>
                     <span><?php echo $value["Id_Pedido"] ?></span><br>
                     <?php if (intval($permisosAsignacion["R"]) == 1) : ?>
@@ -69,8 +69,8 @@ $fechaActual = date('Y-m-d');
                 </td>
                 <?php if (intval($permisosAsignacion["U"]) == 1) : ?>
                     <td>
-                        <div class="form-group">
-                            <select name="ingResponsable" class="form-control select2 btnAsignarUsuario" data-placeholder="Responsable ..." idPedido="<?php echo $idPedido; ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($avanceActual) + 10; ?>">
+                        <div class="form-group optionResponsable">
+                            <select name="ingResponsable" class="form-control select2 responsable" data-placeholder="Responsable ...">
                                 <option></option>
                                 <?php
                                 $usuarios = ControladorUsuarios::ctrTraerUsuariosParaAsignar();
@@ -80,6 +80,14 @@ $fechaActual = date('Y-m-d');
                                 <?php endforeach; ?>
                             </select>
                         </div>
+                        <?php echo '<script> 
+                                        $( document ).ready(function() {
+                                            if ( screen.width <= 758 ) {
+                                                $(".responsable:last").select2();
+                                            }
+                                        });
+                                    </script>' ?>
+                        <button type="button" class="btn btn-sm btn-primary btnAsignarUsuario" idPedido="<?php echo $idPedido; ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($avanceActual) + 10; ?>">Asignar responsable</button>
                         <?php
                         $comentarioPedido = ControladorLogistica::ctrTraerComentario($value["Id_Pedido"], $ordenEstado);
 
