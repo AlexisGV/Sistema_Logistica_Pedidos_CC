@@ -26,7 +26,7 @@ $fechaActual = date('Y-m-d');
         foreach ($pedidos as $key => $value) :
         ?>
             <tr>
-                <td scope="row" style="width: 3px; max-width: 8px;">1</td>
+                <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $key+1 ?></td>
                 <td>
                     <span><?php echo $value["Id_Pedido"] ?></span><br>
                     <?php if (intval($permisosRecoleccion["R"]) == 1) :  ?>

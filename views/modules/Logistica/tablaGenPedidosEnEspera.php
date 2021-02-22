@@ -24,7 +24,7 @@ $fechaActual = date('Y-m-d');
         foreach ($pedidos as $key => $value) :
         ?>
             <tr>
-                <td scope="row" style="width: 3px; max-width: 8px;">1</td>
+                <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $key+1 ?></td>
                 <td>
                     <span><?php echo $value["Id_Pedido"]; ?></span><br>
                     <button class="btn btn-sm bg-indigo my-1 btnVerDetallePedidoParaLogistica" idPedido="<?php echo $value["Id_Pedido"]; ?>" data-toggle="modal" data-target="#modalVerDetallePedido">Ver detalles</button><br>
