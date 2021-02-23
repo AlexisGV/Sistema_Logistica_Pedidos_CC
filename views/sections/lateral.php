@@ -71,7 +71,7 @@
                                 </p>
                             </a>
 
-                        <?php endif ?>
+                        <?php endif; ?>
 
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
@@ -86,7 +86,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Levantar pedido</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -101,7 +101,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Administrar pedidos</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -116,7 +116,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Entrega final</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                         </ul>
@@ -143,7 +143,7 @@
                                 </p>
                             </a>
 
-                        <?php endif ?>
+                        <?php endif; ?>
 
                         <ul class="nav nav-treeview">
                             <li class="nav-item has-treeview">
@@ -164,7 +164,7 @@
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
 
@@ -178,7 +178,7 @@
                                                 <i class="far fa-dot-circle nav-icon"></i>
                                                 <p>En taller</p>
                                             </a>
-                                        <?php endif ?>
+                                        <?php endif; ?>
                                     </li>
                                     <li class="nav-item">
 
@@ -192,7 +192,7 @@
                                                 <i class="far fa-dot-circle nav-icon"></i>
                                                 <p>En espera</p>
                                             </a>
-                                        <?php endif ?>
+                                        <?php endif; ?>
                                     </li>
                                     <li class="nav-item">
 
@@ -206,7 +206,7 @@
                                                 <i class="far fa-dot-circle nav-icon"></i>
                                                 <p>En producción</p>
                                             </a>
-                                        <?php endif ?>
+                                        <?php endif; ?>
                                     </li>
                                 </ul>
 
@@ -223,7 +223,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Recolección de pedidos</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -238,7 +238,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Descarga en taller</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -253,7 +253,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Asignación de pedidos</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -268,7 +268,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Pedidos en espera</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -283,7 +283,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Producción de pedidos</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -298,7 +298,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Recolección en taller</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -313,7 +313,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Descarga en tienda</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                         </ul>
@@ -340,7 +340,7 @@
                                 </p>
                             </a>
 
-                        <?php endif ?>
+                        <?php endif; ?>
 
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
@@ -355,7 +355,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Usuarios</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -370,7 +370,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Roles de usuario</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                         </ul>
@@ -397,7 +397,7 @@
                                 </p>
                             </a>
 
-                        <?php endif ?>
+                        <?php endif; ?>
 
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
@@ -412,7 +412,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Abacados</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -427,7 +427,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Cortes</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -442,7 +442,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Formas</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                             <li class="nav-item">
@@ -457,7 +457,7 @@
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>Marcas</p>
                                     </a>
-                                <?php endif ?>
+                                <?php endif; ?>
 
                             </li>
                         </ul>
@@ -614,7 +614,7 @@
                         </ul>
                     </li>
 
-                <?php endif ?>
+                <?php endif; ?>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
