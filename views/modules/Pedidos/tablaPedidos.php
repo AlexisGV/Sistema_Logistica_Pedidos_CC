@@ -83,6 +83,9 @@ $fechaActual = date('Y-m-d');
                         $diff = $date1->diff($date2);
                         $dias = $diff->days;
 
+                        # IMPRIME EL NUMERO DEL REGISTRO PARA PODER ORDENAR AL PULSAR SOBRE LA COLUMNA "DIAS RESTANTES"
+                        echo '<span class="d-none">'. ($key + 1) .' - </span>';
+
                         if ($dias == 0) {
                             echo '<span class="badge bg-navy" style="font-size:1rem;">Hoy se entrega</span>';
                         } else {
@@ -213,10 +216,11 @@ $fechaActual = date('Y-m-d');
 
                         if ($date1 > $date2) :
                             # Entregado con dias de retraso
-                            echo '<span class="badge bg-warning" style="font-size:1rem;"><span class="d-none">(22)</span>Entregado</span>';
+                            # $secuenciaPedidosImpresos - IMPRIME EL NUMERO DEL REGISTRO PARA PODER ORDENAR AL PULSAR SOBRE LA COLUMNA "DIAS RESTANTES"
+                            echo '<span class="badge bg-warning" style="font-size:1rem;"><span class="d-none">'. ($secuenciaPedidosImpresos + 1) .' - </span>Entregado</span>';
                         else :
                             # Entregado en tiempo
-                            echo '<span class="badge bg-maroon" style="font-size:1rem;"><span class="d-none">(22)</span>Entregado</span>';
+                            echo '<span class="badge bg-maroon" style="font-size:1rem;"><span class="d-none">'. ($secuenciaPedidosImpresos + 1) .' - </span>Entregado</span>';
                         endif;
 
                     endif;
