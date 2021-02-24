@@ -34,7 +34,7 @@ $fechaActual = date('Y-m-d');
 
         foreach ($pedidos as $key => $value) :
 
-            if ( $key+1 == count($pedidos) ) { $secuenciaPedidosImpresos = $key; }
+            if ( $key+1 == count($pedidos) ) { $secuenciaPedidosImpresos = $key+1; }
 
             $fechaEntrega = $value["Fecha_Entrega"];
             $fechaCompromiso = $value["Fecha_Compromiso"];
@@ -200,7 +200,7 @@ $fechaActual = date('Y-m-d');
 
         ?>
             <tr>
-                <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $secuenciaPedidosImpresos + 1; ?></td>
+                <td scope="row" style="width: 3px; max-width: 8px;"><?php echo $secuenciaPedidosImpresos; ?></td>
                 <td><?php echo $value2["Id_Pedido"]; ?></td>
                 <td><?php echo $usuario; ?></td>
                 <td><?php echo $value2["Nombre_Cliente"]; ?></td>
