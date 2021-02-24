@@ -32,8 +32,8 @@ class FormularioIngreso
                     $_SESSION["imagenUsuario"] = $ingreso["Foto_User"];
 
                     if (isset($_POST["remember"])) {
-                        setcookie("user_ck", $_POST["ingresoCorreo"], time() + 604800);
-                        setcookie("pass_ck", $encriptarContraseña, time() + 604800);
+                        setcookie("user_ck", $_POST["ingresoCorreo"], time() + 183 * 24 * 60 * 60);
+                        setcookie("pass_ck", $encriptarContraseña, time() + 183 * 24 * 60 * 60);
                     }
 
                     echo
