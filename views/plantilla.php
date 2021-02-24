@@ -52,7 +52,18 @@ endif;
 </head>
 
 
-<?php if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok") : ?>
+<?php if ( ( isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok" ) || ( isset($_COOKIE["user_ck"]) && isset($_COOKIE["user_ck"]) != "" ) ) : ?>
+
+<?php
+  
+  if ( ( isset($_COOKIE["user_ck"]) && isset($_COOKIE["user_ck"]) != "" ) ) {
+
+    $sesionesDeUsuario = new FormularioIngreso();
+    $sesionesDeUsuario->establecerSesiones($_COOKIE["user_ck"], $_COOKIE["pass_ck"]);
+
+  }
+  
+?>
 
   <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
 

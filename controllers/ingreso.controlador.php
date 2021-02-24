@@ -112,4 +112,35 @@ class FormularioIngreso
             }
         }
     }
+
+    static public function establecerSesiones( $usuario, $password )
+    {
+        $tabla = "usuario";
+        $item = "Correo";
+        $item2 = "Apodo";
+        $correoUser = $usuario;
+        $passEncrypt = $password;
+
+        $ingreso = ModeloIngreso::mdlIngreso($tabla, $item, $item2, $correoUser);
+
+        if ($ingreso) {
+
+            if (($ingreso["Correo"] == $correoUser || $ingreso["Apodo"] == $correoUser) && $ingreso["Password"] == $passEncrypt) {
+
+                // echo "<pre>"; print_r($ingreso); echo "</pre>";
+                $_SESSION["sesionActiva"] = "ok";
+                $_SESSION["idUsuario"] = $ingreso["Id_Usuario"];
+                $_SESSION["nombreUsuario"] = $ingreso["Nombre_Usuario"];
+                $_SESSION["tipoUsuario"] = $ingreso["Id_Tipo_User1"];
+                $_SESSION["tipoUsuarioPorNombre"] = $ingreso["Tipo_User"];
+                $_SESSION["imagenUsuario"] = $ingreso["Foto_User"];
+            
+            } else {
+                echo '<script> window.location = "salir"; </script>';
+            }
+
+        } else {
+            echo '<script> window.location = "salir"; </script>';
+        }
+    }
 }
