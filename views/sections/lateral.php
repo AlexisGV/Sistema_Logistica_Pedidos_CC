@@ -463,7 +463,7 @@
                         </ul>
                     </li>
 
-                <?php else :  ?>
+                <?php else : ?>
 
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link active">

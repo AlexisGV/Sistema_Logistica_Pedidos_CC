@@ -1,3 +1,20 @@
+<?php
+# VALIDACION PARA CERRAR SESION
+# Esto se realiza mucho antes de imprimir la plantilla para evitar problemas sobre modificacion del header
+
+// Evaluar si esta la sesion iniciada
+if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok") :
+  
+  // Evaluar si pulso sobre el boton de cerrar sesion
+  if (isset($_GET["pagina"]) && $_GET["pagina"] == "salir") {
+  
+    // Llamar la ejecución del archivo
+    include "pages/" . $_GET["pagina"] . ".php";
+    
+  }
+endif;
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -66,8 +83,7 @@
           $_GET["pagina"] == "produccionPedidos" ||
           $_GET["pagina"] == "transportarPedidos" ||
           $_GET["pagina"] == "descargaTienda" ||
-          $_GET["pagina"] == "entregarPedidos" ||
-          $_GET["pagina"] == "salir"
+          $_GET["pagina"] == "entregarPedidos"
         ) {
 
           include "pages/" . $_GET["pagina"] . ".php";
@@ -97,13 +113,13 @@ else :
     include "pages/ingreso.php";
   }
 
-endif
+endif;
   ?>
 
   <!--=============================================
   LIBRERIAS DE JAVASCRIPT
   =============================================-->
-  
+
   <!-- jQuery UI 1.11.4 -->
   <script src="views/plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- jQuery Number -->
