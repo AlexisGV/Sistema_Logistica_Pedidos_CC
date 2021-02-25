@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="mainProduct">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="levantarPedido">Inicio</a></li>
                             <li class="breadcrumb-item active">Página de error 404</li>
                         </ol>
                     </div>
@@ -44,7 +44,7 @@
                             No hemos podido encontrar la página que esta solicitando.
                             Sin embargo, puedes intentar
                             <?php if (isset($_SESSION["sesionActiva"])) : ?>
-                                <a href="mainProduct">volver al inicio</a>
+                                <a href="levantarPedido">volver al inicio</a>
                             <?php else : ?>
                                 <a href="ingreso">volver al inicio</a>
                             <?php endif ?>
