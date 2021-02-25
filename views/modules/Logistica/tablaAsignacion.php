@@ -70,22 +70,22 @@ $fechaActual = date('Y-m-d');
                 <?php if (intval($permisosAsignacion["U"]) == 1) : ?>
                     <td>
                         <div class="form-group optionResponsable">
-                            <select name="ingResponsable" class="form-control select2 responsable" data-placeholder="Responsable ...">
+                            <select name="ingResponsable" class="form-control select2 responsable<?php echo $key; ?>" data-placeholder="Responsable ...">
                                 <option></option>
                                 <?php
                                 $usuarios = ControladorUsuarios::ctrTraerUsuariosParaAsignar();
-                                foreach ($usuarios as $key => $value2) :
+                                foreach ($usuarios as $key2 => $value2) :
                                 ?>
                                     <option value="<?php echo $value2["Id_Usuario"]; ?>"><?php echo $value2["Nombre_Usuario"]; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <?php echo '<script> 
-                                        $( document ).ready(function() {
+                                        $(function () {
                                             if ( screen.width <= 758 ) {
-                                                $(".responsable:last").select2();
+                                                $(".responsable'.$key.':last").select2();
                                             }
-                                        });
+                                        })
                                     </script>' ?>
                         <button type="button" class="btn btn-sm btn-primary btnAsignarUsuario" idPedido="<?php echo $idPedido; ?>" ordenEstado="<?php echo $ordenEstado ?>" avanceEstado="<?php echo intval($avanceActual) + 10; ?>">Asignar responsable</button>
                         <?php

@@ -491,9 +491,8 @@ ACTUALIZAR ESTADO DE PEDIDO - ASIGNAR USUARIO
 =============================================*/
 $(document).on("click", ".btnAsignarUsuario", function () {
     var campo = $(this).parent().children(".optionResponsable").children(),
-        idUsuario = $(this).parent().children(".optionResponsable").children().val(),
-        data = $(this).parent().children(".optionResponsable").children(".responsable").select2('data');
-        usuario = data[0].text,
+        idUsuario = campo.val(),
+        usuario = campo.find(':selected').text(),
         idPedido = $(this).attr("idPedido"),
         numOrden = $(this).attr("ordenEstado"),
         avance = $(this).attr("avanceEstado");
