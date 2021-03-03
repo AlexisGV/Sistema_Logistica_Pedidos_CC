@@ -71,7 +71,7 @@ class ControladorUsuarios
 
                 $ruta = "";
 
-                if (isset($_FILES["fotoUsuario"]["tmp_name"])) {
+                if (isset($_FILES["fotoUsuario"]["tmp_name"]) && $_FILES["fotoUsuario"]["tmp_name"] != "" ) {
 
                     echo "<pre>";
                     print_r($_FILES["fotoUsuario"]["tmp_name"]);
