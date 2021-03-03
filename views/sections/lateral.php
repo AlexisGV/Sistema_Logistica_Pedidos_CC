@@ -420,12 +420,12 @@
                                 <?php if ($_GET["pagina"] == "mainCorte") : ?>
                                     <a href="mainCorte" class="nav-link active">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Cortes</p>
+                                        <p>Cortes o procesos</p>
                                     </a>
                                 <?php else : ?>
                                     <a href="mainCorte" class="nav-link">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Cortes</p>
+                                        <p>Cortes o procesos</p>
                                     </a>
                                 <?php endif; ?>
 
@@ -600,7 +600,7 @@
                                 </a>
                                 <a href="mainCorte" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>
-                                    <p>Cortes</p>
+                                    <p>Cortes o procesos</p>
                                 </a>
                                 <a href="mainForma" class="nav-link">
                                     <i class="nav-icon far fa-circle"></i>

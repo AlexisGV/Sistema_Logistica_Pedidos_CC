@@ -180,7 +180,7 @@ class ControladorPedidos
                 $otroAcabado = "No";
             }
 
-            $descripcion = $value["Descripcion"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Corte(s): " . $cortes . " | Otro corte: " . $otroCorte . " | Acabado(s): " . $acabados . " | Otro acabado: " . $otroAcabado . " | Observación: " . $value["Observacion"];
+            $descripcion = $value["Descripcion"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Proceso(s): " . $cortes . " | Otro proceso: " . $otroCorte . " | Acabado(s): " . $acabados . " | Otro acabado: " . $otroAcabado . " | Observación: " . $value["Observacion"];
 
             array_push(
                 $productos,
@@ -272,7 +272,7 @@ class ControladorPedidos
             $observacion = "Sin observaciones";
         endif;
 
-        $descripcionProducto = $datos["titulo"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Corte(s): " . $corte . " | Otro corte: " . $otroCorte . " | Acabado(s): " . $acabado . " | Otro acabado: " . $otroAcabado . " | Observación: " . $observacion;
+        $descripcionProducto = $datos["titulo"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Proceso(s): " . $corte . " | Otro proceso: " . $otroCorte . " | Acabado(s): " . $acabado . " | Otro acabado: " . $otroAcabado . " | Observación: " . $observacion;
 
         $datosProducto += ["descripcion" => $descripcionProducto];
         $datosProducto += ["precioInicial" => $datos["precioInicial"]];
@@ -1067,7 +1067,7 @@ class ControladorPedidos
                     $otroAcabado = "No";
                 }
 
-                $descripcion = $datosPedido["Descripcion"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Corte(s): " . $cortes . " | Otro corte: " . $otroCorte . " | Acabado(s): " . $acabados . " | Otro acabado: " . $otroAcabado . " | Observación: " . $datosPedido["Observacion"];
+                $descripcion = $datosPedido["Descripcion"] . " | " . $abvMarca . ": " . $marca . " | " . $abvForma . ": " . $forma . " | Proceso(s): " . $cortes . " | Otro proceso: " . $otroCorte . " | Acabado(s): " . $acabados . " | Otro acabado: " . $otroAcabado . " | Observación: " . $datosPedido["Observacion"];
 
                 $datosProductoConPedido = array(
                     "descripcion" => $descripcion,

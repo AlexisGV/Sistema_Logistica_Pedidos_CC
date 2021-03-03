@@ -11,7 +11,7 @@ MODAL - AGREGAR ACABADO
             <!-- HEADER
             -------------------------------------------------- -->
             <div class="modal-header" style="border-top: #3C8DBC 12px solid;">
-                <h1 class="modal-title">Crear nuevo corte</h1>
+                <h1 class="modal-title">Crear nuevo corte o proceso</h1>
                 <button type="button" class="close btn text-black closeModalCorte" data-dismiss="modal">×</button>
             </div>
             <!-- FIN HEADER

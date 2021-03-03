@@ -4,7 +4,6 @@
             <th scope="col" style="width: 3px; max-width: 8px;">#</th>
             <th scope="col">Imagen</th>
             <th scope="col">Corte</th>
-            <th scope="col">Abreviación</th>
             <?php if (intval($permisosAdministrarCortes["U"]) == 1 || intval($permisosAdministrarCortes["D"]) == 1) : ?>
                 <th scope="col">Acciones</th>
             <?php endif; ?>
@@ -31,7 +30,6 @@
                     <?php endif ?>
                 </td>
                 <td><?php echo $value["Corte"]; ?></td>
-                <td><?php echo $value["Abreviacion_Corte"]; ?></td>
                 <?php if (intval($permisosAdministrarCortes["U"]) == 1 || intval($permisosAdministrarCortes["D"]) == 1) : ?>
                     <td>
                         <div class="btn-group">

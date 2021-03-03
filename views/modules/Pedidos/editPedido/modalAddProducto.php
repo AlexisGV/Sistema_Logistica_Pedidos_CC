@@ -105,7 +105,7 @@ MODAL - AGREGAR PRODUCTO
 
                     <div class="form-group col-12 col-sm-6">
                         <!-- CORTE GUARDADA EN LA BASE DE DATOS -->
-                        <label for="ingCorteProducto" class="text-warning">Corte ( <i class="fas fa-cut"></i> )</label>
+                        <label for="ingCorteProducto" class="text-warning">Corte / Proceso ( <i class="fas fa-cut"></i> )</label>
                         <select class="form-control select2" name="ingCorteProducto[]" id="ingCorteProducto" data-placeholder="Seleccione un corte" multiple="multiple">
                             <?php
                             $tabla = "corte";
@@ -123,7 +123,7 @@ MODAL - AGREGAR PRODUCTO
                         <div class="icheck-warning mt-2">
                             <input type="checkbox" name="ingCheckOtroCorteProd" id="ingCheckOtroCorteProd">
                             <label for="ingCheckOtroCorteProd">
-                                Ingresar otro corte
+                                Ingresar otro corte / proceso
                             </label>
                         </div>
                         <input type="text" class="form-control mt-2 d-none" name="ingOtroCorteProd" id="ingOtroCorteProd" placeholder="Nombre del corte">
@@ -131,7 +131,7 @@ MODAL - AGREGAR PRODUCTO
                             Este campo solo admite los siguientes caracteres especiales: (,) Comas y (.) Puntos. Y una vez habilitado no lo puedes dejar vacío.
                         </div>
                         <div class="invalid-feedback" id="errorNingunCorte">
-                            Debes seleccionar al menos un corte de la lista o bien, puedes ingresar uno que no este en la lista dando clic en la casilla para "Ingresar otro corte".
+                            Debes seleccionar al menos un corte o proceso de la lista. O bien, puedes ingresar uno que no este en la lista dando clic en la casilla para "Ingresar otro corte / proceso".
                         </div>
                     </div>
 

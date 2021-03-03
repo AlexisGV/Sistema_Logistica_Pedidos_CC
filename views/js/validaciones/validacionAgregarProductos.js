@@ -65,6 +65,8 @@ $(document).on("change", "#ingCheckOtroCorteProd", function () {
         $("#errorNingunCorte").hide();
         $("#ingOtroCorteProd").removeClass("d-none");
     } else {
+        $("#errorNingunCorte").hide();
+        $("#errorNingunCorte").hide();
         $("#ingOtroCorteProd").addClass("d-none");
     }
 });
@@ -76,6 +78,7 @@ $(document).on("change", "#ingCheckOtroAcabadoProd", function () {
         $("#errorNingunAcabado").hide();
         $("#ingOtroAcabadoProd").removeClass("d-none");
     } else {
+        $("#errorNingunAcabado").hide();
         $("#ingOtroAcabadoProd").addClass("d-none");
     }
 });
@@ -353,6 +356,52 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
 
     if (!validarExpresion($("#ingNomProducto"), expTit)) return false;
 
+    /* VALIDACION PARA LA MARCA
+    -------------------------------------------------- */
+    if ($("#ingCheckOtraMarcaProd").is(":checked")) {
+        if (!validarExpresion($("#ingOtraMarcaProd"), expOMOCObv)) return false;
+    } else{
+        if( $("#ingMarcaProducto").val() == null || $("#ingMarcaProducto").val() == "" ) {
+            $("#errorIngMarcaProducto").show();
+            return false;
+        } else {
+            $("#errorIngMarcaProducto").hide();
+        }
+    }
+
+    /* VALIDACION PARA LA FORMA
+    -------------------------------------------------- */
+    if ($("#ingCheckOtraFormaProd").is(":checked")) {
+        if (!validarExpresion($("#ingOtraFormaProd"), expOFOA)) return false;
+    } else{
+        if( $("#ingFormaProducto").val() == null || $("#ingFormaProducto").val() == "" ) {
+            $("#errorIngFormaProducto").show();
+            return false;   
+        } else {
+            $("#errorIngFormaProducto").hide();
+        }
+    }
+
+    if ($("#ingCheckOtroCorteProd").is(":checked")) {
+        if (!validarExpresion($("#ingOtroCorteProd"), expOMOCObv))
+            return false;
+    }
+
+    if ($("#ingCheckOtroAcabadoProd").is(":checked")) {
+        if (!validarExpresion($("#ingOtroAcabadoProd"), expOFOA))
+            return false;
+    }
+
+    if ( ($("#ingCorteProducto").val() == null || $("#ingCorteProducto").val() == "") && $("#ingCheckOtroCorteProd").prop("checked") == false ){
+        $("#errorNingunCorte").show();
+        return false;
+    }
+
+    if ( ($("#ingAcabadoProducto").val() == null || $("#ingAcabadoProducto").val() == "") && $("#ingCheckOtroAcabadoProd").prop("checked") == false ){
+        $("#errorNingunAcabado").show();
+        return false;
+    }
+
     // VALIDAR PRECIO INICIAL
     if ($("#ingPrecioInicial").val().match(expInt)) {
         validarExpresion($("#ingPrecioInicial"), expInt);
@@ -399,52 +448,6 @@ $(document).on("click", ".btnAñadirProducto", function (e) {
                 return false;
             }
         }
-    }
-
-    /* VALIDACION PARA LA MARCA
-    -------------------------------------------------- */
-    if ($("#ingCheckOtraMarcaProd").is(":checked")) {
-        if (!validarExpresion($("#ingOtraMarcaProd"), expOMOCObv)) return false;
-    } else{
-        if( $("#ingMarcaProducto").val() == null || $("#ingMarcaProducto").val() == "" ) {
-            $("#errorIngMarcaProducto").show();
-            return false;
-        } else {
-            $("#errorIngMarcaProducto").hide();
-        }
-    }
-
-    /* VALIDACION PARA LA FORMA
-    -------------------------------------------------- */
-    if ($("#ingCheckOtraFormaProd").is(":checked")) {
-        if (!validarExpresion($("#ingOtraFormaProd"), expOFOA)) return false;
-    } else{
-        if( $("#ingFormaProducto").val() == null || $("#ingFormaProducto").val() == "" ) {
-            $("#errorIngFormaProducto").show();
-            return false;   
-        } else {
-            $("#errorIngFormaProducto").hide();
-        }
-    }
-
-    if ($("#ingCheckOtroCorteProd").is(":checked")) {
-        if (!validarExpresion($("#ingOtroCorteProd"), expOMOCObv))
-            return false;
-    }
-
-    if ($("#ingCheckOtroAcabadoProd").is(":checked")) {
-        if (!validarExpresion($("#ingOtroAcabadoProd"), expOFOA))
-            return false;
-    }
-
-    if ( ($("#ingCorteProducto").val() == null || $("#ingCorteProducto").val() == "") && $("#ingCheckOtroCorteProd").prop("checked") == false ){
-        $("#errorNingunCorte").show();
-        return false;
-    }
-
-    if ( ($("#ingAcabadoProducto").val() == null || $("#ingAcabadoProducto").val() == "") && $("#ingCheckOtroAcabadoProd").prop("checked") == false ){
-        $("#errorNingunAcabado").show();
-        return false;
     }
 
     // VALIDAR OBSERVACION

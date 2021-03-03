@@ -42,19 +42,17 @@ class ModeloCorte
             #Verificar existencia al ingresar
             $stmt = Conexion::conectar()->prepare(
                 "SELECT * FROM $tabla
-                     WHERE REPLACE(REPLACE(REPLACE(Corte,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') OR REPLACE(REPLACE(REPLACE(Abreviacion_Corte,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:abreviacion,' ',''),'-',''),'_','')"
+                     WHERE REPLACE(REPLACE(REPLACE(Corte,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','')"
             );
             $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-            $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
         } else {
             #Verificar existencia al actualizar
             $stmt = Conexion::conectar()->prepare(
                 "SELECT * FROM $tabla
-                WHERE (REPLACE(REPLACE(REPLACE(Corte,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') OR REPLACE(REPLACE(REPLACE(Abreviacion_Corte,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:abreviacion,' ',''),'-',''),'_','')) AND Id_Corte!=:idCorte"
+                WHERE REPLACE(REPLACE(REPLACE(Corte,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') AND Id_Corte!=:idCorte"
             );
             $stmt->bindParam(":idCorte", $datos["idCorte"], PDO::PARAM_INT);
             $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-            $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
         }
 
 
@@ -75,10 +73,9 @@ class ModeloCorte
     static public function mdlCrearCorte($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Foto_Corte, Corte, Abreviacion_Corte) VALUES (:foto ,:nombre, :abreviacion)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Foto_Corte, Corte) VALUES (:foto ,:nombre)");
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return "ok";
@@ -98,13 +95,11 @@ class ModeloCorte
         $stmt = Conexion::conectar()->prepare(
             "UPDATE $tabla
             SET Foto_Corte=:foto,
-                Corte=:nombre,
-                Abreviacion_Corte=:abreviacion
+                Corte=:nombre
             WHERE Id_Corte=:idCorte"
         );
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
         $stmt->bindParam(":idCorte", $datos["idCorte"], PDO::PARAM_INT);
 
         if ( $stmt->execute() ){

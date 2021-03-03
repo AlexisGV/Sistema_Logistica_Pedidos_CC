@@ -23,8 +23,7 @@ class ControladorCorte
 
             $tabla = "corte";
             $datos = array(
-                "nombre" => $_POST["ingNomCorte"],
-                "abreviacion" => $_POST["ingAbvCorte"]
+                "nombre" => $_POST["ingNomCorte"]
             );
             $ruta = "";
 
@@ -34,7 +33,7 @@ class ControladorCorte
                 return "duplicado";
             } else {
 
-                if (isset($_FILES["ingfotoCorte"]["tmp_name"])) {
+                if (isset($_FILES["ingfotoCorte"]["tmp_name"]) && $_FILES["ingfotoCorte"]["tmp_name"] != "") {
 
                     list($ancho, $alto) = getimagesize($_FILES["ingfotoCorte"]["tmp_name"]);
                     $nuevoAncho = 512;
@@ -93,8 +92,7 @@ class ControladorCorte
             $tabla = "corte";
             $datos = array(
                 "idCorte" => $_POST["editIdCorte"],
-                "nombre" => $_POST["editNomCorte"],
-                "abreviacion" => $_POST["editAbvCorte"]
+                "nombre" => $_POST["editNomCorte"]
             );
 
             $verificarDuplicado = ModeloCorte::mdlVerificarCorte($tabla, $datos, false);
