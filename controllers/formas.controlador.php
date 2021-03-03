@@ -22,8 +22,7 @@ class ControladorForma
 
             $tabla = "forma";
             $datos = array(
-                "nombre" => $_POST["ingNomForma"],
-                "abreviacion" => $_POST["ingAbvForma"]
+                "nombre" => $_POST["ingNomForma"]
             );
             $ruta = "";
 
@@ -33,7 +32,7 @@ class ControladorForma
                 return "duplicado";
             } else {
 
-                if (isset($_FILES["ingfotoForma"]["tmp_name"])) {
+                if (isset($_FILES["ingfotoForma"]["tmp_name"]) && $_FILES["ingfotoForma"]["tmp_name"] != "" ) {
 
                     list($ancho, $alto) = getimagesize($_FILES["ingfotoForma"]["tmp_name"]);
                     $nuevoAncho = 512;
@@ -92,8 +91,7 @@ class ControladorForma
             $tabla = "forma";
             $datos = array(
                 "idForma" => $_POST["editIdForma"],
-                "nombre" => $_POST["editNomForma"],
-                "abreviacion" => $_POST["editAbvForma"]
+                "nombre" => $_POST["editNomForma"]
             );
 
             $verificarDuplicado = ModeloForma::mdlVerificarForma($tabla, $datos, false);

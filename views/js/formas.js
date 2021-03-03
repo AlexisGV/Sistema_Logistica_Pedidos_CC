@@ -67,8 +67,6 @@ $(document).on("click", ".btnEditarForma", function(){
             // Nuevos valores
             $("#editIdForma").val(respuesta["Id_Forma"]);
             $("#editNomForma").val(respuesta["Forma"]);
-            $("#editAbvForma").val(respuesta["Abreviacion_Forma"]);
-            $("#editPrecioForma").val(respuesta["Precio_Forma"]);
 
             if (respuesta["Foto_Forma"] != "" && respuesta["Foto_Forma"] != null) {
                 $(".previsualizarForma").attr("src", respuesta["Foto_Forma"]);
@@ -120,17 +118,12 @@ LIMPIAR CAMPOS - FORMULARIO AGREGAR
 $(document).on("click", ".closeModalForma", function(){
     $("#ingNomForma").val("");
     $("#ingNomForma").removeClass("is-invalid is-valid");
-    $("#ingAbvForma").val("");
-    $("#ingAbvForma").removeClass("is-invalid is-valid");
-    $("#ingAbvForma").prop("readonly", true);
-    $("#ingAbreviacionEspecialForma").prop("checked", false);
     $(".fotoForma").val("");
     $(".fotoForma").siblings(".custom-file-label").addClass("selected").html("Subir una imagen");
     $(".previsualizarForma").attr("src", "views/img/Formas/defaultForma.png");
 
     // Esconder errores
     $("#errorIngNomForma").hide();
-    $("#errorIngAbvForma").hide();
 });
 
 /*=============================================
@@ -139,15 +132,10 @@ LIMPIAR CAMPOS - FORMULARIO EDITAR
 $(document).on("click", ".closeModalEditForma", function(){
     $("#editNomForma").val("");
     $("#editNomForma").removeClass("is-invalid is-valid");
-    $("#editAbvForma").val("");
-    $("#editAbvForma").removeClass("is-invalid is-valid");
-    $("#editAbvForma").prop("readonly", true);
-    $("#editAbreviacionEspecialForma").prop("checked", false);
     $(".fotoForma").val("");
     $(".fotoForma").siblings(".custom-file-label").addClass("selected").html("Subir una imagen");
     $(".previsualizarForma").attr("src", "views/img/Formas/defaultForma.png");
 
     // Esconder errores
     $("#errorEditNomForma").hide();
-    $("#errorEditAbvForma").hide();
 });
