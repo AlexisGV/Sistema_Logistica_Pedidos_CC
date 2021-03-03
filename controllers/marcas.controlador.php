@@ -24,7 +24,7 @@ class ControladorMarca
             $datos = array( "nombre" => $_POST["ingNomMarca"] );
             $ruta = "";
 
-            $verificarDuplicado = ModeloMarca::mdlVerificarMarca($tabla, $datos);
+            $verificarDuplicado = ModeloMarca::mdlVerificarMarca($tabla, $datos, true);
 
             if ($verificarDuplicado) {
                 return "duplicado";
@@ -92,7 +92,7 @@ class ControladorMarca
                 "idMarca" => $_POST["editIdMarca"]
             );
 
-            $verificarDuplicado = ModeloMarca::mdlVerificarMarca($tabla, $datos);
+            $verificarDuplicado = ModeloMarca::mdlVerificarMarca($tabla, $datos, false);
 
             if ($verificarDuplicado) {
                 return "duplicado";

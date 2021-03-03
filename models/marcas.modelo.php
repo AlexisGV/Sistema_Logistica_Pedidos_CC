@@ -35,13 +35,24 @@ class ModeloMarca
     /*=============================================
     VERIFICAR LA EXISTENCIA DE UNA MARCA
     =============================================*/
-    static public function mdlVerificarMarca($tabla, $datos)
+    static public function mdlVerificarMarca($tabla, $datos, $bandera)
     {
-        $stmt = Conexion::conectar()->prepare(
-            "SELECT * FROM $tabla
-             WHERE REPLACE(REPLACE(REPLACE(Marca,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','')"
-        );
-        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+        if ( $bandera ) {
+            # Verificar duplicado al ingresar
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT * FROM $tabla
+                 WHERE REPLACE(REPLACE(REPLACE(Marca,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','')"
+            );
+            $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+        } else {
+            # Verificar duplicado al actualizar
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT * FROM $tabla
+                 WHERE REPLACE(REPLACE(REPLACE(Marca,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') AND Id_Marca!=:idMarca"
+            );
+            $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+            $stmt->bindParam(":idMarca", $datos["idMarca"], PDO::PARAM_INT);
+        }
 
         # Ejecutar la consulta
         $stmt->execute();

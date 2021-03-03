@@ -405,12 +405,12 @@
                                 <?php if ($_GET["pagina"] == "mainAcabado") : ?>
                                     <a href="mainAcabado" class="nav-link active">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Abacados</p>
+                                        <p>Acabados</p>
                                     </a>
                                 <?php else : ?>
                                     <a href="mainAcabado" class="nav-link">
                                         <i class="nav-icon far fa-circle"></i>
-                                        <p>Abacados</p>
+                                        <p>Acabados</p>
                                     </a>
                                 <?php endif; ?>
 

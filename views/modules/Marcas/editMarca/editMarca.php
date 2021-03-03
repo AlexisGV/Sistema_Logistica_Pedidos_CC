@@ -12,7 +12,7 @@
     </div>
     <div class="invalid-feedback" id="errorEditNomMarca">
         <ul>
-            <li>El nombre no puede contener números ni caracteres especiales.</li>
+            <li>El nombre no puede contener caracteres especiales.</li>
         </ul>
     </div>
 </div>

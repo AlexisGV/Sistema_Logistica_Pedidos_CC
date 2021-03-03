@@ -18,7 +18,7 @@ function validarExpresion(campo, expresion){
 VALIDACIONES PARA INGRESAR MARCAS (FORM)
 =============================================*/
 $(document).on("keyup", "#ingNomMarca", function () {
-    var expresion = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
+    var expresion = /^[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s]+$/;
 
     if ( validarExpresion($(this), expresion) ) {
         $("#errorIngNomMarca").hide();
@@ -28,7 +28,7 @@ $(document).on("keyup", "#ingNomMarca", function () {
 });
 
 $(document).on("submit", "#formAgregarMarca", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
+    var expresion1 = /^[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s]+$/;
 
     if ( !validarExpresion($("#ingNomMarca"), expresion1) && $("#ingNomMarca").val() != "" ){ 
         e.preventDefault();
@@ -42,7 +42,7 @@ $(document).on("submit", "#formAgregarMarca", function (e) {
 VALIDACIONES PARA EDITAR MARCAS (FORM)
 =============================================*/
 $(document).on("keyup", "#editNomMarca", function () {
-    var expresion = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
+    var expresion = /^[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s]+$/;
 
     if ( validarExpresion($(this), expresion) ) {
         $("#errorEditNomMarca").hide();
@@ -52,7 +52,7 @@ $(document).on("keyup", "#editNomMarca", function () {
 });
 
 $(document).on("submit", "#formEditarMarca", function (e) {
-    var expresion1 = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
+    var expresion1 = /^[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s]+$/;
 
     if ( !validarExpresion($("#editNomMarca"), expresion1) && $("#editNomMarca").val() != "" ){ 
         e.preventDefault();
