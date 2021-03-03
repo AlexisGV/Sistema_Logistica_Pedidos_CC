@@ -67,8 +67,6 @@ $(document).on("click", ".btnEditarAcabado", function(){
             // Nuevos valores
             $("#editIdAcabado").val(respuesta["Id_Acabado"]);
             $("#editNomAcabado").val(respuesta["Acabado"]);
-            $("#editAbvAcabado").val(respuesta["Abreviacion_Acabado"]);
-            $("#editPrecioAcabado").val(respuesta["Precio_Acabado"]);
 
             if (respuesta["Foto_Acabado"] != "" && respuesta["Foto_Acabado"] != null) {
                 $(".previsualizarAcabado").attr("src", respuesta["Foto_Acabado"]);
@@ -120,19 +118,12 @@ LIMPIAR CAMPOS - FORMULARIO AGREGAR
 $(document).on("click", ".closeModalAcabado", function(){
     $("#ingNomAcabado").val("");
     $("#ingNomAcabado").removeClass("is-invalid is-valid");
-    $("#ingAbvAcabado").val("");
-    $("#ingAbvAcabado").removeClass("is-invalid is-valid");
-    $("#ingAbvAcabado").prop("readonly", true);
-    $("#ingAbreviacionEspecial").prop("checked", false);
-    $("#ingPrecioAcabado").val("");
-    $("#ingPrecioAcabado").removeClass("is-invalid is-valid");
     $(".fotoAcabado").val("");
     $(".fotoAcabado").siblings(".custom-file-label").addClass("selected").html("Subir una imagen");
     $(".previsualizarAcabado").attr("src", "views/img/Acabados/defaultAcabado.png");
 
     // Esconder errores
     $("#errorIngNomAcabado").hide();
-    $("#errorIngAbvAcabado").hide();
 });
 
 /*=============================================
@@ -141,17 +132,10 @@ LIMPIAR CAMPOS - FORMULARIO EDITAR
 $(document).on("click", ".closeModalEditAcabado", function(){
     $("#editNomAcabado").val("");
     $("#editNomAcabado").removeClass("is-invalid is-valid");
-    $("#editAbvAcabado").val("");
-    $("#editAbvAcabado").removeClass("is-invalid is-valid");
-    $("#editAbvAcabado").prop("readonly", true);
-    $("#editAbreviacionEspecial").prop("checked", false);
-    $("#editPrecioAcabado").val("");
-    $("#editPrecioAcabado").removeClass("is-invalid is-valid");
     $(".fotoAcabado").val("");
     $(".fotoAcabado").siblings(".custom-file-label").addClass("selected").html("Subir una imagen");
     $(".previsualizarAcabado").attr("src", "views/img/Acabados/defaultAcabado.png");
 
     // Esconder errores
     $("#errorEditNomAcabado").hide();
-    $("#errorEditAbvAcabado").hide();
 });

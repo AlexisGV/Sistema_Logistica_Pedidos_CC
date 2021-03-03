@@ -24,8 +24,7 @@ class ControladorAcabado
 
             $tabla = "acabado";
             $datos = array(
-                "nombre" => $_POST["ingNomAcabado"],
-                "abreviacion" => $_POST["ingAbvAcabado"]
+                "nombre" => $_POST["ingNomAcabado"]
             );
             $ruta = "";
 
@@ -35,7 +34,7 @@ class ControladorAcabado
                 return "duplicado";
             } else {
 
-                if (isset($_FILES["ingfotoAcabado"]["tmp_name"])) {
+                if (isset($_FILES["ingfotoAcabado"]["tmp_name"]) && $_FILES["ingfotoAcabado"]["tmp_name"] != "" ) {
 
                     list($ancho, $alto) = getimagesize($_FILES["ingfotoAcabado"]["tmp_name"]);
                     $nuevoAncho = 512;
@@ -93,8 +92,7 @@ class ControladorAcabado
             $tabla = "acabado";
             $datos = array(
                 "idAcabado" => $_POST["editIdAcabado"],
-                "nombre" => $_POST["editNomAcabado"],
-                "abreviacion" => $_POST["editAbvAcabado"]
+                "nombre" => $_POST["editNomAcabado"]
             );
 
             $verificarDuplicado = ModeloAcabado::mdlVerificarAcabado($tabla, $datos, false);

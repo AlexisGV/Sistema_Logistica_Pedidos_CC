@@ -42,19 +42,17 @@ class ModeloAcabado
             #Verificar existencia al ingresar
             $stmt = Conexion::conectar()->prepare(
                 "SELECT * FROM $tabla
-                WHERE REPLACE(REPLACE(REPLACE(Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') OR REPLACE(REPLACE(REPLACE(Abreviacion_Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:abreviacion,' ',''),'-',''),'_','')"
+                WHERE REPLACE(REPLACE(REPLACE(Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','')"
             );
             $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-            $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
         } else {
             #Verificar existencia al actualizar
             $stmt = Conexion::conectar()->prepare(
                 "SELECT * FROM $tabla
-                WHERE (REPLACE(REPLACE(REPLACE(Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') OR REPLACE(REPLACE(REPLACE(Abreviacion_Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:abreviacion,' ',''),'-',''),'_','')) AND Id_Acabado!=:idAcabado"
+                WHERE REPLACE(REPLACE(REPLACE(Acabado,' ',''),'-',''),'_','')=REPLACE(REPLACE(REPLACE(:nombre,' ',''),'-',''),'_','') AND Id_Acabado!=:idAcabado"
             );
             $stmt->bindParam(":idAcabado", $datos["idAcabado"], PDO::PARAM_INT);
             $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-            $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
         }
         
 
@@ -75,10 +73,9 @@ class ModeloAcabado
     static public function mdlCrearAcabado($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Foto_Acabado, Acabado, Abreviacion_Acabado) VALUES (:foto ,:nombre, :abreviacion)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (Foto_Acabado, Acabado) VALUES (:foto ,:nombre)");
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return "ok";
@@ -98,13 +95,11 @@ class ModeloAcabado
         $stmt = Conexion::conectar()->prepare(
             "UPDATE $tabla
             SET Foto_Acabado=:foto,
-                Acabado=:nombre,
-                Abreviacion_Acabado=:abreviacion
+                Acabado=:nombre
             WHERE Id_Acabado=:idAcabado"
         );
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":abreviacion", $datos["abreviacion"], PDO::PARAM_STR);
         $stmt->bindParam(":idAcabado", $datos["idAcabado"], PDO::PARAM_INT);
 
         if ( $stmt->execute() ){

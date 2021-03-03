@@ -67,8 +67,6 @@ $(document).on("click", ".btnEditarCorte", function(){
             // Nuevos valores
             $("#editIdCorte").val(respuesta["Id_Corte"]);
             $("#editNomCorte").val(respuesta["Corte"]);
-            $("#editAbvCorte").val(respuesta["Abreviacion_Corte"]);
-            $("#editPrecioCorte").val(respuesta["Precio_Corte"]);
 
             if (respuesta["Foto_Corte"] != "" && respuesta["Foto_Corte"] != null) {
                 $(".previsualizarCorte").attr("src", respuesta["Foto_Corte"]);
@@ -120,12 +118,6 @@ LIMPIAR CAMPOS - FORMULARIO AGREGAR
 $(document).on("click", ".closeModalCorte", function(){
     $("#ingNomCorte").val("");
     $("#ingNomCorte").removeClass("is-invalid is-valid");
-    $("#ingAbvCorte").val("");
-    $("#ingAbvCorte").removeClass("is-invalid is-valid");
-    $("#ingAbvCorte").prop("readonly", true);
-    $("#ingAbreviacionEspecialCorte").prop("checked", false);
-    $("#ingPrecioCorte").val("");
-    $("#ingPrecioCorte").removeClass("is-invalid is-valid");
     $(".fotoCorte").val("");
     $(".fotoCorte").siblings(".custom-file-label").addClass("selected").html("Subir una imagen");
     $(".previsualizarCorte").attr("src", "views/img/Cortes/defaultCorte.png");
@@ -141,17 +133,10 @@ LIMPIAR CAMPOS - FORMULARIO EDITAR
 $(document).on("click", ".closeModalEditCorte", function(){
     $("#editNomCorte").val("");
     $("#editNomCorte").removeClass("is-invalid is-valid");
-    $("#editAbvCorte").val("");
-    $("#editAbvCorte").removeClass("is-invalid is-valid");
-    $("#editAbvCorte").prop("readonly", true);
-    $("#editAbreviacionEspecialCorte").prop("checked", false);
-    $("#editPrecioCorte").val("");
-    $("#editPrecioCorte").removeClass("is-invalid is-valid");
     $(".fotoCorte").val("");
     $(".fotoCorte").siblings(".custom-file-label").addClass("selected").html("Subir una imagen");
     $(".previsualizarCorte").attr("src", "views/img/Cortes/defaultCorte.png");
 
     // Esconder errores
     $("#errorEditNomCorte").hide();
-    $("#errorEditAbvCorte").hide();
 });
