@@ -7,11 +7,12 @@ if (isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok"
   
   // Evaluar si pulso sobre el boton de cerrar sesion
   if (isset($_GET["pagina"]) && $_GET["pagina"] == "salir") {
-  
+    
     // Llamar la ejecución del archivo
     include "pages/" . $_GET["pagina"] . ".php";
     
   }
+  
 endif;
 
 ?>
@@ -55,6 +56,10 @@ endif;
 <?php if ( ( isset($_SESSION["sesionActiva"]) && isset($_SESSION["sesionActiva"]) == "ok" ) || ( isset($_COOKIE["user_ck"]) && isset($_COOKIE["user_ck"]) != "" ) ) : ?>
 
 <?php
+
+  // VERIFICAR QUE NO HAYAN HABIDO CAMBIOS EN EL USUARIO O QUE NO HAYA SIDO ELIMINADO
+  $validacion = new FormularioIngreso();
+  $validacion->ctrActualizarSesionesCookies();
   
   if ( ( isset($_COOKIE["user_ck"]) && isset($_COOKIE["user_ck"]) != "" ) ) {
 
