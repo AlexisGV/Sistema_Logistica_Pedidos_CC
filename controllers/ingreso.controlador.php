@@ -99,7 +99,25 @@ class FormularioIngreso
                 $_SESSION["tipoUsuario"] = $ingreso["Id_Tipo_User1"];
                 $_SESSION["tipoUsuarioPorNombre"] = $ingreso["Tipo_User"];
                 $_SESSION["imagenUsuario"] = $ingreso["Foto_User"];
+
+                return true;
             }
+        } else {
+            # Usuario no encontrado
+            echo '<script>
+                    swal({
+                        title: "¡Error al validar datos de ingreso al sistema!",
+                        text: "Parace ser que tu correo, usuario o contraseña han cambiado. Debes iniciar sesión nuevamente.",
+                        icon: "info",
+                        closeOnClickOutside: false,
+                        closeOnEsc: false,
+                    }).then( (result) => {
+                        window.location = "salir";
+                    });
+                  </script>';
+
+            return false;
+            
         }
     }
 
@@ -118,9 +136,7 @@ class FormularioIngreso
 
             $usuarioLoggeado = ModeloIngreso::mdlSeleccionarUsuario($tabla, $item, $valor);
 
-            // echo '<pre>'; print_r($usuarioLoggeado); echo '</pre>';
-
-            if ($usuarioLoggeado) {
+            if ( $usuarioLoggeado ) {
 
                 $_SESSION["nombreUsuario"] = $usuarioLoggeado["Nombre_Usuario"];
                 $_SESSION["tipoUsuario"] = $usuarioLoggeado["Id_Tipo_User1"];
@@ -129,11 +145,17 @@ class FormularioIngreso
 
                 if (isset($_COOKIE["user_ck"]) && $_COOKIE["user_ck"] != "") {
 
-                    if ( $_COOKIE["user_ck"] != $usuarioLoggeado["Apodo"] || $_COOKIE["user_ck"] != $usuarioLoggeado["Correo"] || $_COOKIE["pass_ck"] != $usuarioLoggeado["Password"] ) {
+                    if ( strpos($_COOKIE["user_ck"], "@") ) :
+                        $campo = $usuarioLoggeado["Correo"];
+                    else: 
+                        $campo = $usuarioLoggeado["Apodo"];
+                    endif;
+
+                    if ( $_COOKIE["user_ck"] !=  $campo || $_COOKIE["pass_ck"] != $usuarioLoggeado["Password"] ) {
 
                         echo '<script>
                                 swal({
-                                    title: "Error al validar datos de ingreso al sistema!",
+                                    title: "¡Error al validar datos de ingreso al sistema!",
                                     text: "Parace ser que tu correo, usuario o contraseña han cambiado. Debes iniciar sesión nuevamente.",
                                     icon: "info",
                                     closeOnClickOutside: false,
@@ -143,15 +165,19 @@ class FormularioIngreso
                                 });
                               </script>';
 
+                        return false;
+
                     }
                     
                 }
+
+                return true;
             } else {
 
                 # Usuario no existe en la base de datos
                 echo '<script>
                         swal({
-                            title: "Usuario eliminado!",
+                            title: "¡Usuario eliminado!",
                             text: "Parace ser que tu registro ya no existe en la base de datos. Si se trata de un error verificalo con el administrador del sistema.",
                             icon: "error",
                             closeOnClickOutside: false,
@@ -160,6 +186,8 @@ class FormularioIngreso
                             window.location = "salir";
                         });
                       </script>';
+
+                return false;
             }
         }
     }
