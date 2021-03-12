@@ -82,6 +82,7 @@ CONTENEDOR
                                 if (intval($permisosPedidos["U"]) == 1) {
                                     include "views/modules/Pedidos/editPedido/modalEditPedido.php";
                                     include "views/modules/Pedidos/editPedido/modalAddProducto.php";
+                                    include "views/modules/Pedidos/editPedido/modalAddPhotos.php";
                                 }
 
                                 if (intval($permisosPedidos["D"]) == 1) {

@@ -188,7 +188,7 @@ $(document).on("click", ".btnEditarPedido", function () {
             $("#editFechaCompromisoPedido").val(fechaCompromiso.toLocaleDateString("es-MX", options));
             $("#editFechaCompromisoPedidoHidden").val(fechaCompromiso.toLocaleDateString("es-MX", options));
             $("#editFechaCompromisoActual").val(respuesta["Fecha_Compromiso"]);
-            console.log($("#editFechaCompromisoActual").val());
+            // console.log($("#editFechaCompromisoActual").val());
 
             if (respuesta["Fecha_Entrega"] != null && respuesta["Fecha_Entrega"] != "") {
                 var fechaEntrega = new Date(respuesta["Fecha_Compromiso"]);
@@ -232,7 +232,7 @@ $(document).on("click", ".btnEditarPedido", function () {
 
                         $("#editContenedorProductos").append(
                             '<div class="productoNuevo row py-3 border-top border-secondary" idProducto="' + respuesta[i]["idProducto"] + '">' +
-                            '    <div class="col-12 col-xl-8 pb-2 pb-xl-0">' +
+                            '    <div class="col-12 col-xl-7 pb-2 pb-xl-0">' +
                             '        <span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>' + respuesta[i]["descripcion"] +
                             '    </div>' +
                             '    <div class="col-6 col-xl-2 text-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>' +
@@ -243,10 +243,11 @@ $(document).on("click", ".btnEditarPedido", function () {
                             '       </div>' +
                             '   </div>' +
                             '    <div class="col-6 col-xl-1 text-center contenedorPrecioProducto"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ <span class="precioProducto" precio="' + respuesta[i]["precioUnitario"] + '">' + Number(respuesta[i]["importe"]).toFixed(2) + badgeDescuento + '</span></div>' +
-                            '    <div class="col-12 col-xl-1 py-2 py-xl-0">' +
-                            '       <div class="btn-group w-100">' +
-                            '<button type="button" class="btn btn-danger btnEliminarDetallePedido" idProducto="' + respuesta[i]["idProducto"] + '"><i class="fas fa-trash-alt mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Eliminar</span></button>' +
-                            '       </div>' +
+                            '    <div class="col-12 col-xl-2 py-2 py-xl-0 text-center d-flex flex-direction-row justify-content-between d-md-block">' +
+                            // '       <div class="btn-group w-100">' +
+                            '<button type="button" class="btn btn-info btnAgregarFotos d-inline-block" idProducto="' + respuesta[i]["idProducto"] + '"  data-toggle="modal" data-target="#modalAddFoto"><i class="fas fa-camera mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Añadir fotos</span></button>' +
+                            '<button type="button" class="btn btn-danger btnEliminarDetallePedido d-inline-block" idProducto="' + respuesta[i]["idProducto"] + '"><i class="fas fa-trash-alt mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Eliminar</span></button>' +
+                            // '       </div>' +
                             '   </div>' +
                             '</div>'
                         );
@@ -478,6 +479,81 @@ $(document).on("click", ".btnRemoveOne", function () {
         });
     }
 
+
+});
+
+/*=============================================
+AÑADIR FOTOS DE PRODUCTO
+=============================================*/
+$(document).on('change', '.fotoDetalle', function(){
+
+    const imagen = $(this).prop('files')[0],
+          containerImage = $(this).parent().parent().children('.imagenPedido'),
+          inputImg = containerImage.children('.previewDetalle'),
+          generalContainer = containerImage.parent();
+
+    if (imagen["type"] != "image/jpeg" && imagen["type"] != "image/png") {
+        $(this).val('');
+        $(this).siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
+        
+        swal({
+            title: "Error al subir la imagen!",
+            text: "La imagen debe estar en formato JPG o PNG.",
+            icon: "error",
+            button: "Cerrar",
+        });
+    } else if (imagen["size"] > 3000000) {
+        $(this).val('');
+        $(this).siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
+
+        swal({
+            title: "Error al subir la imagen!",
+            text: "La imagen no debe pesar mas de 3MB.",
+            icon: "error",
+            button: "Cerrar",
+        });
+    } else {
+        const datosImagen = new FileReader;
+        datosImagen.readAsDataURL(imagen);
+        $(datosImagen).on('load', function (event) {
+            const rutaImagen = event.target.result;
+            if ( inputImg.attr('src', rutaImagen) ) {
+                containerImage.append(`
+                    <button type="button" class="btn btn-danger rounded-circle btnEliminarFotoTempDetalle" style="position: absolute; right: -8px; top: -8px;"><i class="fas fa-times"></i></button>
+                `);
+
+                generalContainer.append(`
+                    <div class="text-center buttonContainer">
+                        <button type="button" class="btn btn-info mt-3 btnSubirImagen"><i class="fas fa-upload mr-1"></i>Confirmar y subir imagen</button>
+                    </div>
+                `);
+            }
+        });
+    }
+
+});
+
+/*=============================================
+ELIMINAR FOTO TEMPORSAL
+=============================================*/
+$(document).on('click', '.btnEliminarFotoTempDetalle', function(){
+
+    const inputImg = $(this).parent().children('.previewDetalle'),
+          uploadButton = $(this).parent().parent().children('.buttonContainer'),
+          inputFile = $(this).parent().parent().children('.custom-file').children('input');
+
+    // Remover este botón de elimnar
+    $(this).remove();
+
+    // Quitar imagen de la vista previa
+    inputImg.attr('src','views/img/Pedidos/defaultPedido2.png');
+    
+    // Eliminar boton de subida
+    uploadButton.remove();
+
+    // Limpiar input
+    inputFile.val('');
+    inputFile.siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
 
 });
 
