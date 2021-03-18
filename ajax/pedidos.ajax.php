@@ -95,6 +95,33 @@ class AjaxPedidos
 
         echo json_encode($actualizarCantidad);
     }
+
+    /*=============================================
+    SUBIR FOTO DE PRODUCTO
+    =============================================*/
+    public $campoFoto;
+    public $fotoSubida;
+    
+    public function ajaxSubirImagenProducto(){
+
+        $idPedido = $this->idPedido;
+        $idDetallePedido = $this->idProducto;
+        $campoFotografia = $this->campoFoto;
+        $imagen = $this->fotoSubida;
+
+        // $subirImagen = array(
+        //     'idPedido' => $idPedido,
+        //     'idProducto' => $idDetallePedido,
+        //     'campoFoto' => $campoFotografia,
+        //     'imagen' => $imagen
+        // );
+
+        // $subirImagen = ControladorPedidos::ctrSubirImagenProducto($idPedido, $idDetallePedido, $campoFotografia, $imagen);
+
+        echo $imagen;
+
+    }
+    
 }
 
 /*=============================================
@@ -213,4 +240,18 @@ if (isset($_POST["idDetallePedidoCantidad"])) {
     $actualizarCantidad->idProducto = $_POST["idDetallePedidoCantidad"];
     $actualizarCantidad->tipo = $_POST["accion"];
     $actualizarCantidad->ajaxActualizarCantidad();
+}
+
+/*=============================================
+SUBIR FOTO DE PRODUCTO
+=============================================*/
+if ( isset($_POST['fotoSubida']) ) {
+
+    $subidaDeImagen = new AjaxPedidos();
+    $subidaDeImagen->idProducto = $_POST['idProducto'];
+    $subidaDeImagen->idPedido = $_POST['idPedido'];
+    $subidaDeImagen->campoFoto = 'Foto_' . substr($_POST['idFotoSubida'], 14);
+    $subidaDeImagen->fotoSubida = $_POST['fotoSubida'];
+    $subidaDeImagen->ajaxSubirImagenProducto();
+
 }

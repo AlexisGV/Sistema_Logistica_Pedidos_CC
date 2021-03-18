@@ -245,7 +245,7 @@ $(document).on("click", ".btnEditarPedido", function () {
                             '    <div class="col-6 col-xl-1 text-center contenedorPrecioProducto"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ <span class="precioProducto" precio="' + respuesta[i]["precioUnitario"] + '">' + Number(respuesta[i]["importe"]).toFixed(2) + badgeDescuento + '</span></div>' +
                             '    <div class="col-12 col-xl-2 py-2 py-xl-0 text-center d-flex flex-direction-row justify-content-between d-md-block">' +
                             // '       <div class="btn-group w-100">' +
-                            '<button type="button" class="btn btn-info btnAgregarFotos d-inline-block" idProducto="' + respuesta[i]["idProducto"] + '"  data-toggle="modal" data-target="#modalAddFoto"><i class="fas fa-camera mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Añadir fotos</span></button>' +
+                            '<button type="button" class="btn btn-info btnAgregarFotos d-inline-block" idProducto="' + respuesta[i]["idProducto"] + '" idPedido="' + idPedidoSeleccionado + '"  data-toggle="modal" data-target="#modalAddFoto"><i class="fas fa-camera mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Añadir fotos</span></button>' +
                             '<button type="button" class="btn btn-danger btnEliminarDetallePedido d-inline-block" idProducto="' + respuesta[i]["idProducto"] + '"><i class="fas fa-trash-alt mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Eliminar</span></button>' +
                             // '       </div>' +
                             '   </div>' +
@@ -483,14 +483,29 @@ $(document).on("click", ".btnRemoveOne", function () {
 });
 
 /*=============================================
+ABRIR MODAL PARA AÑADIR FOTOS DE PRODUCTOS
+=============================================*/
+$(document).on('click', '.btnAgregarFotos', function(){
+
+    const idProducto = $(this).attr('idProducto'),
+          idPedido = $(this).attr('idPedido');
+    $('#idProductoFoto1').val(idProducto);
+    $('#idProductoFoto2').val(idProducto);
+    $('#idProductoFoto3').val(idProducto);
+    $('#idPedidoForPhoto').val(idPedido);
+
+});
+
+/*=============================================
 AÑADIR FOTOS DE PRODUCTO
 =============================================*/
 $(document).on('change', '.fotoDetalle', function(){
 
     const imagen = $(this).prop('files')[0],
-          containerImage = $(this).parent().parent().children('.imagenPedido'),
+          containerImage = $(this).parent().parent().parent().children('.imagenPedido'),
           inputImg = containerImage.children('.previewDetalle'),
-          generalContainer = containerImage.parent();
+          generalContainer = containerImage.parent(),
+          idPedido = $('#idPedidoForPhoto').val();
 
     if (imagen["type"] != "image/jpeg" && imagen["type"] != "image/png") {
         $(this).val('');
@@ -524,7 +539,7 @@ $(document).on('change', '.fotoDetalle', function(){
 
                 generalContainer.append(`
                     <div class="text-center buttonContainer">
-                        <button type="button" class="btn btn-info mt-3 btnSubirImagen"><i class="fas fa-upload mr-1"></i>Confirmar y subir imagen</button>
+                        <button type="button" class="btn btn-info mt-3 btnSubirFotoDetalle" idPedido="${idPedido}"><i class="fas fa-upload mr-1"></i>Confirmar y subir imagen</button>
                     </div>
                 `);
             }
@@ -540,13 +555,13 @@ $(document).on('click', '.btnEliminarFotoTempDetalle', function(){
 
     const inputImg = $(this).parent().children('.previewDetalle'),
           uploadButton = $(this).parent().parent().children('.buttonContainer'),
-          inputFile = $(this).parent().parent().children('.custom-file').children('input');
+          inputFile = $(this).parent().parent().children('form').children('.custom-file').children('input');
 
     // Remover este botón de elimnar
     $(this).remove();
 
     // Quitar imagen de la vista previa
-    inputImg.attr('src','views/img/Pedidos/defaultPedido2.png');
+    inputImg.attr('src','views/img/Pedidos/defaultPedido.png');
     
     // Eliminar boton de subida
     uploadButton.remove();
@@ -554,6 +569,115 @@ $(document).on('click', '.btnEliminarFotoTempDetalle', function(){
     // Limpiar input
     inputFile.val('');
     inputFile.siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
+
+});
+
+/*=============================================
+SUBIR FOTO DE PEDIDO AL SERVIDOR Y BD
+=============================================*/
+$(document).on('click', '.btnSubirFotoDetalle', function(){
+
+    const contenedorBoton = $(this).parent(),
+          botonEnviar = $(this),
+          idPedido = $(this).attr('idPedido'),
+          inputIdProducto = $(this).parent().parent().children('form').children('.idProducto'),
+          idProducto = inputIdProducto.val(),
+          idInputProducto = inputIdProducto.attr('id'), // Servira para saber que imagen se subira 1, 2 o 3
+          inputFile = $(this).parent().parent().children('form').children('.custom-file').children('input'),
+          fotoTemporal = inputFile.prop('files')[0];
+    // console.log({inputIdProducto, idPedido, idProducto, idInputProducto, inputFile, fotoTemporal});
+
+    let imageBase64 = 'Hola mundo';
+
+    /* Obteniendo la base64 de la imagen
+    -------------------------------------------------- */
+    const datosImagen = new FileReader;
+    datosImagen.readAsDataURL(fotoTemporal);
+    
+    $(datosImagen).on('load', function (event) {
+        imageBase64 = event.target.result;
+    });
+
+    if ( fotoTemporal != '' && fotoTemporal != null && idProducto != '' && idProducto != null ) {
+        
+        let formData = new FormData();
+        formData.append('idProducto', idProducto);
+        formData.append('idPedido', idPedido);
+        formData.append('idFotoSubida', idInputProducto);
+        // formData.append('fotoSubida', imageBase64);
+
+        $.ajax({
+            url: "ajax/pedidos.ajax.php",
+                method: "POST",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                beforeSend: function(){
+                    contenedorBoton.append('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+
+                    botonEnviar.attr('disabled', true);
+                    botonEnviar.css('opacity', '.8');
+                    botonEnviar.text('Subiendo ...');
+                },
+                success: function (respuesta) {
+
+                    console.log(respuesta);
+                    
+                    if ( respuesta == 'ok' ) {
+
+                        swal({
+                            title: "¡Imagen subida correctamente!",
+                            text: "La imagen se cargo correctamente al producto seleccionado",
+                            icon: "success",
+                        });
+
+                        botonEnviar.remove();
+
+                    } else {
+
+                        swal({
+                            title: "Error al subir la imagen",
+                            text: `Ocurrio un error inesperado al intentar subir la imagen. \n ${respuesta}`,
+                            icon: "error",
+                        });
+
+                        botonEnviar.attr('disabled', false);
+                        botonEnviar.css('opacity', '1');
+                        botonEnviar.text('Confirmar y subir imagen');
+
+                    }
+
+                },
+                error: function(){
+                    botonEnviar.attr('disabled', false);
+                    botonEnviar.css('opacity', '1');
+                    botonEnviar.text('Confirmar y subir imagen');
+                },
+                complete: function(){
+                    contenedorBoton.children('.lds-ring').remove();
+                }
+        });
+
+    } else {
+
+        if ( idProducto == '' || idProducto == null ) {
+            swal({
+                title: "Error al subir la imagen",
+                text: "Parece ser que hay campos vacios. Intenta de nuevo",
+                icon: "error",
+            });
+        } else {
+            swal({
+                title: "Error al subir la imagen",
+                text: "Parece ser que no hay ninguna imagen por subir, por favor escoge una imagen e intenta de nuevo.",
+                icon: "error",
+            });
+        }
+
+
+    }
 
 });
 
@@ -724,4 +848,36 @@ $(document).on("click", ".closeModalEditPedido", function () {
     $("#editTotal").val("");
     $("#editAnticipo").removeClass("is-valid is-invalid");
     $("#editFechaCompromisoPersonalizada").prop("checked", true).trigger("change");
+});
+
+/*=============================================
+LIMPIAR MODAL PARA AGREGAR FOTOS
+=============================================*/
+$(document).on('click', '.closeModalFoto', function(){
+
+    $('.contenedorFoto1').children('.imagenPedido').children('.previewDetalle').attr('src', 'views/img/Pedidos/defaultPedido.png');
+    $('.contenedorFoto1').children('.imagenPedido').children('.btnEliminarFotoTempDetalle').remove();
+    $('.contenedorFoto1').children('form').children('.idPedido').val('');
+    $('.contenedorFoto1').children('form').children('.custom-file').children('.fotoDetalle').val('');
+    $('.contenedorFoto1').children('form').children('.custom-file').children('.fotoDetalle').siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
+    $('.contenedorFoto1').children('.buttonContainer').remove();
+
+    $('.contenedorFoto2').children('.imagenPedido').children('.previewDetalle').attr('src', 'views/img/Pedidos/defaultPedido.png');
+    $('.contenedorFoto2').children('.imagenPedido').children('.btnEliminarFotoTempDetalle').remove();
+    $('.contenedorFoto2').children('form').children('.idPedido').val('');
+    $('.contenedorFoto2').children('form').children('.custom-file').children('.fotoDetalle').val('');
+    $('.contenedorFoto2').children('form').children('.custom-file').children('.fotoDetalle').siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
+    $('.contenedorFoto2').children('.buttonContainer').remove();
+
+    $('.contenedorFoto3').children('.imagenPedido').children('.previewDetalle').attr('src', 'views/img/Pedidos/defaultPedido.png');
+    $('.contenedorFoto3').children('.imagenPedido').children('.btnEliminarFotoTempDetalle').remove();
+    $('.contenedorFoto3').children('form').children('.idPedido').val('');
+    $('.contenedorFoto3').children('form').children('.custom-file').children('.fotoDetalle').val('');
+    $('.contenedorFoto3').children('form').children('.custom-file').children('.fotoDetalle').siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
+    $('.contenedorFoto3').children('.buttonContainer').remove();
+
+    $('#idProductoFoto1').val('');
+    $('#idProductoFoto2').val('');
+    $('#idProductoFoto3').val('');
+
 });

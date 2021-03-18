@@ -1211,4 +1211,30 @@ class ControladorPedidos
 
         return $actualizarPedido;
     }
+
+    static public function ctrSubirImagenProducto($idPedido, $idDetallePedido, $campoFotografia, $imagen){
+
+        $ruta = '';
+        $directorio = 'views/img/Pedidos/' . $idPedido;
+        $nombreArchivo = $idDetallePedido . '.' . pathinfo( $imagen, PATHINFO_EXTENSION );
+
+        # Preguntar si existe el directorio actual
+        if ( !file_exists( $directorio ) ) {
+            # Crear directorio o carpeta del pedido en caso de que esta no exista
+            if ( mkdir($directorio, 0755) ){
+                $ruta = $directorio . '/' . $nombreArchivo;
+            }
+        }
+
+        if ( move_uploaded_file( $imagen, $ruta ) ){
+
+            return 'ok';
+
+        } else {
+
+            return $nombreArchivo;
+
+        }
+
+    }
 }
