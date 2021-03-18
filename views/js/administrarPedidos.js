@@ -587,16 +587,19 @@ $(document).on('click', '.btnSubirFotoDetalle', function(){
           fotoTemporal = inputFile.prop('files')[0];
     // console.log({inputIdProducto, idPedido, idProducto, idInputProducto, inputFile, fotoTemporal});
 
-    let imageBase64 = 'Hola mundo';
+    let imageBase64 = '';
 
     /* Obteniendo la base64 de la imagen
     -------------------------------------------------- */
-    const datosImagen = new FileReader;
+    let datosImagen = new FileReader();
+
+    datosImagen.onloadend = function(){
+        imageBase64 = datosImagen.result;
+    }
+
     datosImagen.readAsDataURL(fotoTemporal);
-    
-    $(datosImagen).on('load', function (event) {
-        imageBase64 = event.target.result;
-    });
+
+    console.log({imageBase64});
 
     if ( fotoTemporal != '' && fotoTemporal != null && idProducto != '' && idProducto != null ) {
         
