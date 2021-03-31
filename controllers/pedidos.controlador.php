@@ -50,14 +50,14 @@ class ControladorPedidos
         $estadosPedido = ModeloPedidos::mdlTraerEstadoPedido($tabla, $idPedido, $itemOrden);
         return $estadosPedido;
     }
-    
+
     /*=============================================
     SELECCIONAR USUARIO QUE LEVANTO EL PEDIDO
     =============================================*/
     static public function ctrTraerUsuarioPedido($idPedido, $orden)
     {
         $tabla = "actualizaciones_pedido";
-        
+
         $usuario = ModeloPedidos::mdlTraerUsuarioPedido($tabla, $idPedido, $orden);
 
         return $usuario;
@@ -190,7 +190,10 @@ class ControladorPedidos
                     "precioUnitario" => $value["Precio_Uni"],
                     "cantidad" => $value["Cantidad"],
                     "descuento" => $value["Descuento"],
-                    "importe" => $value["Importe"]
+                    "importe" => $value["Importe"],
+                    "Foto_1" => $value["Foto_1"],
+                    "Foto_2" => $value["Foto_2"],
+                    "Foto_3" => $value["Foto_3"]
                 )
             );
         }
@@ -303,8 +306,8 @@ class ControladorPedidos
             $informacionPedido = json_decode($_POST["informacionPedido"], true);
             // echo "<pre>"; print_r($informacionPedido); echo "</pre>";
             $listaProductos = json_decode($_POST["listaProductos"], true);
-            
-            if ( $informacionPedido[0]["fechaEstimada"] == "") {
+
+            if ($informacionPedido[0]["fechaEstimada"] == "") {
                 $fechaFutura = date('Y-m-d 18:00:00', strtotime($fechaActual . "+ 3 week"));
             } else {
                 $fechaFutura = $informacionPedido[0]["fechaEstimada"];
@@ -757,9 +760,9 @@ class ControladorPedidos
 
             /* EVALUAR SI HAY CAMBIO EN FECHAS
             -------------------------------------------------- */
-            if ($_POST["editFechaCompromisoPedidoFormateada"] != ""){
+            if ($_POST["editFechaCompromisoPedidoFormateada"] != "") {
                 $fechaCompromiso = $_POST["editFechaCompromisoPedidoFormateada"];
-            }else{
+            } else {
                 $fechaCompromiso = $_POST["editFechaCompromisoActual"];
             }
 
@@ -1109,6 +1112,18 @@ class ControladorPedidos
 
         if ($eliminarProducto == "ok") {
 
+            if ( $registroProducto['Foto_1'] != null ) { unlink("../{$registroProducto['Foto_1']}"); }
+            if ( $registroProducto['Foto_2'] != null ) { unlink("../{$registroProducto['Foto_2']}"); }
+            if ( $registroProducto['Foto_3'] != null ) { unlink("../{$registroProducto['Foto_3']}"); }
+
+            $directorio = "../views/img/Pedidos/{$idPedido}";
+            if ( file_exists($directorio) ) {
+                $scanDir = scandir($directorio);
+                if (count($scanDir) == 2){
+                    rmdir($directorio);
+                }
+            }
+
             $actualizarTotales = ControladorPedidos::actualizarTotales($idPedido);
 
             if ($actualizarTotales == "error") {
@@ -1134,10 +1149,24 @@ class ControladorPedidos
             $tabla = "pedido";
             $item = "Id_Pedido";
             $valor = $_GET["idPedido"];
+            $directorio = "views/img/Pedidos/{$valor}";
 
             $eliminarPedido = ModeloPedidos::mdlEliminarPedido($tabla, $item, $valor);
 
             if ($eliminarPedido == "ok") {
+
+                $files = glob("{$directorio}/*"); //obtenemos todos los nombres de los ficheros
+                foreach($files as $file){
+                    if(file_exists($file)){
+                        unlink($file); //elimino el fichero
+                    }
+                }
+
+                $scanDir = scandir($directorio);
+                if (count($scanDir) == 2){
+                    rmdir($directorio);
+                }
+
                 echo '<script>
                         swal({
                             title: "Eliminación exitosa!",
@@ -1212,27 +1241,101 @@ class ControladorPedidos
         return $actualizarPedido;
     }
 
-    static public function ctrSubirImagenProducto($idPedido, $idDetallePedido, $campoFotografia, $imagen){
+    /*=============================================
+    TRAER INFORMACION DE LOS CAMPOS DE IMAGEN DEL PRODUCTO
+    =============================================*/
+    static public function ctrTraerFotosProducto($idProducto){
 
-        $ruta = '';
-        $directorio = 'views/img/Pedidos/' . $idPedido;
-        $nombreArchivo = $idDetallePedido . '.' . pathinfo( $imagen, PATHINFO_EXTENSION );
+        $fotosProducto = ModeloPedidos::mdlTraerFotosProducto($idProducto);
+        return $fotosProducto;
+
+    }
+
+    /*=============================================
+    SUBIR FOTOS O IMAGENES DE LOS PEDIDOS
+    =============================================*/
+    static public function ctrSubirImagenProducto($idPedido, $idDetallePedido, $campoFotografia, $imagen)
+    {
+
+        $directorio = '../views/img/Pedidos/' . $idPedido;
+        $base_to_php = explode(',', $imagen);
+        $binaryData = base64_decode($base_to_php[1]);
+        $ruta = $directorio . '/' . uniqid() . '.jpg';
 
         # Preguntar si existe el directorio actual
-        if ( !file_exists( $directorio ) ) {
+        if (!file_exists($directorio)) {
             # Crear directorio o carpeta del pedido en caso de que esta no exista
-            if ( mkdir($directorio, 0755) ){
-                $ruta = $directorio . '/' . $nombreArchivo;
+            if (!mkdir($directorio, 0755)) {
+                return 'Ocurrio un error al intentar crear el directorio donde se almacenara la imagen.';
             }
         }
 
-        if ( move_uploaded_file( $imagen, $ruta ) ){
+        # Subir la imagen al directorio
+        if (file_put_contents($ruta, $binaryData)) {
 
-            return 'ok';
+            $rutaFinal = str_replace('../', '', $ruta);
+            $uploadInfo = array(
+                'tabla' => 'detalle_pedido',
+                'campoId' => 'Id_Detalle_Pedido',
+                'idProducto' => $idDetallePedido,
+                'campoFoto' => $campoFotografia,
+                'foto' => $rutaFinal
+            );
 
+            $subirImagenBD = ModeloPedidos::mdlSubirImagenProducto($uploadInfo);
+
+            if ($subirImagenBD == 'ok') {
+                return $rutaFinal;
+            } else {
+                return 'Ocurrio un error al intentar registrar la imagen en la base de datos';
+            }
         } else {
+            return 'Ocurrio un error al intentar subir la imagen.';
+        }
+    }
 
-            return $nombreArchivo;
+    /*=============================================
+    ELIMINAR FOTO DE PRODUCTO
+    =============================================*/
+    static public function ctrEliminarFotoProducto($idPedido, $idProducto, $campo, $rutaImagen){
+
+        $directorio = "../views/img/Pedidos/{$idPedido}";
+        $rutaFinal = "../{$rutaImagen}";
+        
+        if ( $rutaFinal != '' ) {
+            
+            # Eliminar de la base de datos
+            $tabla = 'detalle_pedido';
+            $campoId = 'Id_Detalle_Pedido';
+            $eliminacionImagenBD = ModeloPedidos::mdlEliminarFotoProducto($tabla, $campo, $campoId, $idProducto);
+            
+            if ( $eliminacionImagenBD == 'ok' ) {
+                
+                # Preguntar si la imagen existe
+                if ( file_exists( $rutaFinal ) ) {
+                    
+                    # Eliminar la imagen
+                    if ( unlink( $rutaFinal ) ) {
+                        
+                        $scanDir = scandir($directorio);
+                        if (count($scanDir) == 2){
+                            rmdir($directorio);
+                        }
+
+                        return "ok";
+                    } else {
+                        return "No se pudo eliminar";
+                    }
+    
+                } else {
+                    return "El archivo no existe";
+                }
+
+            } else {
+
+                return 'Ocurrio un error al intentar eliminar la imagen de la base de datos.';
+
+            }
 
         }
 

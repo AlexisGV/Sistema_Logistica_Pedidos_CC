@@ -489,23 +489,88 @@ $(document).on('click', '.btnAgregarFotos', function(){
 
     const idProducto = $(this).attr('idProducto'),
           idPedido = $(this).attr('idPedido');
-    $('#idProductoFoto1').val(idProducto);
-    $('#idProductoFoto2').val(idProducto);
-    $('#idProductoFoto3').val(idProducto);
-    $('#idPedidoForPhoto').val(idPedido);
-
+    
+    let formData = new FormData();
+    formData.append('idProductoForPhoto', idProducto);
+    
+    $.ajax({
+        url: "ajax/pedidos.ajax.php",
+        method: "POST",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',     
+        success: function(respuesta){
+    
+            defaultImage = 'views/img/Pedidos/defaultPedido.png';
+    
+            fotos = {
+                'foto1': respuesta["Foto_1"] || defaultImage,
+                'foto2': respuesta["Foto_2"] || defaultImage,
+                'foto3': respuesta["Foto_3"] || defaultImage,
+            }
+    
+            contenedoresFotos = {
+                'contenedorFoto1': '',
+                'contenedorFoto2': '',
+                'contenedorFoto3': '',
+            }
+    
+            for ( let i = 0; i < 3; i++ ) {
+    
+                if ( fotos[ `foto${i+1}` ] != defaultImage ) {
+    
+                    // Existe una imagen registrada en la base de datos
+                    contenedoresFotos[ `contenedorFoto${i+1}` ] = `
+                    <div class="col-12 col-xl-4 mb-3 gen_photo_container">
+                        <div class="mb-3 text-center border p-0 mx-auto w-100 position-relative img__container">
+                            <img class="img___preview img-thumbnail border-0" src="${fotos[ "foto"+(i+1) ]}" style="width:100%;">
+                            <button type="button" class="btn btn-danger rounded-circle btnEliminarFotoDetalle" style="position: absolute; right: -8px; top: -8px;" idPedido="${idPedido}" idProducto="${idProducto}" campoFoto="Foto_${i+1}"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    `;
+    
+                } else {
+    
+                    // No hay una imagen en este campo
+                    contenedoresFotos[ `contenedorFoto${i+1}` ] = `
+                    <div class="col-12 col-xl-4 mb-3 gen_photo_container">
+                        <div class="mb-3 text-center border p-0 mx-auto w-100 position-relative img__container">
+                            <img class="img___preview img-thumbnail border-0" src="${fotos[ "foto"+(i+1) ]}" style="width:100%;">
+                        </div>
+                        <form method="post" enctype="multipart/form-data" class="form__container">
+                            <div class="form___filecont custom-file">
+                                <input type="file" class="filecont____inputfile custom-file-input" idPedido="${idPedido}" idProducto="${idProducto}" campoFoto="Foto_${i+1}">
+                                <label class="filecont____labelfile custom-file-label text-truncate" data-browse="Elegir">Escoger imagen</label>
+                            </div>
+                        </form>
+                    </div>
+                    `;
+    
+                }
+    
+                $('#contenedorFotos').append( contenedoresFotos[ `contenedorFoto${i+1}` ] );
+    
+            }
+    
+        }
+    });
+    
 });
 
 /*=============================================
 AÑADIR FOTOS DE PRODUCTO
 =============================================*/
-$(document).on('change', '.fotoDetalle', function(){
+$(document).on('change', '.filecont____inputfile', function(){
 
     const imagen = $(this).prop('files')[0],
-          containerImage = $(this).parent().parent().parent().children('.imagenPedido'),
-          inputImg = containerImage.children('.previewDetalle'),
-          generalContainer = containerImage.parent(),
-          idPedido = $('#idPedidoForPhoto').val();
+          idPedido = $(this).attr('idPedido'),
+          idProducto = $(this).attr('idProducto'),
+          campoFoto = $(this).attr('campoFoto'),
+          generalContainer = $(this).parent().parent().parent(),
+          containerImage = generalContainer.children('.img__container'),
+          inputImg = containerImage.children('.img___preview');
 
     if (imagen["type"] != "image/jpeg" && imagen["type"] != "image/png") {
         $(this).val('');
@@ -528,20 +593,23 @@ $(document).on('change', '.fotoDetalle', function(){
             button: "Cerrar",
         });
     } else {
+        $(this).siblings(".custom-file-label").addClass("selected").html(imagen["name"]);
+        
         const datosImagen = new FileReader;
         datosImagen.readAsDataURL(imagen);
         $(datosImagen).on('load', function (event) {
             const rutaImagen = event.target.result;
             if ( inputImg.attr('src', rutaImagen) ) {
                 containerImage.append(`
-                    <button type="button" class="btn btn-danger rounded-circle btnEliminarFotoTempDetalle" style="position: absolute; right: -8px; top: -8px;"><i class="fas fa-times"></i></button>
+                    <button type="button" class="btn btn-danger rounded-circle btnEliminarFotoDetalle" style="position: absolute; right: -8px; top: -8px;" idPedido="" idProducto="" campoFoto=""><i class="fas fa-times"></i></button>
                 `);
 
                 generalContainer.append(`
                     <div class="text-center buttonContainer">
-                        <button type="button" class="btn btn-info mt-3 btnSubirFotoDetalle" idPedido="${idPedido}"><i class="fas fa-upload mr-1"></i>Confirmar y subir imagen</button>
+                        <button type="button" class="btn btn-info mt-3 btnSubirFotoDetalle" idPedido="${idPedido}" idProducto="${idProducto}" campoFoto="${campoFoto}"><i class="fas fa-upload mr-1"></i>Confirmar y subir imagen</button>
                     </div>
                 `);
+
             }
         });
     }
@@ -551,24 +619,104 @@ $(document).on('change', '.fotoDetalle', function(){
 /*=============================================
 ELIMINAR FOTO TEMPORSAL
 =============================================*/
-$(document).on('click', '.btnEliminarFotoTempDetalle', function(){
+$(document).on('click', '.btnEliminarFotoDetalle', function(){
 
-    const inputImg = $(this).parent().children('.previewDetalle'),
-          uploadButton = $(this).parent().parent().children('.buttonContainer'),
-          inputFile = $(this).parent().parent().children('form').children('.custom-file').children('input');
+    const generalContainer = $(this).parent().parent(),
+          inputImg         = generalContainer.children('.img__container').children('.img___preview'),
+          rutaActual       = inputImg.attr('src'),
+          botonEliminar    = $(this);
 
-    // Remover este botón de elimnar
-    $(this).remove();
+    if ( rutaActual.substring(0,5) == 'views' && rutaActual != 'views/img/Pedidos/defaultPedido.png' ) {
 
-    // Quitar imagen de la vista previa
-    inputImg.attr('src','views/img/Pedidos/defaultPedido.png');
+        const idPedido   = $(this).attr('idPedido'),
+              campoFoto  = $(this).attr('campoFoto'),
+              idProducto = $(this).attr('idProducto');
+
+        swal({
+            title: "¿Eliminar imagen?",
+            text: "¿Estas seguro de que quieres eliminar esta imagen? Esta ya no estará disponible para ser visualizada por lo usuarios. Si estas seguro pulsa sobre el boton de \"Confirmar\"",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Cancelar",
+                    value: null,
+                    visible: true,
+                    className: "bg-danger",
+                },
+                confirm: {
+                    text: "Confirmar",
+                    value: true,
+                    visible: true,
+                    className: "bg-primary",
+                }
+            },
+        }).then((result) => {
+            if ( result ) {
+
+                let formData = new FormData();
+                formData.append('idPedido', idPedido);
+                formData.append('campoFoto', campoFoto);
+                formData.append('idProducto', idProducto);
+                formData.append('fotoAEliminar', rutaActual);
+
+                $.ajax({
+                    url: "ajax/pedidos.ajax.php",
+                    method: "POST",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'text',
+                    success: function(respuesta){
+                        // console.log(respuesta);
+
+                        inputImg.attr('src', 'views/img/Pedidos/defaultPedido.png');
+
+                        generalContainer.append(`
+                        <form method="post" enctype="multipart/form-data" class="form__container">
+                            <div class="form___filecont custom-file">
+                                <input type="file" class="filecont____inputfile custom-file-input" idPedido="${idPedido}" idProducto="${idProducto}" campoFoto="${campoFoto}">
+                                <label class="filecont____labelfile custom-file-label text-truncate text-left" data-browse="Elegir">Escoger imagen</label>
+                            </div>
+                        </form>
+                        `);
+
+                        botonEliminar.remove();
+
+                        swal({
+                            title: "Imagen eliminada exitosamente!",
+                            text: "La imagen se removió de forma correcta, ahora puedes subir una más que reemplace la imagen eliminada (opcional).",
+                            icon: "success",
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+                        });
+
+                    }
+                });
+
+            }
+        });
+
+
+
+    } else {
+        const uploadButton = $(this).parent().parent().children('.buttonContainer'),
+              inputFile    = $(this).parent().parent().children('.form__container').children('.form___filecont').children('.filecont____inputfile');
+
+        // Remover este botón de elimnar
+        $(this).remove();
     
-    // Eliminar boton de subida
-    uploadButton.remove();
+        // Quitar imagen de la vista previa
+        inputImg.attr('src','views/img/Pedidos/defaultPedido.png');
+        
+        // Eliminar boton de subida
+        uploadButton.remove();
+    
+        // Limpiar input
+        inputFile.val('');
+        inputFile.siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
+    }
 
-    // Limpiar input
-    inputFile.val('');
-    inputFile.siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
 
 });
 
@@ -577,37 +725,23 @@ SUBIR FOTO DE PEDIDO AL SERVIDOR Y BD
 =============================================*/
 $(document).on('click', '.btnSubirFotoDetalle', function(){
 
-    const contenedorBoton = $(this).parent(),
-          botonEnviar = $(this),
-          idPedido = $(this).attr('idPedido'),
-          inputIdProducto = $(this).parent().parent().children('form').children('.idProducto'),
-          idProducto = inputIdProducto.val(),
-          idInputProducto = inputIdProducto.attr('id'), // Servira para saber que imagen se subira 1, 2 o 3
-          inputFile = $(this).parent().parent().children('form').children('.custom-file').children('input'),
-          fotoTemporal = inputFile.prop('files')[0];
-    // console.log({inputIdProducto, idPedido, idProducto, idInputProducto, inputFile, fotoTemporal});
-
-    let imageBase64 = '';
-
-    /* Obteniendo la base64 de la imagen
-    -------------------------------------------------- */
-    let datosImagen = new FileReader();
-
-    datosImagen.onloadend = function(){
-        imageBase64 = datosImagen.result;
-    }
-
-    datosImagen.readAsDataURL(fotoTemporal);
-
-    console.log({imageBase64});
+    const idPedido        = $(this).attr('idPedido'),
+          campoFoto       = $(this).attr('campoFoto'),
+          idProducto      = $(this).attr('idProducto'),
+          contenedorBoton = $(this).parent(), //Contenedor de boton para enviar
+          botonEnviar     = $(this),
+          inputImagen     = $(this).parent().parent().children('.img__container').children('.img___preview'),
+          fotoTemporal    = inputImagen.attr('src'),
+          botonEliminar   = inputImagen.parent().children('.btnEliminarFotoDetalle'),
+          inputFile       = $(this).parent().parent().children('.form__container').children('.form___filecont');
 
     if ( fotoTemporal != '' && fotoTemporal != null && idProducto != '' && idProducto != null ) {
         
         let formData = new FormData();
-        formData.append('idProducto', idProducto);
         formData.append('idPedido', idPedido);
-        formData.append('idFotoSubida', idInputProducto);
-        // formData.append('fotoSubida', imageBase64);
+        formData.append('campoFoto', campoFoto);
+        formData.append('idProducto', idProducto);
+        formData.append('fotoSubida', fotoTemporal);
 
         $.ajax({
             url: "ajax/pedidos.ajax.php",
@@ -616,7 +750,7 @@ $(document).on('click', '.btnSubirFotoDetalle', function(){
                 cache: false,
                 contentType: false,
                 processData: false,
-                dataType: 'json',
+                dataType: 'text',
                 beforeSend: function(){
                     contenedorBoton.append('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
 
@@ -626,9 +760,9 @@ $(document).on('click', '.btnSubirFotoDetalle', function(){
                 },
                 success: function (respuesta) {
 
-                    console.log(respuesta);
+                    // console.log(respuesta);
                     
-                    if ( respuesta == 'ok' ) {
+                    if ( respuesta.substring(0,5) == 'views' ) {
 
                         swal({
                             title: "¡Imagen subida correctamente!",
@@ -636,13 +770,18 @@ $(document).on('click', '.btnSubirFotoDetalle', function(){
                             icon: "success",
                         });
 
-                        botonEnviar.remove();
+                        inputImagen.attr('src', respuesta);
+                        inputFile.parent().remove();
+                        botonEliminar.attr('idPedido', idPedido);
+                        botonEliminar.attr('idProducto', idProducto);
+                        botonEliminar.attr('campoFoto', campoFoto);
+                        contenedorBoton.remove();
 
                     } else {
 
                         swal({
                             title: "Error al subir la imagen",
-                            text: `Ocurrio un error inesperado al intentar subir la imagen. \n ${respuesta}`,
+                            text: `${respuesta}`,
                             icon: "error",
                         });
 
@@ -652,11 +791,6 @@ $(document).on('click', '.btnSubirFotoDetalle', function(){
 
                     }
 
-                },
-                error: function(){
-                    botonEnviar.attr('disabled', false);
-                    botonEnviar.css('opacity', '1');
-                    botonEnviar.text('Confirmar y subir imagen');
                 },
                 complete: function(){
                     contenedorBoton.children('.lds-ring').remove();
@@ -689,7 +823,7 @@ ELIMINAR PRODUCTO
 =============================================*/
 $(document).on("click", ".btnEliminarDetallePedido", function () {
     var idProducto = $(this).attr('idProducto');
-    var producto = $(this).parent().parent().parent();
+    var producto = $(this).parent().parent();
 
     swal({
         title: "Eliminar producto",
@@ -858,29 +992,6 @@ LIMPIAR MODAL PARA AGREGAR FOTOS
 =============================================*/
 $(document).on('click', '.closeModalFoto', function(){
 
-    $('.contenedorFoto1').children('.imagenPedido').children('.previewDetalle').attr('src', 'views/img/Pedidos/defaultPedido.png');
-    $('.contenedorFoto1').children('.imagenPedido').children('.btnEliminarFotoTempDetalle').remove();
-    $('.contenedorFoto1').children('form').children('.idPedido').val('');
-    $('.contenedorFoto1').children('form').children('.custom-file').children('.fotoDetalle').val('');
-    $('.contenedorFoto1').children('form').children('.custom-file').children('.fotoDetalle').siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
-    $('.contenedorFoto1').children('.buttonContainer').remove();
-
-    $('.contenedorFoto2').children('.imagenPedido').children('.previewDetalle').attr('src', 'views/img/Pedidos/defaultPedido.png');
-    $('.contenedorFoto2').children('.imagenPedido').children('.btnEliminarFotoTempDetalle').remove();
-    $('.contenedorFoto2').children('form').children('.idPedido').val('');
-    $('.contenedorFoto2').children('form').children('.custom-file').children('.fotoDetalle').val('');
-    $('.contenedorFoto2').children('form').children('.custom-file').children('.fotoDetalle').siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
-    $('.contenedorFoto2').children('.buttonContainer').remove();
-
-    $('.contenedorFoto3').children('.imagenPedido').children('.previewDetalle').attr('src', 'views/img/Pedidos/defaultPedido.png');
-    $('.contenedorFoto3').children('.imagenPedido').children('.btnEliminarFotoTempDetalle').remove();
-    $('.contenedorFoto3').children('form').children('.idPedido').val('');
-    $('.contenedorFoto3').children('form').children('.custom-file').children('.fotoDetalle').val('');
-    $('.contenedorFoto3').children('form').children('.custom-file').children('.fotoDetalle').siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
-    $('.contenedorFoto3').children('.buttonContainer').remove();
-
-    $('#idProductoFoto1').val('');
-    $('#idProductoFoto2').val('');
-    $('#idProductoFoto3').val('');
+    $('#contenedorFotos').html('');
 
 });

@@ -55,13 +55,13 @@ class ModeloPedidos
     =========================================================*/
     static public function mdlTraerRegistrosAscendentes($tabla, $item, $item2, $val2, $operador)
     {
-        if($operador == "non-equal") :
+        if ($operador == "non-equal") :
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2!=:$item2 ORDER BY $item ASC");
         elseif ($operador == "equal") :
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2=:$item2 ORDER BY $item ASC");
         endif;
-        
-        $stmt->bindParam(":".$item2, $val2, PDO::PARAM_INT);
+
+        $stmt->bindParam(":" . $item2, $val2, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll();
@@ -158,7 +158,8 @@ class ModeloPedidos
         $stmt = Conexion::conectar()->prepare(
             "SELECT * FROM $tabla
              INNER JOIN pedido ON Id_Pedido=Id_Pedido1 
-             WHERE $item=:$item");
+             WHERE $item=:$item"
+        );
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
         $stmt->execute();
@@ -539,4 +540,77 @@ class ModeloPedidos
         $stmt->closeCursor();
         $stmt = null;
     }
+
+    /*=============================================
+    TRAER INFORMACION DE LOS CAMPOS DE IMAGEN DEL PRODUCTO
+    =============================================*/
+    static public function mdlTraerFotosProducto($idProducto)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM detalle_pedido WHERE Id_Detalle_Pedido=:idProducto");
+        $stmt->bindParam(":idProducto", $idProducto, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return $stmt->fetch();
+        } else {
+            print_r($stmt->errorInfo());
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
+    SUBIR FOTOS O IMAGENES DE LOS PEDIDOS
+    =============================================*/
+    static public function mdlSubirImagenProducto($datos)
+    {
+
+        $tabla = $datos["tabla"];
+        $campoFoto = $datos["campoFoto"];
+        $campoProducto = $datos["campoId"];
+
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla
+            SET $campoFoto=:foto
+            WHERE $campoProducto=:idProducto"
+        );
+
+        $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+        $stmt->bindParam(":idProducto", $datos["idProducto"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
+    /*=============================================
+    ELIMINAR FOTO DE PRODUCTO
+    =============================================*/
+    static public function mdlEliminarFotoProducto($tabla, $campo1, $campo2, $idProducto){
+
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla
+             SET $campo1=NULL
+             WHERE $campo2=:idProducto"
+        );
+        $stmt->bindParam(':idProducto', $idProducto, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+    }
+
 }

@@ -312,7 +312,7 @@ $(document).on("click", ".btnAñadirProductoPedido", function (e) {
 
                         $("#editContenedorProductos").append(
                             '<div class="productoNuevo row py-3 border-top border-secondary" idProducto="' + respuesta["idProducto"] + '">' +
-                            '    <div class="col-12 col-xl-8 pb-2 pb-xl-0">' +
+                            '    <div class="col-12 col-xl-7 pb-2 pb-xl-0">' +
                             '        <span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>' + respuesta["descripcion"] +
                             '    </div>' +
                             '    <div class="col-6 col-xl-2 text-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>' +
@@ -323,10 +323,11 @@ $(document).on("click", ".btnAñadirProductoPedido", function (e) {
                             '       </div>' +
                             '   </div>' +
                             '    <div class="col-6 col-xl-1 text-center contenedorPrecioProducto"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Precio:</span>$ <span class="precioProducto">' + Number(respuesta["importe"]).toFixed(2) + badgeDescuento + '</span></div>' +
-                            '    <div class="col-12 col-xl-1 py-2 py-xl-0">' +
-                            '       <div class="btn-group w-100">' +
-                            '<button type="button" class="btn btn-danger btnEliminarDetallePedido" idProducto="' + respuesta["idProducto"] + '"><i class="fas fa-trash-alt mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Eliminar</span></button>' +
-                            '       </div>' +
+                            '    <div class="col-12 col-xl-2 py-2 py-xl-0 text-center d-flex flex-direction-row justify-content-between d-md-block">' +
+                            // '       <div class="btn-group w-100">' +
+                            '<button type="button" class="btn btn-info btnAgregarFotos d-inline-block" idProducto="' + respuesta["idProducto"] + '" idPedido="' + respuesta["idPedido"] + '"  data-toggle="modal" data-target="#modalAddFoto"><i class="fas fa-camera mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Añadir fotos</span></button>' +
+                            '<button type="button" class="btn btn-danger btnEliminarDetallePedido d-inline-block" idProducto="' + respuesta["idProducto"] + '"><i class="fas fa-trash-alt mr-1 mr-xl-0"></i><span class="d-inline-block d-xl-none font-weight-bold">Eliminar</span></button>' +
+                            // '       </div>' +
                             '   </div>' +
                             '</div>'
                         );

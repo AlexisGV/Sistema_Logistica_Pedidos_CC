@@ -109,16 +109,37 @@ class AjaxPedidos
         $campoFotografia = $this->campoFoto;
         $imagen = $this->fotoSubida;
 
-        // $subirImagen = array(
-        //     'idPedido' => $idPedido,
-        //     'idProducto' => $idDetallePedido,
-        //     'campoFoto' => $campoFotografia,
-        //     'imagen' => $imagen
-        // );
+        $subirImagen = ControladorPedidos::ctrSubirImagenProducto($idPedido, $idDetallePedido, $campoFotografia, $imagen);
 
-        // $subirImagen = ControladorPedidos::ctrSubirImagenProducto($idPedido, $idDetallePedido, $campoFotografia, $imagen);
+        echo $subirImagen;
 
-        echo $imagen;
+    }
+
+    /*=============================================
+    TRAER INFORMACION DE LOS CAMPOS DE IMAGEN DEL PRODUCTO
+    =============================================*/
+    public function ajaxTrearCamposFotoProducto(){
+        
+        $idDetallePedido = $this->idProducto;
+    
+        $imagenes = ControladorPedidos::ctrTraerFotosProducto($idDetallePedido);
+        echo json_encode($imagenes);
+
+    }
+
+    /*=============================================
+    ELIMINAR FOTO DE PRODUCTO
+    =============================================*/
+    public function ajaxEliminarFotoProducto(){
+
+        $idPedido = $this->idPedido;
+        $idDetallePedido = $this->idProducto;
+        $campoFotografia = $this->campoFoto;
+        $imagen = $this->fotoSubida;
+
+        $eliminarFoto = ControladorPedidos::ctrEliminarFotoProducto($idPedido, $idDetallePedido, $campoFotografia, $imagen);
+
+        echo $eliminarFoto;
 
     }
     
@@ -248,10 +269,35 @@ SUBIR FOTO DE PRODUCTO
 if ( isset($_POST['fotoSubida']) ) {
 
     $subidaDeImagen = new AjaxPedidos();
-    $subidaDeImagen->idProducto = $_POST['idProducto'];
     $subidaDeImagen->idPedido = $_POST['idPedido'];
-    $subidaDeImagen->campoFoto = 'Foto_' . substr($_POST['idFotoSubida'], 14);
+    $subidaDeImagen->campoFoto = $_POST['campoFoto'];
+    $subidaDeImagen->idProducto = $_POST['idProducto'];
     $subidaDeImagen->fotoSubida = $_POST['fotoSubida'];
     $subidaDeImagen->ajaxSubirImagenProducto();
 
+}
+
+/*=============================================
+TRAER INFORMACION DE LOS CAMPOS DE IMAGEN DEL PRODUCTO
+=============================================*/
+if ( isset($_POST['idProductoForPhoto']) ) {
+
+    $obtenerFotos = new AjaxPedidos();
+    $obtenerFotos->idProducto = $_POST['idProductoForPhoto'];
+    $obtenerFotos->ajaxTrearCamposFotoProducto();
+
+}
+
+/*=============================================
+ELIMINAR FOTO DE PRODUCTO
+=============================================*/
+if ( isset($_POST['fotoAEliminar']) ) {
+
+    $eliminarImagen = new AjaxPedidos();
+    $eliminarImagen->idPedido = $_POST['idPedido'];
+    $eliminarImagen->campoFoto = $_POST['campoFoto'];
+    $eliminarImagen->idProducto = $_POST['idProducto'];
+    $eliminarImagen->fotoSubida = $_POST['fotoAEliminar'];
+    $eliminarImagen->ajaxEliminarFotoProducto();
+    
 }

@@ -1,7 +1,7 @@
 <!--=============================================
 MODAL - VER DETALLE PEDIDO
 =============================================-->
-<div class="modal fade" id="modalVerDetallePedido" data-backdrop="static">
+<div class="modal fade" id="modalVerDetallePedido" data-backdrop="static" style="overflow-y: scroll;">
     <!--=============================================
     FORMULARIO - VER DETALLE PEDIDO
     =============================================-->

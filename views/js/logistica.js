@@ -148,6 +148,32 @@ $(document).on("click", ".btnVerDetallePedidoParaLogistica", function () {
 
                     for (var i = 0; i < respuesta.length; i++) {
 
+                        let botonFotos = '';
+                        if ( respuesta[i]["Foto_1"] != null || respuesta[i]["Foto_2"] != null || respuesta[i]["Foto_3"] != null ) {
+
+                            // FORMANDO GALERIA DE IMAGENES CON EKKO-LIGHTBOX
+                            if ( respuesta[i]["Foto_1"] ) {
+                                botonFotos += `
+                                <a href="${respuesta[i]["Foto_1"]}" data-toggle="lightbox" data-gallery="hidden-images-${i}" class="btn btn-sm btn-info d-block mx-auto mt-1 d-xl-inline-block mt-xl-0 ml-xl-1" data-title="Foto 1">
+                                    Ver fotos
+                                </a>
+                                `;
+                            }
+
+                            if  ( respuesta[i]["Foto_2"] ) {
+                                botonFotos += `
+                                <div data-toggle="lightbox" data-gallery="hidden-images-${i}" data-remote="${respuesta[i]["Foto_2"]}" data-title="Foto 2"></div>
+                                `;
+                            }
+
+                            if ( respuesta[i]["Foto_3"] ) {
+                                botonFotos += `
+                                <div data-toggle="lightbox" data-gallery="hidden-images-${i}" data-remote="${respuesta[i]["Foto_3"]}" data-title="Foto 3"></div>
+                                `;
+                            }
+
+                        }
+
                         var badgeCantidad = "";
                         if (Number(respuesta[i]["cantidad"]) == 1) {
                             badgeCantidad = '<span class="badge bg-indigo" style="font-size: 1rem;">' + respuesta[i]["cantidad"] + '</span>';
@@ -165,12 +191,16 @@ $(document).on("click", ".btnVerDetallePedidoParaLogistica", function () {
                             badgeCantidad = '<span class="badge bg-danger" style="font-size: 1rem;">' + respuesta[i]["cantidad"] + '</span>';
                         }
 
-                        $("#contenedorProductosModal").append(
-                            '<div class="productoNuevo row py-3 border-top border-secondary">' +
-                            '<div class="col-12 col-xl-11 pb-2 pb-xl-0"><span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>' + respuesta[i]["descripcion"] + '</div>' +
-                            '<div class="col-12 col-xl-1 text-center"><span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span>' + badgeCantidad + '</div>' +
-                            '</div>'
-                        );
+                        $("#contenedorProductosModal").append(`
+                            <div class="productoNuevo row py-3 border-top border-secondary">
+                                <div class="col-12 col-xl-11 pb-2 pb-xl-0">
+                                    <span class="d-block font-weight-bold text-center d-xl-none">Descripción del producto:</span>${respuesta[i]["descripcion"]} ${botonFotos}
+                                </div>
+                                <div class="col-12 col-xl-1 text-center">
+                                    <span class="d-inline-block d-xl-none font-weight-bold mr-1">Cantidad:</span> ${badgeCantidad} 
+                                </div>
+                            </div>
+                        `);
                     }
                 }
 
