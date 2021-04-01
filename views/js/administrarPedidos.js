@@ -582,36 +582,49 @@ $(document).on('change', '.filecont____inputfile', function(){
             icon: "error",
             button: "Cerrar",
         });
-    } else if (imagen["size"] > 3000000) {
+    } else if (imagen["size"] > 5242880) {
         $(this).val('');
         $(this).siblings(".custom-file-label").addClass("selected").html("Escoger una imagen");
 
         swal({
             title: "Error al subir la imagen!",
-            text: "La imagen no debe pesar mas de 3MB.",
+            text: "La imagen no debe pesar mas de 5MB.",
             icon: "error",
             button: "Cerrar",
         });
     } else {
         $(this).siblings(".custom-file-label").addClass("selected").html(imagen["name"]);
-        
-        const datosImagen = new FileReader;
-        datosImagen.readAsDataURL(imagen);
-        $(datosImagen).on('load', function (event) {
-            const rutaImagen = event.target.result;
-            if ( inputImg.attr('src', rutaImagen) ) {
-                containerImage.append(`
-                    <button type="button" class="btn btn-danger rounded-circle btnEliminarFotoDetalle" style="position: absolute; right: -8px; top: -8px;" idPedido="" idProducto="" campoFoto=""><i class="fas fa-times"></i></button>
-                `);
 
-                generalContainer.append(`
-                    <div class="text-center buttonContainer">
-                        <button type="button" class="btn btn-info mt-3 btnSubirFotoDetalle" idPedido="${idPedido}" idProducto="${idProducto}" campoFoto="${campoFoto}"><i class="fas fa-upload mr-1"></i>Confirmar y subir imagen</button>
-                    </div>
-                `);
+        new Compressor(imagen, {
+            quality: 0.2,
+            success(result) {
 
-            }
-        });
+                console.log(result);
+              
+                const datosImagen = new FileReader;
+                datosImagen.readAsDataURL(result);
+                $(datosImagen).on('load', function (event) {
+                    const rutaImagen = event.target.result;
+                    if ( inputImg.attr('src', rutaImagen) ) {
+                        containerImage.append(`
+                            <button type="button" class="btn btn-danger rounded-circle btnEliminarFotoDetalle" style="position: absolute; right: -8px; top: -8px;" idPedido="" idProducto="" campoFoto=""><i class="fas fa-times"></i></button>
+                        `);
+
+                        generalContainer.append(`
+                            <div class="text-center buttonContainer">
+                                <button type="button" class="btn btn-info mt-3 btnSubirFotoDetalle" idPedido="${idPedido}" idProducto="${idProducto}" campoFoto="${campoFoto}"><i class="fas fa-upload mr-1"></i>Confirmar y subir imagen</button>
+                            </div>
+                        `);
+
+                    }
+                });
+  
+            },
+            error(err) {
+              console.log(err.message);
+            },
+          });
+
     }
 
 });

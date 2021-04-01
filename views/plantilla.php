@@ -156,6 +156,8 @@ endif;
   <script src="views/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="views/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="views/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <!-- Compressor -->
+  <script src="views/plugins/compressor/compressor.min.js"></script>
 
   <!--=============================================
   SCRIPTS PARA PLANTILLA / MODULOS
